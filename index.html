@@ -159,7 +159,7 @@
                 <span>post</span>
             </div>
             <div class="article-info-block">
-                2
+                3
                 <span>tags</span>
             </div>
         </div>
@@ -202,15 +202,25 @@
 
             
             <section id="main">
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-unitsquare" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
+        
+            
+	
+		<a href="/2016/10/18/unitsquare/" itemprop="url">
+            <img src="http://www.gaopinimages.com/imageview/133104891619.jpg" class="article-banner" />
+        </a>
+	
+
+
+
         
         
             <header class="article-header">
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2016/10/18/hello-world/">Hello World</a>
+            <a class="article-title" href="/2016/10/18/unitsquare/">使用幽灵类型的Measurements和Units ，第四部分</a>
         </h1>
     
 
@@ -219,8 +229,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2016/10/18/hello-world/">
-            <time datetime="2016-10-18T01:42:48.000Z" itemprop="datePublished">2016-10-18</time>
+        <a href="/2016/10/18/unitsquare/">
+            <time datetime="2016-10-17T16:00:00.000Z" itemprop="datePublished">2016-10-18</time>
         </a>
     </div>
 
@@ -228,13 +238,13 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/技术/">技术</a>
+        <a class="article-category-link" href="/categories/iOS开发/">iOS开发</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Markdown/">Markdown</a>, <a class="tag-link" href="/tags/语言/">语言</a>
+        <a class="tag-link" href="/tags/Swift/">Swift</a>, <a class="tag-link" href="/tags/iOS/">iOS</a>, <a class="tag-link" href="/tags/翻译/">翻译</a>
     </div>
 
                     </div>
@@ -244,17 +254,14 @@
         
         <div class="article-entry" itemprop="articleBody">
         
-            
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
+            <p><p>原文链接=<a href="https://oleb.net/blog/2016/08/measurements-and-units-with-phantom-types/">https://oleb.net/blog/2016/08/measurements-and-units-with-phantom-types/</a><br>作者=Ole Begemann<br>译者=与狼同行</p>
+<!--此处开始正文-->
+<p>本系列其他文章：</p>
+<p>(1) <a href="http://oleb.net/blog/2016/07/measurements-and-units/">Measurements 和 Units 概览</a><br>(2) <a href="http://oleb.net/blog/2016/07/unitproduct/">乘法和除法</a><br>(3) <a href="http://swift.gg/2016/09/29/unitsquare/">内容提炼</a><br>(4) 幽灵类型(本文)</p>
+<p>我之前撰写了关于标准库里新的度量值的短系列，此文是该系列的额外之作。虽然我很喜欢苹果的 API ，但我觉得探索同一问题的不同解决方案也很有意思。特别是这个问题，纯 Swift 设计是否能优于苹果的接口呢，因为苹果的接口考虑了 Objective-C 的<a href="https://lists.swift.org/pipermail/swift-corelibs-dev/Week-of-Mon-20160808/000864.html">兼容性问题</a>。</p></p>
+            <p class="article-more-link">
+                <a href="/2016/10/18/unitsquare/#more">Read More</a>
+            </p>
         
         </div>
         <footer class="article-footer">
@@ -317,7 +324,7 @@
 
             
     
-        <a href="http://chenmingjia.github.io/2016/10/18/hello-world/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://chenmingjia.github.io/2016/10/18/hello-world/">Comments</a>
+        <a href="http://chenmingjia.github.io/2016/10/18/unitsquare/#comments" class="article-comment-link ds-thread-count" data-thread-key="http://chenmingjia.github.io/2016/10/18/unitsquare/">Comments</a>
     
 
         </footer>
@@ -339,19 +346,19 @@
                     <li>
                         
                         <div class="item-thumbnail">
-                            <a href="/2016/10/18/hello-world/" class="thumbnail">
+                            <a href="/2016/10/18/unitsquare/" class="thumbnail">
     
     
-        <span style="background-image:url(http://ww1.sinaimg.cn/mw690/a3e763acjw1f7co85o4ixj20fl0flwfd.jpg)" alt="Hello World" class="thumbnail-image"></span>
+        <span style="background-image:url(http://ww1.sinaimg.cn/mw690/a3e763acjw1f7co85o4ixj20fl0flwfd.jpg)" alt="使用幽灵类型的Measurements和Units ，第四部分" class="thumbnail-image"></span>
     
 </a>
 
                         </div>
                         
                         <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/技术/">技术</a></p>
-                            <p class="item-title"><a href="/2016/10/18/hello-world/" class="title">Hello World</a></p>
-                            <p class="item-date"><time datetime="2016-10-18T01:42:48.000Z" itemprop="datePublished">2016-10-18</time></p>
+                            <p class="item-category"><a class="article-category-link" href="/categories/iOS开发/">iOS开发</a></p>
+                            <p class="item-title"><a href="/2016/10/18/unitsquare/" class="title">使用幽灵类型的Measurements和Units ，第四部分</a></p>
+                            <p class="item-date"><time datetime="2016-10-17T16:00:00.000Z" itemprop="datePublished">2016-10-18</time></p>
                         </div>
                     </li>
                 
@@ -364,7 +371,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/技术/">技术</a><span class="category-list-count">1</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/iOS开发/">iOS开发</a><span class="category-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -382,7 +389,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/">Markdown</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/语言/">语言</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/翻译/">翻译</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
@@ -391,7 +398,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/语言/" style="font-size: 10px;">语言</a>
+            <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/翻译/" style="font-size: 10px;">翻译</a>
         </div>
     </div>
 
