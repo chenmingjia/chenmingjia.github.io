@@ -285,7 +285,7 @@
 				
 
                 <!-- Post Content -->
-                <div id="post-content" class="markdown-Material mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
 	
 		<p>#一、锁的基本介绍</p>
 <p>###1.1为什么需要锁？？<br><strong>(1)解决资源共享问题</strong><br>我们可以试着想一下，如果两个线程同时做上面涉及到的操作，会发生怎样的偶然。例如，线程 A 和 B 都从内存中读取出了计数器的值，假设为 17 ，然后线程A将计数器的值加1，并将结果 18 写回到内存中。同时，线程B也将计数器的值加 1 ，并将结果 18 写回到内存中。实际上，此时计数器的值已经被破坏掉了，因为计数器的值 17 被加 1 了两次，而它的值却是 18。</p>
