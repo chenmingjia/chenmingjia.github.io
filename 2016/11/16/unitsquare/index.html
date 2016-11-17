@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <!-- Title -->
+    
+    <title>
+        [iOS]并发编程录--锁 | Big Wolf’s Blog
+    </title>
+    
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+    
+    <!-- Meta & INfo -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#FF8247">
+    <meta name="author" content="与狼同行">
+    <meta name="description" content="null">
+    <meta name="keywords" content="null">
+    
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+    
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Big Wolf’s Blog">
+    
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://chenmingjia.github.io">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="[iOS]并发编程录--锁 | Big Wolf’s Blog">
+    <meta property="og:description" content="null">
+    
+     <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+        
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+    
+    <!-- Import CSS -->
+    <link rel="stylesheet" href="/css/material.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <!-- Config CSS -->
+
+<!-- Theme Background -->
+
+    <style>
+        body{
+            background-color: #F5F5F5
+        }
+		
+        #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+            background-color: #fff;
+        }
+		
+        #scheme-Paradox .MD-burger-layer {
+            background-color: #666;
+        }
+		
+        #scheme-Paradox .material-back{
+            color: #666;
+        }
+		
+        .material-layout .material-post>.material-nav,
+		.material-layout .material-index>.material-nav,
+        .material-nav a,
+        #scheme-Paradox .material-post_container .material-back{
+            color: #666;
+        }
+    </style>
+
+
+<!-- Fade Effect -->
+
+    <style>
+        .fade {
+            transition: all 800ms linear;
+            -webkit-transform: translate3d(0,0,0);
+            -moz-transform: translate3d(0,0,0);
+            -ms-transform: translate3d(0,0,0);
+            -o-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+            opacity: 1;
+        }
+
+        .fade.out{
+            opacity: 0;
+        }
+    </style>
+
+
+<!-- Other Styles -->
+<style>
+	body, html{
+		font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+	}
+	
+    a{
+        color: #FF8C69
+    }
+    
+    .mdl-card__media,
+    #search-label,
+    #search-form-label:after,
+    #scheme-Paradox .hot_tags-count,
+    #scheme-Paradox .sidebar_archives-count,
+    #scheme-Paradox .sidebar-colored .sidebar-header,
+    #scheme-Paradox .sidebar-colored .sidebar-badge{
+        background-color: #FF8247 !important
+    }
+    
+    #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
+        color: #FF8247 !important
+    }
+    
+    #post_entry-right-info,
+    .sidebar-colored .sidebar-nav li:hover > a,
+    .sidebar-colored .sidebar-nav li:hover > a i,
+    .sidebar-colored .sidebar-nav li > a:hover,
+    .sidebar-colored .sidebar-nav li > a:hover i,
+    .sidebar-colored .sidebar-nav li > a:focus i,
+    .sidebar-colored .sidebar-nav > .open > a,
+    .sidebar-colored .sidebar-nav > .open > a:hover,
+    .sidebar-colored .sidebar-nav > .open > a:focus,
+    #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
+        color: #FF8247 !important
+    }
+    
+    .fab{
+        background: #FF8247 !important
+    }
+</style>
+	<script src="/js/jquery.min.js"></script>
+	
+	<!-- UC Browser Compatible-->
+	<script>
+		var agent = navigator.userAgent.toLowerCase();
+		if(agent.indexOf('ucbrowser')>0) {
+			document.write('<link rel="stylesheet" href="/css/uc.css">');
+		   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+		}
+	</script>
+    
+    <!-- Custom Head -->
+    
+</head>
+	
+	
+
+    <body id="scheme-Paradox">
+
+		
+        <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+				
+			
+			
+            <!-- Main Container -->
+            <main class="material-layout__content" id="main">
+				
+                <!-- Top Anchor -->
+                <div id="top"></div>
+				
+				
+                <!-- Hamburger Button -->
+                <button class="MD-burger-icon sidebar-toggle">
+                    <span class="MD-burger-layer"></span>
+                </button>
+				
+				
+                
+	<!-- Back Button -->
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+	<!-- Paradox Post Header -->
+	
+		<!-- Custom Thumbnail -->
+		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://i1.hdslb.com/bfs/archive/7efb868838c9240324a964561c3d8c276a1b41e6.jpg)">
+	
+        <p class="article-headline-p">
+            [iOS]并发编程录--锁
+        </p>
+    </div>
+
+	
+
+				
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>与狼同行</strong>
+        <span>11月 16, 2016</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/iOS/">iOS</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/并发编程/">并发编程</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/梳理篇/">梳理篇</a>
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=[iOS]并发编程录--锁&url=http://chenmingjia.github.io//2016/11/16/unitsquare/index.html&via=与狼同行" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io//2016/11/16/unitsquare/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=[iOS]并发编程录--锁&url=http://chenmingjia.github.io//2016/11/16/unitsquare/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
+</div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Material mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<p>#一、锁的基本介绍</p>
+<p>###1.1为什么需要锁？？<br><strong>(1)解决资源共享问题</strong><br>我们可以试着想一下，如果两个线程同时做上面涉及到的操作，会发生怎样的偶然。例如，线程 A 和 B 都从内存中读取出了计数器的值，假设为 17 ，然后线程A将计数器的值加1，并将结果 18 写回到内存中。同时，线程B也将计数器的值加 1 ，并将结果 18 写回到内存中。实际上，此时计数器的值已经被破坏掉了，因为计数器的值 17 被加 1 了两次，而它的值却是 18。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-d4e125a1d1345748.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="C2A1576F-C030-4683-B461-132A8D7B45D5.png"></p>
+<p>这个问题被叫做竞态条件，在多线程里面访问一个共享的资源，如果没有一种机制来确保在线程 A 结束访问一个共享资源之前，线程 B 就不会开始访问该共享资源的话，资源竞争的问题就总是会发生。如果你所写入内存的并不是一个简单的整数，而是一个更复杂的数据结构，可能会发生这样的现象：当第一个线程正在写入这个数据结构时，第二个线程却尝试读取这个数据结构，那么获取到的数据可能是新旧参半或者没有初始化。为了防止出现这样的问题，多线程需要一种互斥的机制来访问共享资源。</p>
+<p>在实际的开发中，情况甚至要比上面介绍的更加复杂，因为现代 CPU 为了优化目的，往往会改变向内存读写数据的顺序（乱序执行）。<br><strong>(2)并发编程为什么难？什么是重排序？</strong><br>重排序分为两类：编译期重排序和运行期重排序(乱序执行)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">假设x,y初始都为0,请问r1、r2最终为什么会是0？</div><div class="line">Thread1 ：</div><div class="line">x=1；</div><div class="line">r1=y；</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Thread2 ：</div><div class="line">y=1；</div><div class="line">r2=x；</div></pre></td></tr></table></figure>
+<p>这是并发编程非常经典一个问题。在了解乱序执行之前，大多数我们一定会认为答案一定在0,1、1,0、1,1这三者之间。事实上,这题目还肯定存在0，0的结果。<br>我们总是想当然的认为x=1一定会发生在r1=y之前，事实上，编译器会乱序执行，因为它认为在当前线程打乱顺序是无所谓的。但其实它对另外一个线程同时使用的变量来说非常重要。</p>
+<p><strong>类似的情况还有很多,现代微处理器的设计使用了数据缓存、指令重叠执行和内存乱序访问。</strong><br><strong>如果没有做好共享数据的同步，很容易出现各种看似诡异的问题。</strong></p>
+<p>###1.2锁的各个性能<br><img src="http://upload-images.jianshu.io/upload_images/712028-650341f5957b84f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="C2FA214E-1254-4F09-9753-FA444D65A474.png"><br>看到除了 OSSpinLock 外，dispatch_semaphore 和 pthread_mutex 性能是最高的。有消息称，苹果在新系统中已经优化了 pthread_mutex 的性能，所以它看上去和 OSSpinLock 差距并没有那么大了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-6c504a97e51bb27a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CA403DFB-1C01-468C-B000-9020CEB866F9.png"><br>上图是常规的锁操作性能测试(iOS7.0SDK，iPhone6模拟器，Yosemite 10.10.5)，垂直方向表示耗时，单位是秒，总耗时越小越好，水平方向表示不同类型锁的锁操作，具体又分为两部分，左边的常规lock操作(比如NSLock)或者读read操作(比如ANReadWriteLock)，右边则是写write操作，图上仅有ANReadWriteLock和ANRecursiveRWLock支持，其它不支持的则默认为0，图上看出，单从性能表现，原子操作是表现最佳的(0.057412秒)，@synchronized则是最耗时的(1.753565秒) (<a href="https://github.com/SpringOx/ANLock" target="_blank" rel="external">测试代码</a>)<br>正如前文所述，不同方案各有侧重，适用于不用的场景，不能唯性能论高低：<br>原子操作虽然性能很好，但仅限于set/get，比如对列表的插入移除操作需要做同步则无能为力，支持不到，所以适用于一些实例成员变量的读写同步；</p>
+<p>##二、互斥锁mutex</p>
+<p>###2.1基本概念<br>互斥访问的意思就是同一时刻，只允许一个线程访问某个特定资源。为了保证这一点，每个希望访问共享资源的线程，首先需要获得一个共享资源的互斥锁，一旦某个线程对资源完成了操作，就释放掉这个互斥锁，这样别的线程就有机会访问该共享资源了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-6394324cd13e9598.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AD1300C2-2DF2-43D8-99BE-7EA25E6CDAA7.png"><br>除了确保互斥访问，还需要解决代码无序执行所带来的问题。如果不能确保 CPU 访问内存的顺序跟编程时的代码指令一样，那么仅仅依靠互斥访问是不够的。为了解决由 CPU 的优化策略引起的副作用，还需要引入内存屏障。通过设置内存屏障，来确保没有无序执行的指令能跨过屏障而执行。<br>当然，互斥锁自身的实现是需要没有竞争条件的。这实际上是非常重要的一个保证，并且需要在现代 CPU 上使用特殊的指令。</p>
+<p>###2.2实际使用</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-c2d5d99ae4fb9cfc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="67E8D3CF-DCA8-443C-A889-3B2BBB75F516.png"></p>
+<p>pthread 表示 POSIX thread，定义了一组跨平台的线程相关的 API，pthread_mutex 表示互斥锁。互斥锁的实现原理与信号量非常相似，不是使用忙等，而是阻塞线程并睡眠，需要进行上下文切换。</p>
+<p>一般情况下，一个线程只能申请一次锁，也只能在获得锁的情况下才能释放锁，多次申请锁或释放未获得的锁都会导致崩溃。假设在已经获得锁的情况下再次申请锁，线程会因为等待锁的释放而进入睡眠状态，因此就不可能再释放锁，从而导致死锁。</p>
+<p>然而这种情况经常会发生，比如某个函数申请了锁，在临界区内又递归调用了自己。辛运的是 pthread_mutex 支持递归锁，也就是允许一个线程递归的申请锁，只要把 attr 的类型改成 PTHREAD_MUTEX_RECURSIVE 即可。</p>
+<p>###2.3pthread_mutex的实现与NSLock<br>互斥锁在申请锁时，调用了 pthread_mutex_lock 方法，它在不同的系统上实现各有不同，有时候它的内部是使用信号量来实现，即使不用信号量，也会调用到 lll_futex_wait 函数，从而导致线程休眠。</p>
+<p>上文说到如果临界区很短，忙等的效率也许更高，所以在有些版本的实现中，会首先尝试一定次数(比如 1000 次)的 test_and_test，这样可以在错误使用互斥锁时提高性能。</p>
+<p>另外，由于 pthread_mutex 有多种类型，可以支持递归锁等，因此在申请加锁时，需要对锁的类型加以判断，这也就是为什么它和信号量的实现类似，但效率略低的原因。</p>
+<hr>
+<p>NSLock、NSRecursiveLock是典型的面向对象的锁，即同步锁类，遵循Objective-C的NSLocking协议接口，前者支持tryLock，后者支持递归(可重入)；<br>它的实现非常简单，通过宏，定义了lock方法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#define    MLOCK \</div><div class="line">- (void) lock\</div><div class="line">&#123;\</div><div class="line">int err = pthread_mutex_lock(&amp;_mutex);\</div><div class="line">// 错误处理 ……</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>NSLock只是在内部封装了一个pthread_mutex，属性为PTHREAD_MUTEX_ERRORCHECK，它会损失一定性能换来错误提示。这里使用宏定义的原因是，OC 内部还有其他几种锁，他们的 lock 方法都是一模一样，仅仅是内部pthread_mutex<br>互斥锁的类型不同。通过宏定义，可以简化方法的定义。<br>NSLock比pthread_mutex略慢的原因在于它需要经过方法调用，同时由于缓存的存在，多次方法调用不会对性能产生太大的影响。</p>
+<p>###2.4性能与使用场景<br>pthread_mutex是pthread经典的基于互斥量机制的同步锁，特性、性能以及稳定各方面都已被大量项目所验证，也是比较推荐作为常规同步锁首选</p>
+<p>###三、自旋锁OSSpinLock<br>iOS/MacOS自有的自旋锁，其特点是线程等待取锁时不进内核，线程因此不挂起，直接保持空转，这使得它的锁操作开销降得很低，OSSpinLock是不支持递归的；</p>
+<p>###3.1基本使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^&#123;</div><div class="line">OSSpinLockLock(&amp;theLock);</div><div class="line">sleep(1);</div><div class="line">NSLog(@&quot;需要线程同步的操作2&quot;);</div><div class="line">OSSpinLockUnlock(&amp;theLock);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>###3.2基本原理<br>自旋锁的目的是为了确保临界区只有一个线程可以访问，它的使用可以用下面这段伪代码来描述:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">do &#123; </div><div class="line">Acquire Lock Critical section // </div><div class="line">临界区 Release Lock </div><div class="line">Reminder section  // 不需要锁保护的代码</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在 Acquire Lock 这一步，我们申请加锁，目的是为了保护临界区(Critical Section) 中的代码不会被多个线程执行。</p>
+<p>自旋锁的实现思路很简单，理论上来说只要定义一个全局变量，用来表示锁的可用情况即可，伪代码如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">bool lock = false; // 一开始没有锁上，任何线程都可以申请锁</div><div class="line">do &#123;</div><div class="line">while(lock); // 如果 lock 为 true 就一直死循环，相当于申请锁 </div><div class="line">lock = true; // 挂上锁，这样别的线程就无法获得锁 </div><div class="line">Critical section // 临界区           </div><div class="line">lock = false; // 相当于释放锁，这样别的线程可以进入临界区 </div><div class="line">Reminder section // 不需要锁保护的代码 </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>注释写得很清楚，就不再逐行分析了。可惜这段代码存在一个问题: 如果一开始有多个线程同时执行 while 循环，他们都不会在这里卡住，而是继续执行，这样就无法保证锁的可靠性了。解决思路也很简单，只要确保申请锁的过程是原子操作即可。</p>
+<p>###3.3原子操作<br>狭义上的原子操作表示一条不可打断的操作，也就是说线程在执行操作过程中，不会被操作系统挂起，而是一定会执行完。在单处理器环境下，一条汇编指令显然是原子操作，因为中断也要通过指令来实现。</p>
+<p>然而在多处理器的情况下，能够被多个处理器同时执行的操作任然算不上原子操作。因此，真正的原子操作必须由硬件提供支持，比如 x86 平台上如果在指令前面加上 “LOCK” 前缀，对应的机器码在执行时会把总线锁住，使得其他 CPU不能再执行相同操作，从而从硬件层面确保了操作的原子性。</p>
+<p>这些非常底层的概念无需完全掌握，我们只要知道上述申请锁的过程，可以用一个原子性操作 test_and_set 来完成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">bool lock = false; // 一开始没有锁上，任何线程都可以申请锁</div><div class="line">do &#123;</div><div class="line">while(test_and_set(&amp;lock); // test_and_set 是一个原子操作</div><div class="line">Critical section // 临界区</div><div class="line">lock = false; // 相当于释放锁，这样别的线程可以进入临界区 </div><div class="line">Reminder section // 不需要锁保护的代码</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>###3.4致命缺点<br>(1)<strong>安全问题，优先级反转</strong><br>(2)<strong>如果临界区的执行时间过长，使用自旋锁不是个好主意。之前我们介绍过时间片轮转算法，线程在多种情况下会退出自己的时间片。其中一种是用完了时间片的时间，被操作系统强制抢占。除此以外，当线程进行 I/O 操作，或进入睡眠状态时，都会主动让出时间片。显然在 while 循环中，线程处于忙等状态，白白浪费 CPU 时间，最终因为超时被操作系统抢占时间片。如果临界区执行时间较长，比如是文件读写，这种忙等是毫无必要的。</strong></p>
+<p>新版 iOS 中，系统维护了 5 个不同的线程优先级/QoS: background，utility，default，user-initiated，user-interactive。高优先级线程始终会在低优先级线程前执行，一个线程不会受到比它更低优先级线程的干扰。这种线程调度算法会产生潜在的优先级反转问题，从而破坏了 spin lock。</p>
+<p>得益于不进内核不挂起的方式，OSSpinLock有着优异的性能表现，然而在高并发执行(冲突概率大，竞争激烈)的时候，又或者代码片段比较耗时(比如涉及内核执行文件io、socket、thread等)，就容易引发CPU占有率暴涨的风险，因此更适用于一些简短低耗时的代码片段；‘</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-8dcfdbf5b986a3b7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="
+![F8D8D08F-F1C3-4612-8800-716B0F3C0BFB.png](http://upload-images.jianshu.io/upload_images/712028-4c440040f26ca1bf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)"></p>
+<p>###3.1什么是优先级反转？<br>高优先级和低优先级的任务之间共享资源时，就可能发生优先级反转。当低优先级的任务获得了共享资源的锁时，该任务应该迅速完成，并释放掉锁，这样高优先级的任务就可以在没有明显延时的情况下继续执行。然而高优先级任务会在低优先级的任务持有锁的期间被阻塞。如果这时候有一个中优先级的任务(该任务不需要那个共享资源)，那么它就有可能会抢占低优先级任务而被执行，因为此时高优先级任务是被阻塞的，所以中优先级任务是目前所有可运行任务中优先级最高的。此时，中优先级任务就会阻塞着低优先级任务，导致低优先级任务不能释放掉锁，这也就会引起高优先级任务一直在等待锁的释放。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-8f6def0e5ff339e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="672BC89F-8108-4AF9-A0B4-ED61D347507E.png"><br>从中得到的教训是，使用不同优先级听起来虽然不错，但毕竟是纸上谈兵。它将让本来就复杂的并行编程变得更加复杂和不可预见。如果你在编程中，遇到高优先级的任务突然没理由地卡住了，可能你会想起本文，以及那个美国宇航局的工程师也遇到过的被称为优先级反转的问题。</p>
+<p>###为什么其他锁不会发生优先级反转？</p>
+<p>#3.6使用场景<br><strong>自旋锁适合短时间的操作，加锁性能最快，但不能使用不同优先级。</strong></p>
+<p>##四、读写锁</p>
+<p>###4.1</p>
+<p>###4.2</p>
+<p>###4.3性能<br>读写锁的在锁操作耗时上明显不占优势，读写锁的主要性能优势在于多线程高并发量的场景，这时候锁竞争可能会非常激烈，使用一般的锁这时候并发性能都会明显下降，读写锁对于所有读操作能够把同步放开，进而保持并发性能不受影响；以pthread_mutex和ANRecursiveRWLock为例，假设mutex的lock耗时为lk，则rw的read lock耗时为2.7lk(从性能测试图表数据得出)，read操作耗时为rd，1000次的多线程接口访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mutex总耗时 = 1000*lk + 1000*rd</div><div class="line">rw总耗时 = 1000*2.7*lk + 1000/c*rd</div></pre></td></tr></table></figure></p>
+<p>其中c表示应用的并发数，根据开发文档和技术资料，iOS第二条线程起stack为512KB，而单个应用useable memory size在50MB以内，即c&lt;=100；<br>假设线程数取中值c=50(严格来说，线程数不等于冲突计数，冲突计数很可能会比线程数小得多，线程同步运行不代表就即刻会发生冲突)，当 mutex总耗时 &gt; rw总耗时：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mutex总耗时 &gt; rw总耗时  =》 50*lk + 50*rd &gt; 50*2.7lk + rd  =》 49*rd &gt; 85*lk   =》 rd &gt; 1.73*lk</div></pre></td></tr></table></figure></p>
+<p>可以看出，只要read操作耗时超过锁操作耗时的1.7倍(这其实很容易达到的)，读写锁的性能就会占优势<br>假设线程数c=2(如上述，这里是假设了两个线程之间是竞争了，发生冲突，实际未必)：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mutex总耗时 &gt; rw总耗时  =》 2*lk + 2*rd &gt; 5.4*lk + rd  =》 rd &gt; 3.4lk</div></pre></td></tr></table></figure></p>
+<p>即使只有两个并发线程，只要read操作耗时超过锁操作耗时的3.4倍，读写锁的性能还会占优势<br>假设线程数c=1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mutex总耗时 &gt; rw总耗时  =》0 &gt; 1.7lk</div></pre></td></tr></table></figure></p>
+<p>这显然不成立，说明当单个线程的时候，rw的性能不可能有优势。这也好理解，这时候的mutex和rw的读操作都相当完全同步，不论是mutex还是rw，性能完全取决于锁操作本身，而rw在锁操作耗时上就不占优势，所以mutex总耗时总是要小于rw总耗时的。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-653a089bebdf30c1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="
+![B9FAA079-DFA3-4620-B06D-B0597C29F8CF.png](http://upload-images.jianshu.io/upload_images/712028-23114f92b41d5697.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-1d47726c9b8f58f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="D0D6390E-3A1E-46D1-9A0A-055E853CA235.png"><br>上图是mutex锁和rw锁read操作的耗时测试用例，下图为测试结果，read操作设置为100微秒，mutex锁的总耗时是rw锁的5倍多，read操作的耗时远比锁操作大许多(2k倍)，根据上述恒等式计算可以得出实际的冲突计数c=5</p>
+<p>###五、信号量</p>
+<p>###5.1基本概念</p>
+<p>###5.2基本原理<br>dispatch_semaphore的性能表现出乎意料之外的好，也没有OSSpinLock的CPU占有率暴涨的问题，然而原本是用于GCD的多线程并发控制，也是信号量机制，是否适用于常规同步锁有待实践验证。不做推荐<br>信号量dispatch_semaphore_t的实现原理，它最终会调用到sem_wait<br>方法，这个方法在 glibc 中被实现如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">int sem_wait (sem_t *sem) &#123;</div><div class="line">int *futex = (int *) sem;</div><div class="line">if (atomic_decrement_if_positive (futex) &gt; 0)</div><div class="line">return 0;</div><div class="line">int err = lll_futex_wait (futex, 0);</div><div class="line">return -1;</div><div class="line">)</div></pre></td></tr></table></figure></p>
+<p>首先会把信号量的值减一，并判断是否大于零。如果大于零，说明不用等待，所以立刻返回。具体的等待操作在lll_futex_wait<br>函数中实现，<strong>lll</strong> 是 low level lock 的简称。这个函数通过汇编代码实现，调用到SYS_futex<br>这个系统调用，使线程进入睡眠状态，主动让出时间片，这个函数在互斥锁的实现中，也有可能被用到。<br>主动让出时间片并不总是代表效率高。让出时间片会导致操作系统切换到另一个线程，这种上下文切换通常需要 10 微秒左右，而且至少需要两次切换。如果等待时间很短，比如只有几个微秒，忙等就比线程睡眠更高效。<br>可以看到，自旋锁和信号量的实现都非常简单，这也是两者的加解锁耗时分别排在第一和第二的原因。再次强调，加解锁耗时不能准确反应出锁的效率(比如时间片切换就无法发生)，它只能从一定程度上衡量锁的实现复杂程度。</p>
+<p>###5.3缺点<br>在时间较短的操作，没有自旋锁高效，会有上下文切换的成本。</p>
+<p>###5.4优点<br>相对</p>
+<p>#六、条件锁</p>
+<p>###6.1基本概念<br>NSCondition 的底层是通过条件变量(condition variable) pthread_cond_t 来实现的。条件变量有点像信号量，提供了线程阻塞与信号机制，因此可以用来阻塞某个线程，并等待某个数据就绪，随后唤醒线程，比如常见的生产者-消费者模式。</p>
+<p>###6.2基本使用<br>很多介绍pthread_cond_t的文章都会提到，它需要与互斥锁配合使用:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">void consumer () &#123; // 消费者</div><div class="line">pthread_mutex_lock(&amp;mutex);</div><div class="line">while (data == NULL) &#123;</div><div class="line">pthread_cond_wait(&amp;condition_variable_signal, &amp;mutex); // 等待数据</div><div class="line">&#125;</div><div class="line">// --- 有新的数据，以下代码负责处理 ↓↓↓↓↓↓</div><div class="line">// temp = data;</div><div class="line">// --- 有新的数据，以上代码负责处理 ↑↑↑↑↑↑</div><div class="line">pthread_mutex_unlock(&amp;mutex);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>自然我们会有疑问:“如果不用互斥锁，只用条件变量会有什么问题呢？”。问题在于，temp = data; 这段代码不是线程安全的，也许在你把 data 读出来以前，已经有别的线程修改了数据。因此我们需要保证消费者拿到的数据是线程安全的。</p>
+<p>wait 方法除了会被 signal 方法唤醒，有时还会被虚假唤醒，所以需要这里 while 循环中的判断来做二次确认。</p>
+<p>###为什么要使用条件变量<br>介绍条件变量的文章非常多，但大多都对一个一个基本问题避而不谈:“为什么要用条件变量？它仅仅是控制了线程的执行顺序，用信号量或者互斥锁能不能模拟出类似效果？”<br>网上的相关资料比较少，我简单说一下个人看法。信号量可以一定程度上替代 condition，但是互斥锁不行。在以上给出的生产者-消费者模式的代码中，pthread_cond_wait<br>方法的本质是锁的转移，消费者放弃锁，然后生产者获得锁，同理，pthread_cond_signal<br>则是一个锁从生产者到消费者转移的过程。<br>如果使用互斥锁，我们需要把代码改成这样:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">void consumer () &#123; // 消费者</div><div class="line">pthread_mutex_lock(&amp;mutex);</div><div class="line">while (data == NULL) &#123;</div><div class="line">pthread_mutex_unlock(&amp;mutex);</div><div class="line">pthread_mutex_lock(&amp;another_lock)  // 相当于 wait 另一个互斥锁</div><div class="line">pthread_mutex_lock(&amp;mutex);</div><div class="line">&#125;</div><div class="line">pthread_mutex_unlock(&amp;mutex);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样做存在的问题在于，在等待 another_lock 之前， 生产者有可能先执行代码， 从而释放了 another_lock。也就是说，我们无法保证释放锁和等待另一个锁这两个操作是原子性的，也就无法保证“先等待、后释放 another_lock” 这个顺序。<br>用信号量则不存在这个问题，因为信号量的等待和唤醒并不需要满足先后顺序，信号量只表示有多少个资源可用，因此不存在上述问题。然而与pthread_cond_wait<br>保证的原子性锁转移相比，使用信号量似乎存在一定风险(暂时没有查到非原子性操作有何不妥)。<br>不过，使用 condition 有一个好处，我们可以调用pthread_cond_broadcast<br>方法通知所有等待中的消费者，这是使用信号量无法实现的。</p>
+<p>#七、@synchronized</p>
+<p>这其实是一个 OC 层面的锁， 主要是通过牺牲性能换来语法上的简洁与可读。</p>
+<p>我们知道 @synchronized 后面需要紧跟一个 OC 对象，它实际上是把这个对象当做锁来使用。这是通过一个哈希表来实现的，OC 在底层使用了一个互斥锁的数组(你可以理解为锁池)，通过对对象去哈希值来得到对应的互斥锁。</p>
+<p>#综合上述分析与讨论，总结有以下几点原则：<br>1、总的来看，推荐pthread_mutex作为实际项目的首选方案；<br>2、对于耗时较大又易冲突的读操作，可以使用读写锁代替pthread_mutex；<br>3、如果确认仅有set/get的访问操作，可以选用原子操作属性；<br>4、对于性能要求苛刻，可以考虑使用OSSpinLock，需要确保加锁片段的耗时足够小；<br>5、条件锁基本上使用面向对象的NSCondition和NSConditionLock即可；<br>6、@synchronized则适用于低频场景如初始化或者紧急修复使用；</p>
+<p>#八、锁的第二层含义</p>
+<p>一个简单的问题：在存在编译乱序与指令执行乱序的情况下，怎么保证锁所保护的代码片段，不会被提前到加锁之前，或者是放锁之后执行？如果编译器将锁保护下的代码，通过编译优化，放到了加锁之前运行？又如果CPU在执行指令时，将锁保护下的汇编代码，延迟到了放锁之后执行？如下图所示：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-a937659e764d4cd4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5FF8FB43-6327-471D-81E4-AD0DB4CE3C1E.png"></p>
+<p>如上所示，如果编译器做了它不该做的优化，或者CPU做了其不该做的乱序，那么spinlock保护下的代码片段，同一时刻，一定只有一个线程能够执行的假设被打破了。此时，虽然spinlock仍旧只能有一个线程持有，但是spinlock保护下的代码，被提到了spinlock保护之外执行，spinlock哪怕功能再强大，也不能保护锁之外的代码，提取到spinlock锁之外的代码，能够并发执行。</p>
+<p>但是上面的测试说明，spinlock保护下的global_count++操作，在多线程下能够正确执行。也就说明，无论是编译器，还是CPU，并没有不合时宜的做上面的这些优化。而分析其原因，刚好引出了锁（Spinlock、Mutex、RWLock等）的第二层意义：Lock Acquire和Unlock Release。</p>
+<p>什么是Lock Acquire，Unlock Release又意味着什么？在此之前，需要先看看什么是Acquire和Release。Acquire和Release语义（Semantics）是程序语言和CPU内存模型（Memory Model）中的一个概念。以下，是截取自Preshing博客《Acquire and Release Semantics》一文中，对Acquire与Release Semantics的定义：</p>
+<p>Acquire semantics is a property which can only apply to operations which read from shared memory, whether they are read-modify-write operations or plain loads. The operation is then considered a read-acquire. Acquire semantics prevent memory reordering of the read-acquire with any read or write operation which follows it in program order. （注：Acquire语义是一个作用于内存读操作上的特性，此内存读操作即被视为read-acquire。Acquire语义禁止read-acquire之后所有的内存读写操作，被提前到read-acquire操作之前进行。）</p>
+<p>Release semantics is a property which can only apply to operations which write to shared memory, whether they are read-modify-write operations or plain stores. The operation is then considered a write-release. Release semantics prevent memory reordering of the write-release with any read or write operation which precedes it in program order.（注：Release语义作用于内存写操作之上的特性，此内存写操作即被视为write-release。Release语义禁止write-release之前所有的内存读写操作，被推迟到write-release操作之后进行。）</p>
+<p>从Acquire与Release语义的定义可以看出，两个语义对编译器优化、CPU乱序分别做了一个限制条件：</p>
+<p>Acquire语义限制了编译器优化、CPU乱序，不能将含有Acquire语义的操作之后的代码，提到含有Acquire语义的操作代码之前执行；<br>acquire sematics</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-439d7cd2ee56106c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7F568A62-4FA8-49F7-BE39-B2A5A974B6FA.png"></p>
+<p>Release语义限制了编译器优化、CPU乱序，不能将含有Release语义的操作之前的代码，推迟到含有Release语义的操作代码之后执行；<br>release sematics</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-ea08b284da61d69e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="
+![Uploading 420A1577-FB42-4092-886A-CACF333A662D_050837.png . . .]"></p>
+<p>有了明确的Acquire和Release语义的定义，再回过头来看前面提到的锁的第二层含义：Lock Acquire和Unlock Release。加锁操作自带Acquire语义，解锁操作自带Release语义。将加锁、解锁的两个语义结合起来，就构成了以下的完整的锁的含义图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-bb64d7b9ab48ffd9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="420A1577-FB42-4092-886A-CACF333A662D.png"><br>锁含义</p>
+<p>spinlock，只有带有了Acquire和Release语义，才算是一个真正完整可用的锁——Acquire与Release语义间，构成了一个临界区。获取spinlock后的线程，可以大胆的运行全局变量的读写，而不必担心其他并发线程对于此变量的并发访问。</p>
+<p>好消息是，pthread lib所提供的spinlock、mutex，其加锁操作都自带了acquire语义，解锁操作都自带了release语义。因此，哪怕我们在使用的过程中，不知道有这两个语义的存在，也能够正确的使用这些锁。但是，读者需要实现自己的spinlock、mutex（注：实际情况下，确实有这个必要，数据库系统如Oracle/PostgreSQL/InnoDB，都有自己实现的Spinlock、Mutex等），那么对于锁的了解，到这个层次，是必不可少的。</p>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
+                
+    <!-- 使用多说评论 -->
+    <link rel="stylesheet" href="/css/duoshuo.min.css">
+<style>
+    #ds-thread #ds-reset .ds-post-button{
+        background-color: #FF8247 !important;
+    }
+    #ds-wrapper #ds-reset .ds-icons-32{
+        background-color: #FF8247 !important;
+    }
+    #ds-reset .ds-highlight {
+        color: #FF8247 !important;
+    }
+</style>
+<div id="comments">
+    <!-- 多说评论框 start -->
+        <div class="ds-thread" data-thread-key="undefined" data-title="[iOS]并发编程录--锁" data-url="http://chenmingjia.github.io//2016/11/16/unitsquare/index.html"></div>
+    <!-- 多说评论框 end -->
+</div>
+
+
+
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2016/11/10/unitsquare/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+        </div>
+    </div>
+
+				
+				
+					<!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay "></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored  sidebar-fixed-left" role="navigation">
+	<div id="sidebar-main">
+	    <!-- Sidebar Header -->
+		<div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+    <i class="material-icons">clear_all</i>
+    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.png" alt="与狼同行's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        youremail@email.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+		<!-- Sidebar Navigation  -->
+		<ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+			
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    <li id="sidebar-first-li">
+        <a href="/" target="_self">
+            <i class="material-icons sidebar-material-icons">home</i>
+             主页
+        </a>
+    </li>
+
+    <!-- I'm Feeling Lucky -->
+<!--
+    <li class="dropdown">
+        <a href="" target="_self">
+            <i class="material-icons sidebar-material-icons">explore</i>
+             sidebar.imlucky
+        </a>
+    </li>
+-->
+
+	
+    <!-- Archives  -->
+    <li class="dropdown">
+        <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+            <i class="material-icons sidebar-material-icons">inbox</i>
+             归档
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+            <a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">十月 2016<span class="sidebar_archives-count">1</span></a>
+        </ul>
+    </li>
+
+    <!-- Divider -->
+    <li class="divider"></li>
+
+
+    <!-- Pages  -->
+	
+	
+	
+		<li>
+			<a href="/about" title="关于博主">
+				关于博主
+			</a>
+		</li>
+	
+		<li>
+			<a href="/links/" title="友情链接">
+				友情链接
+			</a>
+		</li>
+	
+		<li>
+			<a href="/timeline/" title="时间轴归档">
+				时间轴归档
+			</a>
+		</li>
+	
+		<li>
+			<a href="/gallery/" title="图库">
+				图库
+			</a>
+		</li>
+	
+
+    <!-- Article Numebr  -->
+    <li>
+        <a href="#">
+             文章总数
+             <span class="sidebar-badge">3</span>
+        </a>
+    </li>
+</ul>
+
+		<!-- Sidebar Divider -->
+		<div class="sidebar-divider"></div>
+
+		<!-- Sidebar Footer -->
+		<!-- 
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持。 :) 
+-->
+
+<!-- Theme Material -->
+<a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+	<div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		主题 - Material
+		<span class="sidebar-badge badge-circle">i</span>
+	</div>
+</a>
+
+<!-- Help & Support -->
+<!--
+<a href="mailto:hiviosey@gmail.com" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		sidebar.help
+		<span class="mdl-button__ripple-container">
+			<span class="mdl-ripple"></span>
+		</span>
+	</div>
+</a>
+-->
+
+<!-- Feedback -->
+<!--
+<a href="https://github.com/viosey/hexo-theme-material/issues" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.feedback
+                    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>
+-->
+
+<!-- Abount Theme -->
+<!--
+<a href="https://blog.viosey.com/index.php/Material.html" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.about_theme
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>-->
+
+	</div>
+    
+    <!-- Sidebar Sponsor -->
+    
+
+
+</aside>
+
+				
+				
+				<!-- Floating Action Button -->
+<div class="fabs">
+    <a href="#top" class="fab toTop">
+        <i class="material-icons">expand_less</i>
+    </a>
+    
+    
+        <!-- Post Nav -->
+        
+
+        
+            <a class="prev-content fab" href="/2016/11/10/unitsquare/" title="[iOS]Instagram/IGListKit实践谈"><i class="material-icons">keyboard_arrow_right</i></a>
+        
+    
+    
+    
+    
+    <a href="#bottom" class="fab toBottom">
+        <i class="material-icons">keyboard_arrow_down</i>
+    </a>
+    
+    <a id="prime" class="fab">
+        <i class="material-icons prime-i-add">add</i>
+    </a>
+</div>
+				
+				<!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+	
+	
+		<!-- Paradox Footer Left Section -->
+		<div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+    
+    
+    <!-- Facebook -->
+    
+    
+    
+    <!-- Google + -->
+    
+    
+    
+    <!-- Weibo -->
+    
+    
+    
+    <!-- Instagram -->
+    
+    
+    
+    <!-- Tumblr -->
+    
+    
+    
+    <!-- Github -->
+    
+    <a href="https://www.github.com/chenmingjia" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-github.png);">
+        <span class="visuallyhidden">Github</span>
+    </button></a>
+    
+</div>
+
+
+		<!--Copyright-->
+		<div id="copyright">Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;Big Wolf’s Blog</div>
+
+		<!-- Paradox Footer Right Section -->
+
+		<!-- 
+		I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+		It will not impact the appearance and can give developers a lot of support :)
+
+		很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+		它不会影响美观并可以给开发者很大的支持。 :) 
+		-->
+
+		<div class="mdl-mini-footer--right-section">
+			<div>
+				<div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+				<div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+			</div>
+		</div>
+	
+    
+</footer>
+                
+				<!-- Import File -->
+<script src="/js/js.min.js"></script>
+<script src="/js/nprogress.js"></script>
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    
+    $('#nprogress .bar').css({
+        'background': '#FF8247'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #FF8247, 0 0 15px #FF8247'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#FF8247',
+        'border-left-color': '#FF8247'
+    });
+    
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+    <!-- 多说公共 js 代码 start -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"2231132"};
+        (function() {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';ds.async = true;
+            ds.src = 'https://static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0] 
+             || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+    </script>
+    <!-- 多说公共 js 代码 end -->
+
+
+
+
+
+
+
+	<script>
+	var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length <= 0) {
+                    return;
+                }
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title;
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out characters
+                            var start = first_occur - 6;
+                            var end = first_occur + 6;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 10;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substr(start, end); 
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<em class=\"search-keyword\">"+keyword+"</em>");
+                            })
+                            str += "<p class=\"search-result\">" + match_content +"...</p>" +"</a>";
+                        }
+                    }
+                })
+                $resultContent.innerHTML = str;
+            })
+        }
+    })
+}
+</script>
+
+	<script>
+		var search_path = "search.xml";
+		if (search_path.length == 0) {
+		search_path = "search.xml";
+		}
+		var path = "/" + search_path;
+		searchFunc(path, 'search', 'local-search-result');
+	</script>
+
+
+
+
+
+
+            </main>
+        </div>
+		
+    </body>
+		
+	
+</html>

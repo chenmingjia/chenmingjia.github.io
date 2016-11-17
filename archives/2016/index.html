@@ -16,7 +16,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#039BE5">
+    <meta name="theme-color" content="#FF8247">
     <meta name="author" content="与狼同行">
     <meta name="description" content="null">
     <meta name="keywords" content="null">
@@ -47,7 +47,7 @@
         <link rel="stylesheet" href="/css/ie-blocker.css">
         
         
-            <script src="/js/ie-blocker.en.js"></script>
+            <script src="/js/ie-blocker.zhCN.js"></script>
         
     <![endif]-->
     
@@ -110,7 +110,7 @@
 	}
 	
     a{
-        color: #039BE5
+        color: #FF8C69
     }
     
     .mdl-card__media,
@@ -120,11 +120,11 @@
     #scheme-Paradox .sidebar_archives-count,
     #scheme-Paradox .sidebar-colored .sidebar-header,
     #scheme-Paradox .sidebar-colored .sidebar-badge{
-        background-color: #039BE5 !important
+        background-color: #FF8247 !important
     }
     
     #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
-        color: #00BCD4 !important
+        color: #FF8247 !important
     }
     
     #post_entry-right-info,
@@ -137,11 +137,11 @@
     .sidebar-colored .sidebar-nav > .open > a:hover,
     .sidebar-colored .sidebar-nav > .open > a:focus,
     #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
-        color: #039BE5 !important
+        color: #FF8247 !important
     }
     
     .fab{
-        background: #00BCD4 !important
+        background: #FF8247 !important
     }
 </style>
 	<script src="/js/jquery.min.js"></script>
@@ -210,23 +210,24 @@
 	
     <!-- Search -->
 	
-	<!-- Google -->
+
+
+
+
+	<!-- Local -->
 	<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable" method="post" action="">
 		<label id="search-label" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--fab mdl-color--accent mdl-shadow--4dp" for="search">
 			<i class="material-icons mdl-color-text--white" role="presentation">search</i>
 		</label>
 
-		<form id="search-form" method="get" action="//google.com/search" accept-charset="UTF-8" class="mdl-textfield__expandable-holder" target="_blank">
-			<input class="mdl-textfield__input search-input" type="search" name="q" id="search" placeholder="">
+		<form id="search-form" class="mdl-textfield__expandable-holder">
+			<input type="text" id="search" class="form-control mdl-textfield__input search-input" name="q" results="0" placeholder=""/>
 			<label id="search-form-label" class="mdl-textfield__label" for="search"></label>
 			
-			<input type="hidden" name="sitesearch" value="http://chenmingjia.github.io">
 		</form>
 	</div>
 
-
-
-
+	<div id="local-search-result"></div>
 
 
     <!-- LOGO -->
@@ -253,6 +254,30 @@
             
             
             
+                <a class="index_share-link" href="/about" title="关于博主">
+                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
+                        关于博主
+                    </li>
+                </a>
+            
+                <a class="index_share-link" href="/links/" title="友情链接">
+                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
+                        友情链接
+                    </li>
+                </a>
+            
+                <a class="index_share-link" href="/timeline/" title="时间轴归档">
+                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
+                        时间轴归档
+                    </li>
+                </a>
+            
+                <a class="index_share-link" href="/gallery/" title="图库">
+                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
+                        图库
+                    </li>
+                </a>
+            
         </ul>
         
         <!-- Menu -->
@@ -264,22 +289,22 @@
             
             <a class="index_share-link" href="#">
                 <li class="mdl-menu__item mdl-js-ripple-effect">
-                    記事 RSS
+                    文章 RSS
                 </li>
             </a>
             <a class="index_share-link" href="https://twitter.com/intent/tweet?text=Big Wolf’s Blog&url=http://chenmingjia.github.io/&via=与狼同行" target="_blank">
                 <li class="mdl-menu__item mdl-js-ripple-effect">
-                    Twitter での共有
+                    分享到 Twitter
                 </li>
             </a>
             <a class="index_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io/" target="_blank">
                 <li class="mdl-menu__item mdl-js-ripple-effect">
-                    Google+ での共有
+                    分享到 Google+
                 </li>
             </a>
             <a class="index_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Big Wolf’s Blog&url=http://chenmingjia.github.io/&pic=&searchPic=false&style=simple" target="_blank">
                 <li class="mdl-menu__item mdl-js-ripple-effect">
-                    Weibo での共有
+                    分享到微博
                 </li>
             </a>
         </ul>
@@ -296,11 +321,136 @@
     <!-- Post Thumbnail -->
 	
 		<!-- Custom Thumbnail -->
-		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://ww1.sinaimg.cn/mw690/a3e763acjw1f7co85o4ixj20fl0flwfd.jpg)">
+		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://i1.hdslb.com/bfs/archive/7efb868838c9240324a964561c3d8c276a1b41e6.jpg)">
 	
 				
 		<!-- Post Title -->
-		<p class="article-headline-p"><a href="/2016/10/18/unitsquare/">使用幽灵类型的Measurements和Units ，第四部分</a></p>
+		<p class="article-headline-p"><a href="/2016/11/16/unitsquare/">[iOS]并发编程录--锁</a></p>
+	</div>
+
+    <!-- Post Excerpt -->
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
+        
+          #一、锁的基本介绍
+###1.1为什么需要锁？？(1)解决资源共享问题我们可以试着想...
+        
+        &nbsp;&nbsp;&nbsp;
+        <span>
+            <a href="/2016/11/16/unitsquare/" target="_self">继续阅读</a>
+        </span>
+    </div>
+    <!-- Post_entry Info-->
+    <div id="post_entry-info">
+        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
+            <!-- Author Avatar -->
+            <div id="author-avatar">
+                <img src="/img/avatar.png" width="44px" height="44px" alt="与狼同行's avatar">
+            </div>
+            <div>
+                <strong>与狼同行</strong>
+                <span>11月 16, 2016</span>
+            </div>
+        </div>
+        <div id="post_entry-right-info">
+            <!-- Category -->
+            <span class="post_entry-category">
+                <a class="post_category-link" href="/categories/iOS开发/">iOS开发</a>
+            </span>
+            
+            
+                <!-- Comment Number -->
+                &nbsp;|&nbsp;
+                <span class="post_entry-comment" >
+                        <span class="ds-thread-count" data-thread-key="undefined" data-count-type="comments"></span>
+                </span>
+            
+            
+            <!-- Post Views -->
+            <span class="post_entry-views">
+                
+            </span>
+        </div>
+    </div>
+            
+</div>
+
+		
+		
+    
+		
+			<!-- Paradox Thumbnail -->
+        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
+    
+    <!-- Post Thumbnail -->
+	
+		<!-- Custom Thumbnail -->
+		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://pbs.twimg.com/media/CrYVQm_WgAAXD5P.jpg)">
+	
+				
+		<!-- Post Title -->
+		<p class="article-headline-p"><a href="/2016/11/10/unitsquare/">[iOS]Instagram/IGListKit实践谈</a></p>
+	</div>
+
+    <!-- Post Excerpt -->
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
+        
+          #简单介绍IGListKit是Instagram推出的新的 UICollectionView 框架，使用数据驱动，旨在创造一个更快更灵活的列...
+        
+        &nbsp;&nbsp;&nbsp;
+        <span>
+            <a href="/2016/11/10/unitsquare/" target="_self">继续阅读</a>
+        </span>
+    </div>
+    <!-- Post_entry Info-->
+    <div id="post_entry-info">
+        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
+            <!-- Author Avatar -->
+            <div id="author-avatar">
+                <img src="/img/avatar.png" width="44px" height="44px" alt="与狼同行's avatar">
+            </div>
+            <div>
+                <strong>与狼同行</strong>
+                <span>11月 10, 2016</span>
+            </div>
+        </div>
+        <div id="post_entry-right-info">
+            <!-- Category -->
+            <span class="post_entry-category">
+                <a class="post_category-link" href="/categories/iOS开发/">iOS开发</a>
+            </span>
+            
+            
+                <!-- Comment Number -->
+                &nbsp;|&nbsp;
+                <span class="post_entry-comment" >
+                        <span class="ds-thread-count" data-thread-key="undefined" data-count-type="comments"></span>
+                </span>
+            
+            
+            <!-- Post Views -->
+            <span class="post_entry-views">
+                
+            </span>
+        </div>
+    </div>
+            
+</div>
+
+		
+		
+    
+		
+			<!-- Paradox Thumbnail -->
+        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
+    
+    <!-- Post Thumbnail -->
+	
+		<!-- Custom Thumbnail -->
+		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://www.pptba.cn/news/wp-content/uploads/2016/05/aff4870209aad651.jpg)">
+	
+				
+		<!-- Post Title -->
+		<p class="article-headline-p"><a href="/2016/10/18/unitsquare/">[译]使用幽灵类型的Measurements和Units ，第四部分</a></p>
 	</div>
 
     <!-- Post Excerpt -->
@@ -314,7 +464,7 @@
         
         &nbsp;&nbsp;&nbsp;
         <span>
-            <a href="/2016/10/18/unitsquare/" target="_self">読み続けて</a>
+            <a href="/2016/10/18/unitsquare/" target="_self">继续阅读</a>
         </span>
     </div>
     <!-- Post_entry Info-->
@@ -326,7 +476,7 @@
             </div>
             <div>
                 <strong>与狼同行</strong>
-                <span>Oct 18, 2016</span>
+                <span>10月 18, 2016</span>
             </div>
         </div>
         <div id="post_entry-right-info">
@@ -335,6 +485,12 @@
                 <a class="post_category-link" href="/categories/iOS开发/">iOS开发</a>
             </span>
             
+            
+                <!-- Comment Number -->
+                &nbsp;|&nbsp;
+                <span class="post_entry-comment" >
+                        <span class="ds-thread-count" data-thread-key="undefined" data-count-type="comments"></span>
+                </span>
             
             
             <!-- Post Views -->
@@ -422,7 +578,7 @@
     <li id="sidebar-first-li">
         <a href="/" target="_self">
             <i class="material-icons sidebar-material-icons">home</i>
-             ホーム
+             主页
         </a>
     </li>
 
@@ -441,12 +597,12 @@
     <li class="dropdown">
         <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
             <i class="material-icons sidebar-material-icons">inbox</i>
-             アーカイブズ
+             归档
             <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
             <li>
-            <a class="sidebar_archives-link" href="/archives/2016/10/">October 2016<span class="sidebar_archives-count">1</span></a>
+            <a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">十月 2016<span class="sidebar_archives-count">1</span></a>
         </ul>
     </li>
 
@@ -458,12 +614,36 @@
 	
 	
 	
+		<li>
+			<a href="/about" title="关于博主">
+				关于博主
+			</a>
+		</li>
+	
+		<li>
+			<a href="/links/" title="友情链接">
+				友情链接
+			</a>
+		</li>
+	
+		<li>
+			<a href="/timeline/" title="时间轴归档">
+				时间轴归档
+			</a>
+		</li>
+	
+		<li>
+			<a href="/gallery/" title="图库">
+				图库
+			</a>
+		</li>
+	
 
     <!-- Article Numebr  -->
     <li>
         <a href="#">
-             記事番号
-             <span class="sidebar-badge">1</span>
+             文章总数
+             <span class="sidebar-badge">3</span>
         </a>
     </li>
 </ul>
@@ -485,7 +665,7 @@ It will not impact the appearance and can give developers a lot of support :)
 <!-- Theme Material -->
 <a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
 	<div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
-		テーマ - Material
+		主题 - Material
 		<span class="sidebar-badge badge-circle">i</span>
 	</div>
 </a>
@@ -556,23 +736,14 @@ It will not impact the appearance and can give developers a lot of support :)
 		<div class="mdl-mini-footer--left-section sns-list">
     <!-- Twitter -->
     
-    <a href="https://twitter.com/twitter" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-twitter.png);">
-        <span class="visuallyhidden">Twitter</span>
-    </button></a>
     
     
     <!-- Facebook -->
     
-    <a href="https://www.facebook.com/facebook" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-facebook.png);">
-        <span class="visuallyhidden">Facebook</span>
-    </button></a>
     
     
     <!-- Google + -->
     
-    <a href="https://www.google.com/" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-gplus.png);">
-        <span class="visuallyhidden">Google Plus</span>
-    </button></a>
     
     
     <!-- Weibo -->
@@ -589,6 +760,9 @@ It will not impact the appearance and can give developers a lot of support :)
     
     <!-- Github -->
     
+    <a href="https://www.github.com/chenmingjia" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-github.png);">
+        <span class="visuallyhidden">Github</span>
+    </button></a>
     
 </div>
 
@@ -627,14 +801,14 @@ It will not impact the appearance and can give developers a lot of support :)
     NProgress.start();
     
     $('#nprogress .bar').css({
-        'background': '#FF4081'
+        'background': '#FF8247'
     });
     $('#nprogress .peg').css({
-        'box-shadow': '0 0 10px #FF4081, 0 0 15px #FF4081'
+        'box-shadow': '0 0 10px #FF8247, 0 0 15px #FF8247'
     });
     $('#nprogress .spinner-icon').css({
-        'border-top-color': '#FF4081',
-        'border-left-color': '#FF4081'
+        'border-top-color': '#FF8247',
+        'border-left-color': '#FF8247'
     });
     
     setTimeout(function() {
@@ -644,18 +818,25 @@ It will not impact the appearance and can give developers a lot of support :)
 </script>
 
 
-	<script src="/js/smoothscroll.js"></script>
 
 
 
 
 
 
-
-
-
-
-
+    <!-- 多说公共 js 代码 start -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"2231132"};
+        (function() {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';ds.async = true;
+            ds.src = 'https://static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0] 
+             || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+    </script>
+    <!-- 多说公共 js 代码 end -->
 
 
 
@@ -664,11 +845,103 @@ It will not impact the appearance and can give developers a lot of support :)
 
 
 	<script>
-		$(".fabs").mouseleave(function(){
-			if( $("#prime").hasClass("is-visible") )
-				$("#prime").click();
-		});
+	var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length <= 0) {
+                    return;
+                }
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title;
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out characters
+                            var start = first_occur - 6;
+                            var end = first_occur + 6;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 10;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substr(start, end); 
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<em class=\"search-keyword\">"+keyword+"</em>");
+                            })
+                            str += "<p class=\"search-result\">" + match_content +"...</p>" +"</a>";
+                        }
+                    }
+                })
+                $resultContent.innerHTML = str;
+            })
+        }
+    })
+}
+</script>
+
+	<script>
+		var search_path = "search.xml";
+		if (search_path.length == 0) {
+		search_path = "search.xml";
+		}
+		var path = "/" + search_path;
+		searchFunc(path, 'search', 'local-search-result');
 	</script>
+
+
+
+
+
 
             </main>
         </div>
