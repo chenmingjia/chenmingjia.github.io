@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <!-- Title -->
+    
+    <title>
+        [iOS]并发编程--GCD(上) | Big Wolf’s Blog
+    </title>
+    
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+    
+    <!-- Meta & INfo -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#FF8247">
+    <meta name="author" content="与狼同行">
+    <meta name="description" content="null">
+    <meta name="keywords" content="null">
+    
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+    
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Big Wolf’s Blog">
+    
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://chenmingjia.github.io">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="[iOS]并发编程--GCD(上) | Big Wolf’s Blog">
+    <meta property="og:description" content="null">
+    
+     <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+        
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+    
+    <!-- Import CSS -->
+    <link rel="stylesheet" href="/css/material.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <!-- Config CSS -->
+
+<!-- Theme Background -->
+
+    <style>
+        body{
+            background-color: #F5F5F5
+        }
+		
+        #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+            background-color: #fff;
+        }
+		
+        #scheme-Paradox .MD-burger-layer {
+            background-color: #666;
+        }
+		
+        #scheme-Paradox .material-back{
+            color: #666;
+        }
+		
+        .material-layout .material-post>.material-nav,
+		.material-layout .material-index>.material-nav,
+        .material-nav a,
+        #scheme-Paradox .material-post_container .material-back{
+            color: #666;
+        }
+    </style>
+
+
+<!-- Fade Effect -->
+
+    <style>
+        .fade {
+            transition: all 800ms linear;
+            -webkit-transform: translate3d(0,0,0);
+            -moz-transform: translate3d(0,0,0);
+            -ms-transform: translate3d(0,0,0);
+            -o-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+            opacity: 1;
+        }
+
+        .fade.out{
+            opacity: 0;
+        }
+    </style>
+
+
+<!-- Other Styles -->
+<style>
+	body, html{
+		font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+	}
+	
+    a{
+        color: #FF8C69
+    }
+    
+    .mdl-card__media,
+    #search-label,
+    #search-form-label:after,
+    #scheme-Paradox .hot_tags-count,
+    #scheme-Paradox .sidebar_archives-count,
+    #scheme-Paradox .sidebar-colored .sidebar-header,
+    #scheme-Paradox .sidebar-colored .sidebar-badge{
+        background-color: #FF8247 !important
+    }
+    
+    #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
+        color: #FF8247 !important
+    }
+    
+    #post_entry-right-info,
+    .sidebar-colored .sidebar-nav li:hover > a,
+    .sidebar-colored .sidebar-nav li:hover > a i,
+    .sidebar-colored .sidebar-nav li > a:hover,
+    .sidebar-colored .sidebar-nav li > a:hover i,
+    .sidebar-colored .sidebar-nav li > a:focus i,
+    .sidebar-colored .sidebar-nav > .open > a,
+    .sidebar-colored .sidebar-nav > .open > a:hover,
+    .sidebar-colored .sidebar-nav > .open > a:focus,
+    #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
+        color: #FF8247 !important
+    }
+    
+    .fab{
+        background: #FF8247 !important
+    }
+</style>
+	<script src="/js/jquery.min.js"></script>
+	
+	<!-- UC Browser Compatible-->
+	<script>
+		var agent = navigator.userAgent.toLowerCase();
+		if(agent.indexOf('ucbrowser')>0) {
+			document.write('<link rel="stylesheet" href="/css/uc.css">');
+		   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+		}
+	</script>
+    
+    <!-- Custom Head -->
+    
+</head>
+	
+	
+
+    <body id="scheme-Paradox">
+
+		
+        <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+				
+			
+			
+            <!-- Main Container -->
+            <main class="material-layout__content" id="main">
+				
+                <!-- Top Anchor -->
+                <div id="top"></div>
+				
+				
+                <!-- Hamburger Button -->
+                <button class="MD-burger-icon sidebar-toggle">
+                    <span class="MD-burger-layer"></span>
+                </button>
+				
+				
+                
+	<!-- Back Button -->
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+	<!-- Paradox Post Header -->
+	
+		<!-- Custom Thumbnail -->
+		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://attach.bbs.miui.com/forum/201312/06/202901biijq56g3f6hd86q.jpg)">
+	
+        <p class="article-headline-p">
+            [iOS]并发编程--GCD(上)
+        </p>
+    </div>
+
+	
+
+				
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>与狼同行</strong>
+        <span>11月 15, 2016</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/GCD/">GCD</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/iOS/">iOS</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/原理篇/">原理篇</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/并发编程/">并发编程</a>
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=[iOS]并发编程--GCD(上)&url=http://chenmingjia.github.io//2016/11/15/unitsquare/index.html&via=与狼同行" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io//2016/11/15/unitsquare/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=[iOS]并发编程--GCD(上)&url=http://chenmingjia.github.io//2016/11/15/unitsquare/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
+</div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Material mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<p>##一、Dispatch Queue</p>
+<p>###1.1为什么要有线程池的概念<br>GCD 队列的内部使用的是线程。GCD 管理这些线程池,暴露 API，提供一层抽象层级。一般来说使用GCD,你只需考虑队列和功能点（提交给队列的 block）。</p>
+<p><strong>GCD即便使用了线程池，也并非完全也可以脱离线程的概念，当一个完整APP里纵横n个异步线程时，GCD的线程池仍然会出现疯狂创造线程，影响主线程 </strong></p>
+<p>队列和功能点同时解决了一个连续不断的扇出的问题：如果我们直接使用线程做并发时，很可能会变成分成 100 个小的功能点，然后基于可用的 CPU 内核数量来创建线程，假设是 8。我们把这些功能点送到这 8 个线程中。当处理功能点时，可能会调用一些函数作为功能的一部分,写那个函数的人也想要使用并发，因此当你调用这个函数的时候，这个函数也会创建 8 个线程。现在成了64 个线程，尽管你只有 8 个CPU内核——也就是说任何时候只有12%的线程实际在运行而另外88%的线程什么事情都没做。使用 GCD 你就不会遇到这种问题，当系统关闭 CPU 内核以省电时，GCD 甚至能够相应地调整线程数量。</p>
+<p><strong>GCD最佳线程数为当前内核数,我电脑是8核Macbook Pro,即最佳线程数为8，使用GCD最多创建68个线程。</strong></p>
+<p>GCD 通过创建所谓的线程池来大致匹配 CPU 内核数量。要记住，线程的创建并不是无代价的。每个线程都需要占用内存和内核资源。这里也有一个问题：</p>
+<p><strong>如果你提交了一个 block 给 GCD，但是这段代码阻塞了这个线程，那么这个线程在这段时间内就不能用来完成其他工作——它被阻塞了。为了确保功能点在队列上一直是执行的，GCD 不得不创建一个新的线程，并把它添加到线程池。</strong></p>
+<p>###1.2 Queue的模型演示<br><img src="http://upload-images.jianshu.io/upload_images/712028-994cedf6e1728044.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="WechatIMG1.jpeg"><br>首先GCD会有一个分发队列(Dispatch Queue),它允许我们去提交一些工作任务,以闭包的形式()-&gt;(),当分发开始执行时,它会建立额外的线程和服务来执行任务,当队列中的任务被分发完毕,它也会负责回收线程。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-61ae3a3c09e81066.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="WechatIMG3.jpeg"><br>我们可以建立自己的线程,可以在该线程中跑runLoop,比如说我们的主线程,就是很特殊的,它有它自己的Main Runloop和主队列(Main Queue)。</p>
+<p>###1.3 实际使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">let queue = DispatchQueue(label: &quot;queueLabel&quot;,    //标签</div><div class="line">qos: .default,           //优先级</div><div class="line">attributes: .concurrent,        //并发还是串行</div><div class="line">autoreleaseFrequency: .inherit,     //释放频率</div><div class="line">target: nil)    //目标队列</div></pre></td></tr></table></figure></p>
+<p>使用总结如下:<br><strong>优先级</strong>：<strong>如果没有特殊性能要求，应该总是用.default！！！,避免优先级反转,高手可以使用其他优先级,切记要规避自旋锁！</strong><br><strong>释放频率</strong>:inherit，workItem，never。作为Swift3出现的新属性,<strong>这个属性应该总是为.workItem！！！。</strong><br><strong>历史原因:释放频率是为了弥补以前GCD当线程不活跃时,会在开发者无法掌控的时间自动往自动释放池释放对象,而这种无法掌握的事情缺点很多,实际开发中，开发者要么自己手动创建释放池释放调度对象，要么出现内存悬挂。<br>于是Apple使用新的workitem来解决手动释放的问题,其实2个选项为了适配旧的代码,never是GCD不会为你管理自动释放池,可能为一些特殊项目使用,inherit是旧的模式，适配旧代码</strong><br>本段释放频率参考:<a href="http://stackoverflow.com/questions/38884418/autoreleasefrequency-on-dispatchqueue-in-swift-3-beta-5" target="_blank" rel="external">http://stackoverflow.com/questions/38884418/autoreleasefrequency-on-dispatchqueue-in-swift-3-beta-5</a></p>
+<p>###1.4原理剖析<br>以 dispatch_queue_create 的源码为例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">dispatch_queue_create(const char *label, dispatch_queue_attr_t attr) &#123;</div><div class="line">// 省略 label 相关的操作</div><div class="line">dispatch_queue_t dq;</div><div class="line">dq = _dispatch_alloc(DISPATCH_VTABLE(queue),</div><div class="line">sizeof(struct dispatch_queue_s) - DISPATCH_QUEUE_MIN_LABEL_SIZE -</div><div class="line">DISPATCH_QUEUE_CACHELINE_PAD + label_len + 1);</div><div class="line">_dispatch_queue_init(dq);</div><div class="line">if (fastpath(!attr)) &#123;</div><div class="line">return dq;</div><div class="line">&#125;</div><div class="line">if (fastpath(attr == DISPATCH_QUEUE_CONCURRENT)) &#123;</div><div class="line">dq-&gt;dq_width = UINT32_MAX;</div><div class="line">dq-&gt;do_targetq = _dispatch_get_root_queue(0, false);</div><div class="line">&#125; else &#123;</div><div class="line">dispatch_debug_assert(!attr, &quot;Invalid attribute&quot;);</div><div class="line">&#125;</div><div class="line">return dq;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中 <strong> fastpath </strong> 和 <strong>slowpath</strong> 是基于if判断的指令优化,第一个 if 判断中，苹果认为串行队列，或者 NULL 参数更常见，因此  !attr  的值很有可能不为 0，这与上文的结论一致。</p>
+<p>第二个判断中，参数几乎有只可能是  DISPATCH_QUEUE_CONCURRENT ，因此 attr == DISPATCH_QUEUE_CONCURRENT 这个判断机会不会为 0，依然与 fastpath 的作用一致。</p>
+<p><strong>_dispatch_get_root_queue</strong> 会获取一个全局队列，它有两个参数，分别表示优先级和是否支持 overcommit。一共有四个优先级，LOW、DEFAULT、HIGH 和 BACKGROUND，因此共有 <strong>8 个全局队列</strong>。带有 overcommit 的队列表示每当有任务提交时，系统都会新开一个线程处理，这样就不会造成某个<strong>线程过载(overcommit)</strong>。</p>
+<p>这 8 个全局队列的序列号是 4-11，序列号为<strong> 1 的队列是主队列</strong>，<strong>2 是 manager 队列，用来管理 GCD 内部的任务</strong>(比如下文介绍的定时器)，3 这个序列号暂时没有使用。队列 的<strong> dq_width 被设置为 UINT32_MAX，表示这些队列不限制并发数</strong>。串行队列的 dq_width默认为1.</p>
+<p>而最后<strong>target_queue</strong>是GCD一个非常重要的概念,向任何队列中提交的 block，都会被放到它的目标队列中执行，而普通串行队列的目标队列就是一个不支持 overcommit 的全局队列，全局队列的底层则是一个线程池。<br><img src="http://upload-images.jianshu.io/upload_images/712028-094ced243fb25913.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1F471211-C38C-4934-A1B7-CC6714989B56.png"><br>上图其实有11个全局队列。没有完整。</p>
+<p>##二、异步执行Asynchronous Execution</p>
+<p>###2.1.闭包或block派发任务<br>闭包或block会被转化为dispatch_continuation_t<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">dispatch_continuation_t dc = fastpath(_dispatch_continuation_alloc_cacheonly());</div><div class="line">dc-&gt;do_vtable = (void *)(DISPATCH_OBJ_ASYNC_BIT | DISPATCH_OBJ_BARRIER_BIT);</div><div class="line">dc-&gt;dc_func = func;</div><div class="line">dc-&gt;dc_ctxt = context;</div><div class="line">_dispatch_queue_push(dq, dc);</div></pre></td></tr></table></figure></p>
+<p><strong>可以理解为一个队列任务块，然后push到队列中——这里的队列是调用async的队列，如果是内部的任务，提交给_dispatch_mgr_q内部队列。</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">dispatch_async(dispatch_queue_t dq, void (^work)(void))</div><div class="line">&#123;</div><div class="line">dispatch_continuation_t dc = _dispatch_continuation_alloc();</div><div class="line">uintptr_t dc_flags = DISPATCH_OBJ_CONSUME_BIT;</div><div class="line"></div><div class="line">_dispatch_continuation_init(dc, dq, work, 0, 0, dc_flags);</div><div class="line">_dispatch_continuation_async(dq, dc);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到闭包被封装为_dispatch_continuation，然后进行下一个函数。</p>
+<p>###2.2调用过程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">void dispatch_async_f(dispatch_queue_t dq, void *ctxt, dispatch_function_t func) &#123;</div><div class="line">dispatch_continuation_t dc;</div><div class="line">if (dq-&gt;dq_width == 1) &#123;</div><div class="line">return dispatch_barrier_async_f(dq, ctxt, func);</div><div class="line">&#125;</div><div class="line">dc-&gt;do_vtable = (void *)DISPATCH_OBJ_ASYNC_BIT;</div><div class="line">dc-&gt;dc_func = func;</div><div class="line">dc-&gt;dc_ctxt = ctxt;</div><div class="line">if (dq-&gt;do_targetq) &#123;</div><div class="line">return _dispatch_async_f2(dq, dc);</div><div class="line">&#125;</div><div class="line">_dispatch_queue_push(dq, dc);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可见如果是串行队列 (dq_width = 1)，会调用 dispatch_barrier_async_f 函数处理，这个后文会有介绍。如果有 do_targetq 则进行转发，否则调用 _dispatch_queue_push 入队。<br>把这个宏展开，然后依次分析调用栈，选择一条主干调用线，结果如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">_dispatch_queue_push</div><div class="line">└──_dispatch_trace_queue_push</div><div class="line">└──_dispatch_queue_push</div><div class="line">└──_dispatch_queue_push_slow</div><div class="line">└──_dispatch_queue_push_list_slow2</div><div class="line">└──_dispatch_wakeup</div><div class="line">└──dx_probe</div></pre></td></tr></table></figure></p>
+<p>队列中保存了一个链表，我们首先将新的 block 添加到链表尾部，然后调用 dx_probe 宏，它依赖于 vtable 数据结构，GCD 中的大部分对象，比如队列等，都具有这个数据结构。它定义了对象在不同操作下该执行的方法，比如在这里的 probe 操作下，实际上会执行 _dispatch_queue_wakeup_global 方法。然后就是<strong>_dispatch_queue_wakeup_global-&gt;调用pthread-&gt;_dispatch_worker_thread 回调-&gt;执行任务-&gt;invoke</strong></p>
+<p>2.3</p>
+<p>##三、同步执行Synchronous Execution<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">static void _dispatch_sync_f_slow(dispatch_queue_t dq, void *ctxt, dispatch_function_t func) &#123;</div><div class="line">_dispatch_thread_semaphore_t sema = _dispatch_get_thread_semaphore();</div><div class="line">struct dispatch_sync_slow_s &#123;</div><div class="line">DISPATCH_CONTINUATION_HEADER(sync_slow);</div><div class="line">&#125; dss = &#123;</div><div class="line">.do_vtable = (void*)DISPATCH_OBJ_SYNC_SLOW_BIT,</div><div class="line">.dc_ctxt = (void*)sema,</div><div class="line">&#125;;</div><div class="line">_dispatch_queue_push(dq, (void *)&amp;dss);</div><div class="line"></div><div class="line">_dispatch_thread_semaphore_wait(sema);</div><div class="line">_dispatch_put_thread_semaphore(sema);</div><div class="line">// ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>##四、派发源Dispatch Sources</p>
+<p>###4.1原理剖析<br>下图为dispatch_source_create这个API的代码,如何创建派发源的过程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">ds = _dispatch_alloc(DISPATCH_VTABLE(source),</div><div class="line">sizeof(struct dispatch_source_s));</div><div class="line">_dispatch_queue_init((dispatch_queue_t)ds);</div><div class="line">ds-&gt;dq_label = &quot;source&quot;;</div><div class="line">ds-&gt;do_ref_cnt++; // the reference the manager queue holds</div><div class="line">ds-&gt;do_suspend_cnt = DISPATCH_OBJECT_SUSPEND_INTERVAL;</div><div class="line">ds-&gt;do_targetq = &amp;_dispatch_mgr_q;</div></pre></td></tr></table></figure></p>
+<p>从这段源码中我们可以知道：<br><strong>1.  猜想do是dispatchObject,是GCD的最基础类,虽然C语言中没有面向对象编程中的继承这个概念，但只要将dispatch_object_t结构体放在内存布局的开始处（作为“基类”），则实现了继承的概念</strong><br><strong>2.  ds-&gt;do_ref_cnt++即是dispatchSource的基类部分的引用计数+1</strong><br><strong>3. _dispatch_mgr_q 则表示由哪个队列来管理这个 source，mgr 是 manager 的缩写,证明了即便 dispatch_source_create这个API不传入queue参数,也有root queue来分发</strong></p>
+<p>###4.2GCD Timer并非没有弱点<br>于定时器的有效工作，有两个关键环节，一个是mgr queue，另一个是root queue。可以看到mgr queue只是负责事件监听和分发，可以理解是很轻量级的、不应该也不允许存在失效的；而root queue则负责从线程池分配线程执行任务，线程池的大小目前来看是255，并且有高低优先级之分。</p>
+<p>我们创建的GCD Timer的优先级是继承自它的targetq的，而我们正常创建的queue所对应的root queue优先级是default，<strong>所以说如果存在大量高优先级的任务派发，或者255个线程都卡住了，那么GCD Timer是会被影响到的。</strong></p>
+<p>##4.3、com.apple.libdispatch-manager<br>作为iOS开发，我们对com.apple.libdispatch-manager这个字符串应该很熟悉，比如在crash日志中看过，也会在断点调试时遇到——它基本都是紧随在主线程之后。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">static const struct dispatch_queue_vtable_s _dispatch_queue_mgr_vtable = &#123;</div><div class="line">.do_type = DISPATCH_QUEUE_MGR_TYPE,</div><div class="line">.do_kind = &quot;mgr-queue&quot;,</div><div class="line">.do_invoke = _dispatch_mgr_invoke,</div><div class="line">.do_debug = dispatch_queue_debug,</div><div class="line">.do_probe = _dispatch_mgr_wakeup,</div><div class="line">&#125;;</div><div class="line">struct dispatch_queue_s _dispatch_mgr_q = &#123;</div><div class="line">.do_vtable = &amp;_dispatch_queue_mgr_vtable,</div><div class="line">.do_ref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,</div><div class="line">.do_xref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,</div><div class="line">.do_suspend_cnt = DISPATCH_OBJECT_SUSPEND_LOCK,</div><div class="line">.do_targetq = &amp;_dispatch_root_queues[DISPATCH_ROOT_QUEUE_COUNT - 1],</div><div class="line"></div><div class="line">.dq_label = &quot;com.apple.libdispatch-manager&quot;,</div><div class="line">.dq_width = 1,</div><div class="line">.dq_serialnum = 2,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>我们发现，就连_dispatch_mgr_q都有它对应的do_targetq，从命名上来看，可以初步推断_dispatch_mgr_q要做的事情最终都会丢到它的targetq上来完成。<br>_dispatch_root_queues[DISPATCH_ROOT_QUEUE_COUNT - 1]即是序号3队列,用于内部任务的队列。<br>比如将定时器相关信息以及下一步要调用的方法封装成dispatch_continuation_t结构放到队列_dispatch_mgr_q中。<br>那么，_dispatch_mgr_q是做什么的呢？可以先简单直接地看看它通常在做什么：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-253a2863cbe73f14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="D05D2571-912B-44F8-99E3-359780AE3325.png"><br>可以看到，它通常都是没事干等事来。先来看看它怎么处于等事干的状态，也就是它怎么被创建出来并初始化完成的。</p>
+<p>我们从上图调用栈可以看到线程入口是_dispatch_mgr_thread，它是作为_dispatch_mgr_q的.do_invoke的：<br>do_invoke的调用在整个libdispatch中，只有在元素出队的时候才会触发。<br>_dispatch_mgr_q从root queue出队时会进入等事干的状态，那么它是什么时候进队的？当我们要push任务块进入队列时会唤醒_dispatch_mgr_q队列并调用其.do_probe成员,_dispatch_mgr_q进行初始化配置进队并wakeup它的targetq。由于它的targetq是root queue，所以就会调用。<br>1.<strong>进队调用do_probe，出队调用do_invoke</strong><br>2.<strong>顺序是:push任务块-&gt;调用管理队列的do_probe成员-&gt;该成员负责唤醒管理队列并初始化-&gt;管理队列往root队列进队,即调用do_probe-&gt;_dispatch_queue_wakeup_global调用最底层全局线程-&gt;出队do_invoke-&gt;等待事件</strong></p>
+<p>##五、GCD的尽头—线程池<br>// 老版本libdispatch的代码，新版本不同<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">static struct dispatch_queue_s _dispatch_root_queues[] = &#123;</div><div class="line">&#123;</div><div class="line">.do_vtable = &amp;_dispatch_queue_root_vtable,</div><div class="line">.do_ref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,</div><div class="line">.do_xref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,</div><div class="line">.do_suspend_cnt = DISPATCH_OBJECT_SUSPEND_LOCK,</div><div class="line">.do_ctxt = &amp;_dispatch_root_queue_contexts[0],</div><div class="line"></div><div class="line">.dq_label = &quot;com.apple.root.low-priority&quot;,</div><div class="line">.dq_running = 2,</div><div class="line">.dq_width = UINT32_MAX,</div><div class="line">.dq_serialnum = 4,</div><div class="line">&#125;,</div><div class="line">&#123;</div><div class="line">// ... 省略部分代码</div><div class="line">.dq_label = &quot;com.apple.root.low-overcommit-priority&quot;,</div><div class="line">&#125;,</div><div class="line">&#123;</div><div class="line">// ... 省略部分代码</div><div class="line">.dq_label = &quot;com.apple.root.default-priority&quot;,</div><div class="line">&#125;,</div><div class="line">&#123;</div><div class="line">// ... 省略部分代码</div><div class="line">.dq_label = &quot;com.apple.root.default-overcommit-priority&quot;,</div><div class="line">&#125;,</div><div class="line">&#123;</div><div class="line">// ... 省略部分代码</div><div class="line">.dq_label = &quot;com.apple.root.high-priority&quot;,</div><div class="line">&#125;,</div><div class="line">&#123;</div><div class="line">// ... 省略部分代码</div><div class="line">.dq_label = &quot;com.apple.root.high-overcommit-priority&quot;,</div><div class="line">&#125;,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>可以看到，在老版本的libdispatch中，_dispatch_mgr_q是取最高优先级的root queue来作为do_targetq的。而在新版本中，则是有专门为其服务的root queue：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">static struct dispatch_queue_s _dispatch_mgr_root_queue = &#123;</div><div class="line">.do_vtable = DISPATCH_VTABLE(queue_root),</div><div class="line">.do_ref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,</div><div class="line">.do_xref_cnt = DISPATCH_OBJECT_GLOBAL_REFCNT,</div><div class="line">.do_suspend_cnt = DISPATCH_OBJECT_SUSPEND_LOCK,</div><div class="line">.do_ctxt = &amp;_dispatch_mgr_root_queue_context,</div><div class="line">.dq_label = &quot;com.apple.root.libdispatch-manager&quot;,</div><div class="line">.dq_running = 2,</div><div class="line">.dq_width = DISPATCH_QUEUE_WIDTH_MAX,</div><div class="line">.dq_serialnum = 3,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
+                
+    <!-- 使用多说评论 -->
+    <link rel="stylesheet" href="/css/duoshuo.min.css">
+<style>
+    #ds-thread #ds-reset .ds-post-button{
+        background-color: #FF8247 !important;
+    }
+    #ds-wrapper #ds-reset .ds-icons-32{
+        background-color: #FF8247 !important;
+    }
+    #ds-reset .ds-highlight {
+        color: #FF8247 !important;
+    }
+</style>
+<div id="comments">
+    <!-- 多说评论框 start -->
+        <div class="ds-thread" data-thread-key="undefined" data-title="[iOS]并发编程--GCD(上)" data-url="http://chenmingjia.github.io//2016/11/15/unitsquare/index.html"></div>
+    <!-- 多说评论框 end -->
+</div>
+
+
+
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+        <a href="/2016/11/16/unitsquare/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2016/11/10/unitsquare/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+        </div>
+    </div>
+
+				
+				
+					<!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay "></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored  sidebar-fixed-left" role="navigation">
+	<div id="sidebar-main">
+	    <!-- Sidebar Header -->
+		<div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+    <i class="material-icons">clear_all</i>
+    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.png" alt="与狼同行's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        youremail@email.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+		<!-- Sidebar Navigation  -->
+		<ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+			
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    <li id="sidebar-first-li">
+        <a href="/" target="_self">
+            <i class="material-icons sidebar-material-icons">home</i>
+             主页
+        </a>
+    </li>
+
+    <!-- I'm Feeling Lucky -->
+<!--
+    <li class="dropdown">
+        <a href="" target="_self">
+            <i class="material-icons sidebar-material-icons">explore</i>
+             sidebar.imlucky
+        </a>
+    </li>
+-->
+
+	
+    <!-- Archives  -->
+    <li class="dropdown">
+        <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+            <i class="material-icons sidebar-material-icons">inbox</i>
+             归档
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+            <a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">十月 2016<span class="sidebar_archives-count">1</span></a>
+        </ul>
+    </li>
+
+    <!-- Divider -->
+    <li class="divider"></li>
+
+
+    <!-- Pages  -->
+	
+	
+	
+		<li>
+			<a href="/about" title="关于博主">
+				关于博主
+			</a>
+		</li>
+	
+		<li>
+			<a href="/links/" title="友情链接">
+				友情链接
+			</a>
+		</li>
+	
+		<li>
+			<a href="/timeline/" title="时间轴归档">
+				时间轴归档
+			</a>
+		</li>
+	
+		<li>
+			<a href="/gallery/" title="图库">
+				图库
+			</a>
+		</li>
+	
+		<li>
+			<a href="/tags/" title="标签云">
+				标签云
+			</a>
+		</li>
+	
+
+    <!-- Article Numebr  -->
+    <li>
+        <a href="#">
+             文章总数
+             <span class="sidebar-badge">4</span>
+        </a>
+    </li>
+</ul>
+
+		<!-- Sidebar Divider -->
+		<div class="sidebar-divider"></div>
+
+		<!-- Sidebar Footer -->
+		<!-- 
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持。 :) 
+-->
+
+<!-- Theme Material -->
+<a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+	<div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		主题 - Material
+		<span class="sidebar-badge badge-circle">i</span>
+	</div>
+</a>
+
+<!-- Help & Support -->
+<!--
+<a href="mailto:hiviosey@gmail.com" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		sidebar.help
+		<span class="mdl-button__ripple-container">
+			<span class="mdl-ripple"></span>
+		</span>
+	</div>
+</a>
+-->
+
+<!-- Feedback -->
+<!--
+<a href="https://github.com/viosey/hexo-theme-material/issues" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.feedback
+                    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>
+-->
+
+<!-- Abount Theme -->
+<!--
+<a href="https://blog.viosey.com/index.php/Material.html" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.about_theme
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>-->
+
+	</div>
+    
+    <!-- Sidebar Sponsor -->
+    
+
+
+</aside>
+
+				
+				
+				<!-- Floating Action Button -->
+<div class="fabs">
+    <a href="#top" class="fab toTop">
+        <i class="material-icons">expand_less</i>
+    </a>
+    
+    
+        <!-- Post Nav -->
+        
+            <a class="prev-content fab" href="/2016/11/16/unitsquare/" title="[iOS]并发编程录--锁"><i class="material-icons">keyboard_arrow_left</i></a>
+        
+
+        
+            <a class="prev-content fab" href="/2016/11/10/unitsquare/" title="[iOS]Instagram/IGListKit实践谈"><i class="material-icons">keyboard_arrow_right</i></a>
+        
+    
+    
+    
+    
+    <a href="#bottom" class="fab toBottom">
+        <i class="material-icons">keyboard_arrow_down</i>
+    </a>
+    
+    <a id="prime" class="fab">
+        <i class="material-icons prime-i-add">add</i>
+    </a>
+</div>
+				
+				<!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+	
+	
+		<!-- Paradox Footer Left Section -->
+		<div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+    
+    
+    <!-- Facebook -->
+    
+    
+    
+    <!-- Google + -->
+    
+    
+    
+    <!-- Weibo -->
+    
+    
+    
+    <!-- Instagram -->
+    
+    
+    
+    <!-- Tumblr -->
+    
+    
+    
+    <!-- Github -->
+    
+    <a href="https://www.github.com/chenmingjia" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-github.png);">
+        <span class="visuallyhidden">Github</span>
+    </button></a>
+    
+</div>
+
+
+		<!--Copyright-->
+		<div id="copyright">Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;Big Wolf’s Blog</div>
+
+		<!-- Paradox Footer Right Section -->
+
+		<!-- 
+		I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+		It will not impact the appearance and can give developers a lot of support :)
+
+		很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+		它不会影响美观并可以给开发者很大的支持。 :) 
+		-->
+
+		<div class="mdl-mini-footer--right-section">
+			<div>
+				<div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+				<div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+			</div>
+		</div>
+	
+    
+</footer>
+                
+				<!-- Import File -->
+<script src="/js/js.min.js"></script>
+<script src="/js/nprogress.js"></script>
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    
+    $('#nprogress .bar').css({
+        'background': '#FF8247'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #FF8247, 0 0 15px #FF8247'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#FF8247',
+        'border-left-color': '#FF8247'
+    });
+    
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+    <!-- 多说公共 js 代码 start -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"2231132"};
+        (function() {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';ds.async = true;
+            ds.src = 'https://static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0] 
+             || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+    </script>
+    <!-- 多说公共 js 代码 end -->
+
+
+
+
+
+
+
+	<script>
+	var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length <= 0) {
+                    return;
+                }
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title;
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out characters
+                            var start = first_occur - 6;
+                            var end = first_occur + 6;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 10;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substr(start, end); 
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<em class=\"search-keyword\">"+keyword+"</em>");
+                            })
+                            str += "<p class=\"search-result\">" + match_content +"...</p>" +"</a>";
+                        }
+                    }
+                })
+                $resultContent.innerHTML = str;
+            })
+        }
+    })
+}
+</script>
+
+	<script>
+		var search_path = "search.xml";
+		if (search_path.length == 0) {
+		search_path = "search.xml";
+		}
+		var path = "/" + search_path;
+		searchFunc(path, 'search', 'local-search-result');
+	</script>
+
+
+
+
+
+
+            </main>
+        </div>
+		
+    </body>
+		
+	
+</html>
