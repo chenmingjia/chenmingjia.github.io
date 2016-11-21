@@ -4,7 +4,7 @@
     <!-- Title -->
     
     <title>
-        [Math]程序员的数学整理(1) | Big Wolf’s Blog
+        [C++]C++11/14 类型系统 | Big Wolf’s Blog
     </title>
     
     <!-- Favicons -->
@@ -40,7 +40,7 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://chenmingjia.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="[Math]程序员的数学整理(1) | Big Wolf’s Blog">
+    <meta property="og:title" content="[C++]C++11/14 类型系统 | Big Wolf’s Blog">
     <meta property="og:description" content="null">
     
      <!--[if lte IE 9]>
@@ -205,10 +205,10 @@
 	<!-- Paradox Post Header -->
 	
 		<!-- Custom Thumbnail -->
-		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://img.zcool.cn/community/0160ff5544c7ad0000019ae93f14cf.jpg)">
+		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://img0w.pconline.com.cn/pconline/1406/09/spcgroup/width_640,qua_30/4906839_006.jpg)">
 	
         <p class="article-headline-p">
-            [Math]程序员的数学整理(1)
+            [C++]C++11/14 类型系统
         </p>
     </div>
 
@@ -226,7 +226,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>与狼同行</strong>
-        <span>11月 15, 2016</span>
+        <span>11月 20, 2016</span>
     </div>
     
     <div class="section-spacer"></div>
@@ -246,7 +246,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/数学/">数学</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/算法/">算法</a>
+        <a class="post_tag-link" href="/tags/C/">C++</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/C-11-14/">C++11/14</a>
     </ul>
     
     <!-- Share -->
@@ -261,21 +261,21 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=[Math]程序员的数学整理(1)&url=http://chenmingjia.github.io//2016/11/15/20161018安全Swift的不安全的副本/index.html&via=与狼同行" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=[C++]C++11/14 类型系统&url=http://chenmingjia.github.io//2016/11/20/20161120  [iOS]界面性能优化-总览的副本/index.html&via=与狼同行" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
     </a>
     
     <!-- Share Google+ -->
-    <a class="post_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io//2016/11/15/20161018安全Swift的不安全的副本/index.html" target="_blank">
+    <a class="post_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io//2016/11/20/20161120  [iOS]界面性能优化-总览的副本/index.html" target="_blank">
         <li class="mdl-menu__item">
             分享到 Google+
         </li>
     </a>
     
     <!-- Share Weibo -->
-    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=[Math]程序员的数学整理(1)&url=http://chenmingjia.github.io//2016/11/15/20161018安全Swift的不安全的副本/index.html&pic=&searchPic=false&style=simple" target="_blank">
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=[C++]C++11/14 类型系统&url=http://chenmingjia.github.io//2016/11/20/20161120  [iOS]界面性能优化-总览的副本/index.html&pic=&searchPic=false&style=simple" target="_blank">
         <li class="mdl-menu__item">
             分享到微博
         </li>
@@ -287,7 +287,49 @@
                 <!-- Post Content -->
                 <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
 	
-		
+		<p>本文整理自 刘光聪先生的演讲</p>
+<h1 id="一、类型系统"><a href="#一、类型系统" class="headerlink" title="一、类型系统"></a>一、类型系统</h1><h2 id="1-1-auto"><a href="#1-1-auto" class="headerlink" title="1.1 auto"></a>1.1 auto</h2><p>移动语义修改了C++内核。<br>C++作为一门强类型语言，在新版本中增加了自动类型推导的功能，而在另外一个基于jvm的语言Scala，其实它们使用的类型推导的算法是一致的。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-d2a590ed8aee3637.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="124C24CB-7485-468F-BD67-A8380F83FC2D.png"></p>
+<p><strong>由于map在C++98中的key是const的，不可修改的，所以pair<string，int>在ranged for的时候隐形地产生一个临时变量pair<const string，int="">来赋值，其中string和int类型进行了move操作。</const></string，int></strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-d81166d0a39ccad0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AC7308FB-67FF-4841-B57E-7C935E4729A0.png"><br>这里使用auto也可以根据words参数自动的推断出const的语义。<br><strong>所以auto的类型推演约等于模板的推演方式。</strong></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-1a1c9d9287d4298a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6DE1FEA0-3335-4461-8043-FCBA549B0224.png"><br>假如expr是const的，当第一句进行值拷贝时，var不是const的。所以需要显示的加上const表示const语义。<br>而第三句使用引用auto,这就是值类型和引用类型不一样的地方，自动变成了const类型。而第4句显式的加上const也没有问题，完全是个人习惯的问题。<br>到了第5句，universal renference，这个在11中属于右值引用。</p>
+<p>##右值引用</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-8970218424b62ed7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="8C9D538D-A455-4CED-9B9D-A3DE53980B70.png"><br>这里的关键是r1如何推演出r2的类型，记住这里r1是左值，它是引用。r1就是i的别名。所以就相当于i推演r2。所以r2也是int&amp;。所有的引用变量都是左值。</p>
+<p>##Universal Renference</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-f13d06776ca7f44d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="F1E33C7B-4AF5-4D41-AB7F-C5DFCD046014.png"><br>Universal Renference的推导规则是左值推导左值引用。如果是右值就推导右值引用。<br>在C++11时，所有的引用都是左值引用。那么为什么要推出右值引用？因为在C++98时会出现大量的对象拷贝，比如说vector的空间不足，假如空间扩充2倍，原来的方式就会新建一块新的内存，然后一个个copy，最后把旧的vector给delete。<br>然而这样的方式太过于浪费，所以C++11提出了move的概念，即a扩到b大小时，我不新建一块双倍内存，而是新建一块小内存，然后在原有内存a的基础上，指针指向b内存。这就是C++11的move的概念。</p>
+<p>##特例</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-9bb82bc008694c3c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="8C698A31-2CD8-4F67-9D16-D70B6D139EE1.png"><br>第一个例子，{10}可以推导出initiliazer list。但是第二句就失败了，因为它向下转型了。int到double时会出现精度扩展，这是个比较危险的行为。但是它支持向上转型。</p>
+<p>##函数推导<br><img src="http://upload-images.jianshu.io/upload_images/712028-ab6ba4037eec4ff3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="649B043E-BC23-4240-9CB4-4ACF298CD7B6.png"><br>函数推导时第一个例子，会变成兼容c的风格，从函数类型退化为指向函数的指针。而加上引用后，f2就是函数类型，这也是需要注意的地方。</p>
+<p>##数组推导</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-31537cb3b1e6977b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>同理还有数组的推导过程，decltype(name)是数组类型，但是赋值给auto时，会退化为char类型，但是使用引用又变成了正确的类型。</p>
+<p>##Lambda</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-9c2b5faa2a60a8f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="D6CEFBEB-9981-4747-AE1C-0F035834086B.png"><br>这两个方式是等价的，这种推导方式可以直接达到泛型函数的效果。这也是新出的新特性。<br>注意这里的isEven是右值。<br>所以说，auto的类型推演，其实跟模板推演是一致的。</p>
+<h2 id="1-2-decltype"><a href="#1-2-decltype" class="headerlink" title="1.2 decltype"></a>1.2 decltype</h2><p>这是C++98的写法。<br><img src="http://upload-images.jianshu.io/upload_images/712028-b28188b221e903e1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="B00008EA-D43A-4B25-A6C3-51A4E497CD4E.png"><br>这是C++11的写法。将decltype放置到尾部。所以现代语言普遍都会把返回类型放到后面。<br><img src="http://upload-images.jianshu.io/upload_images/712028-367061c4f4ef1d38.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>这是C++14的写法。可能编译器觉得像11那样写都太麻烦了，索性把这个工作也给简化了。<br><img src="http://upload-images.jianshu.io/upload_images/712028-ec895003f90cc3b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="54261D3A-9076-4CC3-A2DE-64DDCCC16DD2.png"><br>如果我们的返回类型是引用类型，但由于auto是值语义的，程序这样一来会挂掉。所以我们拥有decltype(auto)的写法来防止这个问题。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-bbb672155f6fe6c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="C05BCA20-9010-48E5-A136-485B3FEBF59A.png"></p>
+<h1 id="二、右值引用"><a href="#二、右值引用" class="headerlink" title="二、右值引用"></a>二、右值引用</h1><h2 id="2-1什么是左值？什么是右值？"><a href="#2-1什么是左值？什么是右值？" class="headerlink" title="2.1什么是左值？什么是右值？"></a>2.1什么是左值？什么是右值？</h2><ol>
+<li>左值是持有的。<br>拥有name，可以取地址。<br>比如以下操作符返回的是引用，那么就是左值:[],+=,&amp;=,前置++</li>
+<li>右值是短暂的。<br>比如说匿名临时对象，<br>字面量<br>static_cast这种类型转换。<br>返回的是值类型，那么就是值类型:+,&lt;,&amp;,++后置<br><strong>右值引用指向了一个即将被销毁的对象，然后把对象move给右值引用。所以该对象一定要是可以析构的</strong><br>虽然这个变量被定义成右值引用，但是变量本身是左值的。<h2 id="2-2举例说明"><a href="#2-2举例说明" class="headerlink" title="2.2举例说明"></a>2.2举例说明</h2><strong>左值引用例子</strong><br><img src="http://upload-images.jianshu.io/upload_images/712028-04da0c5b1e825618.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="F6F18D88-2852-46A6-BE20-A5C2A55E1C40.png"><br><strong>右值引用例子<br><img src="http://upload-images.jianshu.io/upload_images/712028-988efb048da05956.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="84E43DA4-B139-4EEA-885A-3F0A4C5A505C.png"></strong></li>
+</ol>
+<p><strong>所以通用引用既可以指向左值也可以指向右值，它可以绑定const也可以不绑定const，但没有什么意义</strong></p>
+<h2 id="2-3-右值引用-amp-通用指针"><a href="#2-3-右值引用-amp-通用指针" class="headerlink" title="2.3 右值引用&amp;通用指针"></a>2.3 右值引用&amp;通用指针</h2><p><img src="http://upload-images.jianshu.io/upload_images/712028-de77efa5b7b8be89.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1662BC90-F862-44C4-AC6A-8A17DA5310B4.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-c1d08d5e9ecd996b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="C69DC955-F741-4D17-94A0-92143F8DD865.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-e653a663629fd4b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="92CA5793-ED66-4618-BB0A-0A41C7FA24E1.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-cad61c10be5085e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="E0A7188B-5536-438E-9E7E-578EEFF51E79.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-5b5a63bc073a75f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="C968EA05-059A-4C7D-9D86-C11D59E6A94E.png"><br>这里的move是inline的，所以没有任何的运行时成本，但它并没有做任何的move操作。因为此处是一个universal reference，既可以传入左值也可以是右值。但是return的是一个右值引用。所以很多人建议它改成rReference cast。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-71659940708b03af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="
+![593590E7-C227-4563-A0D3-1E35D9B2C663.png](http://upload-images.jianshu.io/upload_images/712028-8ef40279191e7da1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)"></p>
+<p>##三.移动语义<br>移动语义<br>无名右值引用和具名右值引用的引入主要是为了解决移动语义问题。<br>移动语义问题是指在某些特定情况下（比如用右值来赋值或构造对象时）如何采用廉价的移动语义替换昂贵的拷贝语义的问题。<br>移动语义（move semantics）是指某个对象接管另一个对象所拥有的外部资源的所有权。移动语义需要通过移动（窃取）其他对象所拥有的资源来完成。移动语义的具体实现（即一次that对象到this对象的移动（move））通常包含以下若干步骤：<br>如果this对象自身也拥有资源，释放该资源<br>将this对象的指针或句柄指向that对象所拥有的资源<br>将that对象原本指向该资源的指针或句柄设为空值<br>上述步骤可简单概括为①释放this（this非空时）②移动that<br>移动语义通常在移动构造器和移动赋值运算符中得以具体实现。两者的区别在于移动构造对象时this对象为空因而①释放this无须进行。</p>
+<p>与移动语义相对，传统的拷贝语义（copy semantics）是指某个对象拷贝（复制）另一个对象所拥有的外部资源并获得新生资源的所有权。拷贝语义的具体实现（即一次that对象到this对象的拷贝（copy））通常包含以下若干步骤：<br>如果this对象自身也拥有资源，释放该资源<br>拷贝（复制）that对象所拥有的资源<br>将this对象的指针或句柄指向新生的资源<br>如果that对象为临时对象（右值），那么拷贝完成之后that对象所拥有的资源将会因that对象被销毁而即刻得以释放<br>上述步骤可简单概括为①释放this（this非空时）②拷贝that③释放that（that为右值时）<br>拷贝语义通常在拷贝构造器和拷贝赋值运算符中得以具体实现。两者的区别在于拷贝构造对象时this对象为空因而①释放this无须进行。</p>
+<p>比较移动语义与拷贝语义的具体步骤可知，在赋值或构造对象时，<br>如果源对象that为左值，由于两者效果不同（移动that ≠ 拷贝that），此时移动语义不能用来替换拷贝语义。<br>如果源对象that为右值，由于两者效果相同（移动that ＝ 拷贝that ＋ 释放that），此时廉价的移动语义（通过指针操作来移动资源）便可以用来替换昂贵的拷贝语义（生成，拷贝然后释放资源）。<br>由此可知，只要在进行相关操作（比如赋值或构造）时，采取适当的左右值重载策略区分源对象的左右值属性，根据其左右值属性分别采用拷贝语义和移动语义，移动语义问题便可以得到解决。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-5709213bb08ee60c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="753408F1-210E-4BFF-AADA-F72C052870FC.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-f7a44c63e23b1ffd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="38BF5773-0A99-43FA-8F0B-89F8A60377E2.png"></p>
+<p>所以不要使用IDE默认创建一个类，比如很多应该执行move语义的操作，你会发现被copy语义给取代，原因就是你创建了一个空的destructor，它把move constructor给delete了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-3c5a5845bb57bd5b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="047C52CC-718F-4FA7-BD7C-D666EF0E26F8.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-1b039b34ceef3df6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>第一个add是copy语义，而第二个是move语义。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-12d80fbb8c4a2308.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="46F6ED8E-5C7A-4D41-9A0B-03C70E7F5567.png"><br>这个例子代表有时候我们为了代码的简洁性，会考虑使用const还是pass by value，如果使用pass by value，我们可以拥有简洁性，而且我们可以发现右值引用只是进行了2次move constructor，比普通的const 引用多了一个move操作，成本依然十分接近。</p>
+<p>#四、Perfect Forward</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-943da80d8b265e41.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CD6E80DD-7DB3-4911-BAD2-96420E3858A8.png"><br>进左值出右值，没有运行时成本。<br><img src="http://upload-images.jianshu.io/upload_images/712028-c29b7339ee993ff9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="BDB7FCC2-5B48-4617-99F6-032BCB8AFCC2.png"><br>这是forward典型的应用场景，</p>
+
 	
 	
 	
@@ -313,7 +355,7 @@
 </style>
 <div id="comments">
     <!-- 多说评论框 start -->
-        <div class="ds-thread" data-thread-key="undefined" data-title="[Math]程序员的数学整理(1)" data-url="http://chenmingjia.github.io//2016/11/15/20161018安全Swift的不安全的副本/index.html"></div>
+        <div class="ds-thread" data-thread-key="undefined" data-title="[C++]C++11/14 类型系统" data-url="http://chenmingjia.github.io//2016/11/20/20161120  [iOS]界面性能优化-总览的副本/index.html"></div>
     <!-- 多说评论框 end -->
 </div>
 
@@ -326,7 +368,7 @@
     
     <!-- Prev Nav -->
     
-        <a href="/2016/11/15/20161018安全Swift的不安全/" id="post_nav-newer" class="prev-content">
+        <a href="/2016/11/20/20161120  [iOS]界面性能优化-总览/" id="post_nav-newer" class="prev-content">
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
                 <i class="material-icons">arrow_back</i>
             </button>
@@ -340,7 +382,7 @@
 
     <!-- Next Nav -->
     
-        <a href="/2016/11/15/unitsquare/" id="post_nav-older" class="next-content">
+        <a href="/2016/11/16/unitsquare/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
@@ -548,11 +590,11 @@ It will not impact the appearance and can give developers a lot of support :)
     
         <!-- Post Nav -->
         
-            <a class="prev-content fab" href="/2016/11/15/20161018安全Swift的不安全/" title="[iOS]安全Swift的Unsafe"><i class="material-icons">keyboard_arrow_left</i></a>
+            <a class="prev-content fab" href="/2016/11/20/20161120  [iOS]界面性能优化-总览/" title="[iOS]界面性能优化-总览"><i class="material-icons">keyboard_arrow_left</i></a>
         
 
         
-            <a class="prev-content fab" href="/2016/11/15/unitsquare/" title="[iOS]深入理解并发--GCD(上)"><i class="material-icons">keyboard_arrow_right</i></a>
+            <a class="prev-content fab" href="/2016/11/16/unitsquare/" title="[iOS]深入理解并发--锁"><i class="material-icons">keyboard_arrow_right</i></a>
         
     
     
