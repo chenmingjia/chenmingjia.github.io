@@ -4,7 +4,7 @@
     <!-- Title -->
     
     <title>
-        分类: 性能 | Big Wolf’s Blog
+        [算法]模式识别-List | Big Wolf’s Blog
     </title>
     
     <!-- Favicons -->
@@ -40,7 +40,7 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://chenmingjia.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="分类: 性能 | Big Wolf’s Blog">
+    <meta property="og:title" content="[算法]模式识别-List | Big Wolf’s Blog">
     <meta property="og:description" content="null">
     
      <!--[if lte IE 9]>
@@ -181,229 +181,177 @@
                 </button>
 				
 				
-                <!-- Index Module -->
-<div class="material-index mdl-grid">
-	
-		<!-- Paradox Header -->
-		<!-- Daily pic -->
-<div class="mdl-card daily-pic mdl-cell mdl-cell--8-col index-top-block">
-    
-    <!-- Pic & Slogan -->
-    <div class="mdl-card__media mdl-color-text--grey-50" style="background-image:url(/img/daily_pic.png)">
-        <p class="index-top-block-slogan"><a href="#">Hi, nice to meet you</a></p>
-    </div>
-
-    <!-- Avatar & Name -->
-    <div class="mdl-card__supporting-text meta mdl-color-text--grey-600">
-        <!-- Author Avatar -->
-        <div id="author-avatar">
-            <img src="/img/avatar.png" width="32px" height="32px" alt="avatar">
-        </div>
-        <div>
-            <strong>与狼同行</strong>
-        </div>
-    </div>
-</div>
-
-		<!-- Blog info -->
-<div class="mdl-card something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop index-top-block">
-	
-    <!-- Search -->
-	
+                
+	<!-- Back Button -->
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
 
 
+<!-- Layouts -->
 
+    <!-- Post Module -->
+    <div class="material-post_container">
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
 
-	<!-- Local -->
-	<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable" method="post" action="">
-		<label id="search-label" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--fab mdl-color--accent mdl-shadow--4dp" for="search">
-			<i class="material-icons mdl-color-text--white" role="presentation">search</i>
-		</label>
-
-		<form id="search-form" class="mdl-textfield__expandable-holder">
-			<input type="text" id="search" class="form-control mdl-textfield__input search-input" name="q" results="0" placeholder=""/>
-			<label id="search-form-label" class="mdl-textfield__label" for="search"></label>
-			
-		</form>
-	</div>
-
-	<div id="local-search-result"></div>
-
-
-    <!-- LOGO -->
-    <div class="something-else-logo mdl-color--white mdl-color-text--grey-600">
-        <a href="null">
-            <img src="/img/logo.png" alt="logo" />
-        </a>
-    </div>
-
-    <!-- Infomation -->
-    <div class="mdl-card__supporting-text meta meta--fill mdl-color-text--grey-600">
-        <!-- Blog Title -->
-        <div>
-            <strong>Big Wolf’s Blog</strong>
-        </div>
-        <div class="section-spacer"></div>
-        
-        <!-- Pages -->
-        <button id="show-pages-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">view_carousel</i>
-            <span class="visuallyhidden">Pages</span>
-        </button>
-        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="show-pages-button">
-            
-            
-            
-                <a class="index_share-link" href="/about" title="关于博主">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        关于博主
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/links/" title="友情链接">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        友情链接
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/timeline/" title="时间轴归档">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        时间轴归档
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/gallery/" title="图库">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        图库
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/tags/" title="标签云">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        标签云
-                    </li>
-                </a>
-            
-        </ul>
-        
-        <!-- Menu -->
-        <button id="menubtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">more_vert</i>
-            <span class="visuallyhidden">show menu</span>
-        </button>
-        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="menubtn">
-            
-            <a class="index_share-link" href="#">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    文章 RSS
-                </li>
-            </a>
-            <a class="index_share-link" href="https://twitter.com/intent/tweet?text=Big Wolf’s Blog&url=http://chenmingjia.github.io/&via=与狼同行" target="_blank">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    分享到 Twitter
-                </li>
-            </a>
-            <a class="index_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io/" target="_blank">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    分享到 Google+
-                </li>
-            </a>
-            <a class="index_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Big Wolf’s Blog&url=http://chenmingjia.github.io/&pic=&searchPic=false&style=simple" target="_blank">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    分享到微博
-                </li>
-            </a>
-        </ul>
-    </div>
-</div>
-
-	
-    
-    
-		
-			<!-- Paradox Thumbnail -->
-        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
-    
-    <!-- Post Thumbnail -->
+                <!-- Post Header(Thumbnail & Title) -->
+                
+	<!-- Paradox Post Header -->
 	
 		<!-- Custom Thumbnail -->
-		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/a22b9b31320523.564b664d83b8e.png)">
+		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://pic.90sjimg.com/back_pic/u/00/01/53/12/55e9075b63dca.jpg)">
 	
+        <p class="article-headline-p">
+            [算法]模式识别-List
+        </p>
+    </div>
+
+	
+
 				
-		<!-- Post Title -->
-		<p class="article-headline-p"><a href="/2016/11/20/20161120  [iOS]界面性能优化-总览/">[iOS]界面性能优化-总览</a></p>
-	</div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-          本文整理自 ibireme  iOS 保持界面流畅的技巧:
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2016/11/20/20161120  [iOS]界面性能优化-总览/" target="_self">继续阅读</a>
-        </span>
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
     </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="与狼同行's avatar">
-            </div>
-            <div>
-                <strong>与狼同行</strong>
-                <span>11月 20, 2016</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/iOS/">iOS</a>, <a class="post_category-link" href="/categories/iOS/UI/">UI</a>, <a class="post_category-link" href="/categories/iOS/UI/性能/">性能</a>
-            </span>
-            
-            
-                <!-- Comment Number -->
-                &nbsp;|&nbsp;
-                <span class="post_entry-comment" >
-                        <span class="ds-thread-count" data-thread-key="undefined" data-count-type="comments"></span>
-                </span>
-            
-            
-            <!-- Post Views -->
-            <span class="post_entry-views">
+    <!-- Author Name & Date -->
+    <div>
+        <strong>与狼同行</strong>
+        <span>11月 25, 2016</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/模式识别/">模式识别</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/算法/">算法</a>
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=[算法]模式识别-List&url=http://chenmingjia.github.io//2016/11/25/20161125[算法]模式识别-List/index.html&via=与狼同行" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io//2016/11/25/20161125[算法]模式识别-List/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=[算法]模式识别-List&url=http://chenmingjia.github.io//2016/11/25/20161125[算法]模式识别-List/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
+</div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<h1 id="List"><a href="#List" class="headerlink" title="List"></a>List</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">class ListNode &#123;</div><div class="line">public:</div><div class="line">    ListNode(int a):value(a)&#123;&#125;</div><div class="line">    ListNode *next;</div><div class="line">    int value;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>链表分为单向链表和双向链表，与数组类似，搜索链表需要O(n)的时间复杂度，但是链表不能通过常数时间来读取第k个元素。链表的优势在于以较高效率任意插入或者删除元素。</p>
+<p>##技巧<br><strong>1. 哑节点Dummy Node:操作头结点时，不妨创建一个亚节点，这样操作头结点和其他节点一样没有什么区别。</strong></p>
+<p>这里有个试题:把小于x的元素放到左边，大于x的元素放到右边,对一个链表重新排序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">ListNode *reorderList(ListNode *head,int x)&#123;</div><div class="line">    ListNode *newHead = NULL;</div><div class="line">    ListNode *aDummy = new ListNode(0);</div><div class="line">    ListNode *aCurr = aDummy;</div><div class="line">    ListNode *bDummy = new ListNode(0);</div><div class="line">    ListNode *bCurr = bDummy;</div><div class="line">    </div><div class="line">    while (head) &#123;</div><div class="line">        ListNode *next = head-&gt;next;</div><div class="line">        head-&gt;next = NULL;</div><div class="line">        if (head-&gt;value &lt; x) &#123;</div><div class="line">            aCurr-&gt;next = head;</div><div class="line">            aCurr = head;</div><div class="line">        &#125;else&#123;</div><div class="line">            bCurr-&gt;next = head;</div><div class="line">            bCurr = head;</div><div class="line">        &#125;</div><div class="line">        head = next;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    aCurr-&gt;next = bDummy-&gt;next;</div><div class="line">    newHead = aDummy-&gt;next;</div><div class="line">    </div><div class="line">    delete aDummy;</div><div class="line">    delete bDummy;</div><div class="line">    </div><div class="line">    return newHead;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>2. RunnerAndChaser:对于寻找链表特定位置，不妨用两个指针变量，以不同速度来遍历该链表，已找到目标位置</strong><br>题目:给定一个链表，编写一个函数返回该链表的中间节点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">ListNode *midpoint(ListNode *head)&#123;</div><div class="line">    ListNode *chaser = head, *runner = head;</div><div class="line">    if (head == NULL) &#123;</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line">    while (runner-&gt;next &amp;&amp; runner-&gt;next-&gt;next) &#123;</div><div class="line">        chaser = chaser-&gt;next;</div><div class="line">        runner = runner-&gt;next-&gt;next;</div><div class="line">    &#125;</div><div class="line">    return chaser;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>题目:找到一个单链表中，距离最后一个元素为k的元素。例如，如果给定一个1，2，3，4如果k为2，那么函数应该返回2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">ListNode *findkthtolast(ListNode *head,int k)&#123;</div><div class="line">    ListNode *chaser = head, *runner = head;</div><div class="line">    if (head == NULL || k&lt;0) &#123;</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    for (int i=0; i&lt;k; i++) &#123;</div><div class="line">        runner = runner-&gt;next;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    if (runner == NULL) &#123;</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    while (runner-&gt;next != NULL) &#123;</div><div class="line">        chaser = chaser-&gt;next;</div><div class="line">        runner = runner-&gt;next;</div><div class="line">    &#125;</div><div class="line">    return chaser;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>3. 遍历链表的时候，注意每次循环内只处理一个或者一对节点，否则很容易出现重复处理的问题</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">ListNode* reverseLinkedList(ListNode* head)&#123;</div><div class="line">    ListNode *prev = NULL;</div><div class="line">    ListNode *next = NULL;</div><div class="line">    while (head) &#123;</div><div class="line">        next = head-&gt;next;</div><div class="line">        head-&gt;next = prev;</div><div class="line">        </div><div class="line">        prev = head;</div><div class="line">        head = next;</div><div class="line">    &#125;</div><div class="line">    return prev;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>4.交换节点技巧:如果要交换两个节点的位置，先交换两个前驱节点的next指针的值，然后再交换两个节点指针的值，无论这两个节点的相对位置或者绝对位置如何，这个总是成立的</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">ListNode *swapPairs(ListNode *head)&#123;</div><div class="line">    if (head==NULL) &#123;</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line">    ListNode *dummy = new ListNode(0);</div><div class="line">    dummy-&gt;next = head;</div><div class="line">    </div><div class="line">    ListNode *prev = dummy;</div><div class="line">    ListNode *node1 =  head,*node2 = head;</div><div class="line">    ListNode *newHead = NULL;</div><div class="line">    </div><div class="line">    while (node1 &amp;&amp; node1-&gt;next) &#123;</div><div class="line">        node2 = node1-&gt;next;</div><div class="line">        </div><div class="line">        ListNode *tmp1 = prev-&gt;next;</div><div class="line">        prev-&gt;next = node1-&gt;next;</div><div class="line">        node1-&gt;next = tmp1;</div><div class="line">        </div><div class="line">        ListNode *tmp2 = node1-&gt;next;</div><div class="line">        node1-&gt;next = node2-&gt;next;</div><div class="line">        node2-&gt;next = tmp2;</div><div class="line">        </div><div class="line">        prev = node1;</div><div class="line">        node1 = prev-&gt;next;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    newHead = dummy-&gt;next;</div><div class="line">    delete dummy;</div><div class="line">    return newHead;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>6. 同时操作两个链表:遇到同时处理两个链表的问题，循环的条件一般可以用while(list1&amp;&amp;list2)，当循环跳出后，在处理剩下非空的链表。这相当于边界情况特殊处理，常规情况常规处理。</strong><br>给定两个有序的链表，编写一个函数来合并这两个链表，并且返回一个新的有序链表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">ListNode* mergeTwoLists(ListNode *l1,ListNode *l2)&#123;</div><div class="line">    ListNode *dummy = new ListNode(0);</div><div class="line">    ListNode *curr = dummy;</div><div class="line">    ListNode *newHeader = NULL;</div><div class="line">    </div><div class="line">    </div><div class="line">    while (l1 &amp;&amp; l2) &#123;</div><div class="line">        if (l1-&gt;value &lt;= l2-&gt;value) &#123;</div><div class="line">            curr-&gt;next = l1;</div><div class="line">            l1 = l1-&gt;next;</div><div class="line">        &#125;else&#123;</div><div class="line">            curr-&gt;next = l2;</div><div class="line">            l2 = l2-&gt;next;</div><div class="line">        &#125;</div><div class="line">        curr = curr-&gt;next;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    if (l1) &#123;</div><div class="line">        curr-&gt;next = l1;</div><div class="line">    &#125;else&#123;</div><div class="line">        curr-&gt;next = l2;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    newHeader = dummy-&gt;next;</div><div class="line">    delete dummy;</div><div class="line">    return newHeader;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
                 
-            </span>
+    <!-- 使用多说评论 -->
+    <link rel="stylesheet" href="/css/duoshuo.min.css">
+<style>
+    #ds-thread #ds-reset .ds-post-button{
+        background-color: #FF8247 !important;
+    }
+    #ds-wrapper #ds-reset .ds-icons-32{
+        background-color: #FF8247 !important;
+    }
+    #ds-reset .ds-highlight {
+        color: #FF8247 !important;
+    }
+</style>
+<div id="comments">
+    <!-- 多说评论框 start -->
+        <div class="ds-thread" data-thread-key="undefined" data-title="[算法]模式识别-List" data-url="http://chenmingjia.github.io//2016/11/25/20161125[算法]模式识别-List/index.html"></div>
+    <!-- 多说评论框 end -->
+</div>
+
+
+
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2016/11/22/20161122 [Swift]深入剖析基础--Protocol/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
         </div>
     </div>
-            
-</div>
-
-		
-		
-    
-    
-	
-		<script>
-    
-    var randomNum;
-    
-    var locatePost = $(".something-else").next();
-    for(var i=0; i < 10; i++){
-        
-        randomNum = Math.floor(Math.random() * 5 + 1);
-        
-        locatePost.children(".post_thumbnail-random").attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children(".post_thumbnail-random").css('background-image', 'url(' + '/img/random/' + randomNum + '.png' + ')')
-        
-        locatePost = locatePost.next();
-    }
-    
-</script>
-
-	
-
-</div>
 
 				
 				
@@ -598,6 +546,13 @@ It will not impact the appearance and can give developers a lot of support :)
         <i class="material-icons">expand_less</i>
     </a>
     
+    
+        <!-- Post Nav -->
+        
+
+        
+            <a class="prev-content fab" href="/2016/11/22/20161122 [Swift]深入剖析基础--Protocol/" title="[Swift]深入剖析基础--Protocol"><i class="material-icons">keyboard_arrow_right</i></a>
+        
     
     
     
