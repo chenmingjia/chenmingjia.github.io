@@ -4,7 +4,7 @@
     <!-- Title -->
     
     <title>
-        archive_a: 2016/10 | Big Wolf’s Blog
+        [算法]模式识别-Stack | Big Wolf’s Blog
     </title>
     
     <!-- Favicons -->
@@ -40,7 +40,7 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://chenmingjia.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="archive_a: 2016/10 | Big Wolf’s Blog">
+    <meta property="og:title" content="[算法]模式识别-Stack | Big Wolf’s Blog">
     <meta property="og:description" content="null">
     
      <!--[if lte IE 9]>
@@ -181,233 +181,183 @@
                 </button>
 				
 				
-                <!-- Index Module -->
-<div class="material-index mdl-grid">
-	
-		<!-- Paradox Header -->
-		<!-- Daily pic -->
-<div class="mdl-card daily-pic mdl-cell mdl-cell--8-col index-top-block">
-    
-    <!-- Pic & Slogan -->
-    <div class="mdl-card__media mdl-color-text--grey-50" style="background-image:url(/img/daily_pic.png)">
-        <p class="index-top-block-slogan"><a href="#">Hi, nice to meet you</a></p>
-    </div>
-
-    <!-- Avatar & Name -->
-    <div class="mdl-card__supporting-text meta mdl-color-text--grey-600">
-        <!-- Author Avatar -->
-        <div id="author-avatar">
-            <img src="/img/avatar.png" width="32px" height="32px" alt="avatar">
-        </div>
-        <div>
-            <strong>与狼同行</strong>
-        </div>
-    </div>
-</div>
-
-		<!-- Blog info -->
-<div class="mdl-card something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop index-top-block">
-	
-    <!-- Search -->
-	
+                
+	<!-- Back Button -->
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
 
 
+<!-- Layouts -->
 
+    <!-- Post Module -->
+    <div class="material-post_container">
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
 
-	<!-- Local -->
-	<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable" method="post" action="">
-		<label id="search-label" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--fab mdl-color--accent mdl-shadow--4dp" for="search">
-			<i class="material-icons mdl-color-text--white" role="presentation">search</i>
-		</label>
-
-		<form id="search-form" class="mdl-textfield__expandable-holder">
-			<input type="text" id="search" class="form-control mdl-textfield__input search-input" name="q" results="0" placeholder=""/>
-			<label id="search-form-label" class="mdl-textfield__label" for="search"></label>
-			
-		</form>
-	</div>
-
-	<div id="local-search-result"></div>
-
-
-    <!-- LOGO -->
-    <div class="something-else-logo mdl-color--white mdl-color-text--grey-600">
-        <a href="null">
-            <img src="/img/logo.png" alt="logo" />
-        </a>
-    </div>
-
-    <!-- Infomation -->
-    <div class="mdl-card__supporting-text meta meta--fill mdl-color-text--grey-600">
-        <!-- Blog Title -->
-        <div>
-            <strong>Big Wolf’s Blog</strong>
-        </div>
-        <div class="section-spacer"></div>
-        
-        <!-- Pages -->
-        <button id="show-pages-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">view_carousel</i>
-            <span class="visuallyhidden">Pages</span>
-        </button>
-        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="show-pages-button">
-            
-            
-            
-                <a class="index_share-link" href="/about" title="关于博主">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        关于博主
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/links/" title="友情链接">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        友情链接
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/timeline/" title="时间轴归档">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        时间轴归档
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/gallery/" title="图库">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        图库
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/tags/" title="标签云">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        标签云
-                    </li>
-                </a>
-            
-        </ul>
-        
-        <!-- Menu -->
-        <button id="menubtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">more_vert</i>
-            <span class="visuallyhidden">show menu</span>
-        </button>
-        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="menubtn">
-            
-            <a class="index_share-link" href="#">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    文章 RSS
-                </li>
-            </a>
-            <a class="index_share-link" href="https://twitter.com/intent/tweet?text=Big Wolf’s Blog&url=http://chenmingjia.github.io/&via=与狼同行" target="_blank">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    分享到 Twitter
-                </li>
-            </a>
-            <a class="index_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io/" target="_blank">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    分享到 Google+
-                </li>
-            </a>
-            <a class="index_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Big Wolf’s Blog&url=http://chenmingjia.github.io/&pic=&searchPic=false&style=simple" target="_blank">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    分享到微博
-                </li>
-            </a>
-        </ul>
-    </div>
-</div>
-
-	
-    
-    
-		
-			<!-- Paradox Thumbnail -->
-        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
-    
-    <!-- Post Thumbnail -->
+                <!-- Post Header(Thumbnail & Title) -->
+                
+	<!-- Paradox Post Header -->
 	
 		<!-- Custom Thumbnail -->
-		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://www.pptba.cn/news/wp-content/uploads/2016/05/aff4870209aad651.jpg)">
+		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://bizhi.zhuoku.com/2014/06/28/renzheshengui/tmnt10.jpg)">
 	
+        <p class="article-headline-p">
+            [算法]模式识别-Stack
+        </p>
+    </div>
+
+	
+
 				
-		<!-- Post Title -->
-		<p class="article-headline-p"><a href="/2016/10/18/unitsquare/">[译]使用幽灵类型的Measurements和Units ，第四部分</a></p>
-	</div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-          原文链接=https://oleb.net/blog/2016/08/measurements-and-units-with-phantom-types/作者=Ole Begemann译者=与狼同行
-
-本系列其他文章：
-(1) Measurements 和 Units 概览(2) 乘法和除法(3) 内容提炼(4) 幽灵类型(本文)
-我之前撰写了关于标准库里新的度量值的短系列，此文是该系列的额外之作。虽然我很喜欢苹果的 API ，但我觉得探索同一问题的不同解决方案也很有意思。特别是这个问题，纯 Swift 设计是否能优于苹果的接口呢，因为苹果的接口考虑了 Objective-C 的兼容性问题。
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2016/10/18/unitsquare/" target="_self">继续阅读</a>
-        </span>
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
     </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="与狼同行's avatar">
-            </div>
-            <div>
-                <strong>与狼同行</strong>
-                <span>10月 18, 2016</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/iOS开发/">iOS开发</a>
-            </span>
-            
-            
-                <!-- Comment Number -->
-                &nbsp;|&nbsp;
-                <span class="post_entry-comment" >
-                        <span class="ds-thread-count" data-thread-key="undefined" data-count-type="comments"></span>
-                </span>
-            
-            
-            <!-- Post Views -->
-            <span class="post_entry-views">
+    <!-- Author Name & Date -->
+    <div>
+        <strong>与狼同行</strong>
+        <span>11月 25, 2016</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/模式识别/">模式识别</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/算法/">算法</a>
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=[算法]模式识别-Stack&url=http://chenmingjia.github.io//2016/11/25/20161125[算法]模式识别-List的副本/index.html&via=与狼同行" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io//2016/11/25/20161125[算法]模式识别-List的副本/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=[算法]模式识别-Stack&url=http://chenmingjia.github.io//2016/11/25/20161125[算法]模式识别-List的副本/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
+</div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<h1 id="Stack"><a href="#Stack" class="headerlink" title="Stack"></a>Stack</h1><ol>
+<li><p>栈是一种数据结构，可以实现后进先出（LIFO）,可以用栈辅助，实现深度优先算法。或者将递归转为while循环。<br><strong>事实上，递归本身相当于把函数一层一层加到操作系统内存栈上，利用栈数据结构去实现也非常自然。入栈操作对象相当于递归调用自身，出栈相当于递归返回。入栈操作的对象相当于需要被解决的问题。出栈对象相当于已经解决的子问题，通过共享的状态变量或返回值把子问题的结果传递出来。</strong></p>
+</li>
+<li><p>队列，帮助实现先进先出(FIFO)，可以用Queue做辅助，实现广度优先算法。</p>
+</li>
+</ol>
+<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧:"></a>技巧:</h2><ol>
+<li>通过栈实现特殊顺序地读取: 由于栈具有LIFO的特性，如需要实现任何特定顺序的读取操作，往往可以借助两个栈互相“倾倒”来实现特点顺序，事实上，很多情况下，栈并不是实现读取顺序地最佳选择，但最为面试，往往会很明确用栈实现。<br>设计一个栈，带有push、pop、max方法，其时间复杂度为O1.</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">class stackWithMax&#123;</div><div class="line"></div><div class="line">public:</div><div class="line">    void push(int);</div><div class="line">    int pop();</div><div class="line">    int max();</div><div class="line">    </div><div class="line">private:</div><div class="line">    stack&lt;int&gt; valueStack;</div><div class="line">    stack&lt;int&gt; maxStack;</div><div class="line">    </div><div class="line">&#125;;</div><div class="line"></div><div class="line"></div><div class="line">void stackWithMax::push(int value)&#123;</div><div class="line">    if (maxStack.empty() || maxStack.top() &lt;= value) &#123;</div><div class="line">        maxStack.push(value);</div><div class="line">    &#125;</div><div class="line">    valueStack.push(value);</div><div class="line">&#125;</div><div class="line"></div><div class="line">int stackWithMax::pop()&#123;</div><div class="line">    int value = maxStack.top();</div><div class="line">    valueStack.pop();</div><div class="line">    if (value == maxStack.top()) &#123;</div><div class="line">        maxStack.pop();</div><div class="line">    &#125;</div><div class="line">    return value;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int stackWithMax::max()&#123;</div><div class="line">    return maxStack.top();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>题目:使用一个栈结构来实现一个队列<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">class Queue&#123;</div><div class="line">private:</div><div class="line">    stack&lt;int&gt;inputStack;</div><div class="line">    stack&lt;int&gt;outputStack;</div><div class="line">public:</div><div class="line">    void enqueue(int);</div><div class="line">    int dequeue();</div><div class="line">&#125;;</div><div class="line"></div><div class="line">void Queue::enqueue(int value)&#123;</div><div class="line">    inputStack.push(value);</div><div class="line">&#125;</div><div class="line"></div><div class="line">int Queue::dequeue()&#123;</div><div class="line">    int value;</div><div class="line">    if (!outputStack.empty()) &#123;</div><div class="line">        value = outputStack.top();</div><div class="line">        outputStack.pop();</div><div class="line">        return value;</div><div class="line">    &#125;</div><div class="line">    while (!inputStack.empty()) &#123;</div><div class="line">        outputStack.push(inputStack.top());</div><div class="line">        inputStack.pop();</div><div class="line">    &#125;</div><div class="line">    value = outputStack.top();</div><div class="line">    outputStack.pop();</div><div class="line">    return value;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ol>
+<li>“Save for later”，假如有一类问题有这样的特性，当前节点的解依赖于后面那个节点，这类问题可以用栈来解决。<br>题目:给定一个字符串，它包含如下的字符，‘（’，‘）’，‘{’，‘}’，判断输入的字符串是否是一个有效的圆括号字符串，例如(([]))是有效的，而（和（（不是<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">bool isLeftParentheses(char input)&#123;</div><div class="line">    return input == &apos;(&apos; || input == &apos;[&apos; || input == &apos;&#123;&apos;;</div><div class="line">&#125;</div><div class="line"></div><div class="line">bool isMatchParentheses(char left,char right)&#123;</div><div class="line">    switch (left) &#123;</div><div class="line">        case &apos;(&apos;:</div><div class="line">            return right == &apos;)&apos;;</div><div class="line">        case &apos;[&apos;:</div><div class="line">            return right == &apos;]&apos;;</div><div class="line">        case &apos;&#123;&apos;:</div><div class="line">            return right == &apos;&#125;&apos;;</div><div class="line">    &#125;</div><div class="line">    return false;</div><div class="line">&#125;</div><div class="line"></div><div class="line">bool isValidParentheses(string input)&#123;</div><div class="line">    stack&lt;char&gt; pareStack;</div><div class="line">    for (int i=0; i&lt;input.length(); i++) &#123;</div><div class="line">        if (isLeftParentheses(input[i])) &#123;</div><div class="line">            pareStack.push(input[i]);</div><div class="line">        &#125;else&#123;</div><div class="line">            if (pareStack.empty()|| !isMatchParentheses(pareStack.top(), input[i])) &#123;</div><div class="line">                return false;</div><div class="line">            &#125;</div><div class="line">            pareStack.pop();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return pareStack.empty();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
                 
-            </span>
+    <!-- 使用多说评论 -->
+    <link rel="stylesheet" href="/css/duoshuo.min.css">
+<style>
+    #ds-thread #ds-reset .ds-post-button{
+        background-color: #FF8247 !important;
+    }
+    #ds-wrapper #ds-reset .ds-icons-32{
+        background-color: #FF8247 !important;
+    }
+    #ds-reset .ds-highlight {
+        color: #FF8247 !important;
+    }
+</style>
+<div id="comments">
+    <!-- 多说评论框 start -->
+        <div class="ds-thread" data-thread-key="undefined" data-title="[算法]模式识别-Stack" data-url="http://chenmingjia.github.io//2016/11/25/20161125[算法]模式识别-List的副本/index.html"></div>
+    <!-- 多说评论框 end -->
+</div>
+
+
+
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2016/11/25/20161125[算法]模式识别-List/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
         </div>
     </div>
-            
-</div>
-
-		
-		
-    
-    
-	
-		<script>
-    
-    var randomNum;
-    
-    var locatePost = $(".something-else").next();
-    for(var i=0; i < 10; i++){
-        
-        randomNum = Math.floor(Math.random() * 5 + 1);
-        
-        locatePost.children(".post_thumbnail-random").attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children(".post_thumbnail-random").css('background-image', 'url(' + '/img/random/' + randomNum + '.png' + ')')
-        
-        locatePost = locatePost.next();
-    }
-    
-</script>
-
-	
-
-</div>
 
 				
 				
@@ -602,6 +552,13 @@ It will not impact the appearance and can give developers a lot of support :)
         <i class="material-icons">expand_less</i>
     </a>
     
+    
+        <!-- Post Nav -->
+        
+
+        
+            <a class="prev-content fab" href="/2016/11/25/20161125[算法]模式识别-List/" title="[算法]模式识别-List"><i class="material-icons">keyboard_arrow_right</i></a>
+        
     
     
     

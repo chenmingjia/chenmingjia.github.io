@@ -289,7 +289,7 @@
 	
 		<h1 id="List"><a href="#List" class="headerlink" title="List"></a>List</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">class ListNode &#123;</div><div class="line">public:</div><div class="line">    ListNode(int a):value(a)&#123;&#125;</div><div class="line">    ListNode *next;</div><div class="line">    int value;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <p>链表分为单向链表和双向链表，与数组类似，搜索链表需要O(n)的时间复杂度，但是链表不能通过常数时间来读取第k个元素。链表的优势在于以较高效率任意插入或者删除元素。</p>
-<p>##技巧<br><strong>1. 哑节点Dummy Node:操作头结点时，不妨创建一个亚节点，这样操作头结点和其他节点一样没有什么区别。</strong></p>
+<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><p><strong>1. 哑节点Dummy Node:操作头结点时，不妨创建一个亚节点，这样操作头结点和其他节点一样没有什么区别。</strong></p>
 <p>这里有个试题:把小于x的元素放到左边，大于x的元素放到右边,对一个链表重新排序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">ListNode *reorderList(ListNode *head,int x)&#123;</div><div class="line">    ListNode *newHead = NULL;</div><div class="line">    ListNode *aDummy = new ListNode(0);</div><div class="line">    ListNode *aCurr = aDummy;</div><div class="line">    ListNode *bDummy = new ListNode(0);</div><div class="line">    ListNode *bCurr = bDummy;</div><div class="line">    </div><div class="line">    while (head) &#123;</div><div class="line">        ListNode *next = head-&gt;next;</div><div class="line">        head-&gt;next = NULL;</div><div class="line">        if (head-&gt;value &lt; x) &#123;</div><div class="line">            aCurr-&gt;next = head;</div><div class="line">            aCurr = head;</div><div class="line">        &#125;else&#123;</div><div class="line">            bCurr-&gt;next = head;</div><div class="line">            bCurr = head;</div><div class="line">        &#125;</div><div class="line">        head = next;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    aCurr-&gt;next = bDummy-&gt;next;</div><div class="line">    newHead = aDummy-&gt;next;</div><div class="line">    </div><div class="line">    delete aDummy;</div><div class="line">    delete bDummy;</div><div class="line">    </div><div class="line">    return newHead;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p><strong>2. RunnerAndChaser:对于寻找链表特定位置，不妨用两个指针变量，以不同速度来遍历该链表，已找到目标位置</strong><br>题目:给定一个链表，编写一个函数返回该链表的中间节点<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">ListNode *midpoint(ListNode *head)&#123;</div><div class="line">    ListNode *chaser = head, *runner = head;</div><div class="line">    if (head == NULL) &#123;</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line">    while (runner-&gt;next &amp;&amp; runner-&gt;next-&gt;next) &#123;</div><div class="line">        chaser = chaser-&gt;next;</div><div class="line">        runner = runner-&gt;next-&gt;next;</div><div class="line">    &#125;</div><div class="line">    return chaser;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>题目:找到一个单链表中，距离最后一个元素为k的元素。例如，如果给定一个1，2，3，4如果k为2，那么函数应该返回2<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">ListNode *findkthtolast(ListNode *head,int k)&#123;</div><div class="line">    ListNode *chaser = head, *runner = head;</div><div class="line">    if (head == NULL || k&lt;0) &#123;</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    for (int i=0; i&lt;k; i++) &#123;</div><div class="line">        runner = runner-&gt;next;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    if (runner == NULL) &#123;</div><div class="line">        return NULL;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    while (runner-&gt;next != NULL) &#123;</div><div class="line">        chaser = chaser-&gt;next;</div><div class="line">        runner = runner-&gt;next;</div><div class="line">    &#125;</div><div class="line">    return chaser;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -334,6 +334,14 @@
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     
     <!-- Prev Nav -->
+    
+        <a href="/2016/11/25/20161125[算法]模式识别-List的副本/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
     
 
     <!-- Section Spacer -->
@@ -427,7 +435,7 @@
         </a>
         <ul class="dropdown-menu">
             <li>
-            <a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">10</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">十月 2016<span class="sidebar_archives-count">1</span></a>
+            <a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">11</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">十月 2016<span class="sidebar_archives-count">1</span></a>
         </ul>
     </li>
 
@@ -474,7 +482,7 @@
     <li>
         <a href="#">
              文章总数
-             <span class="sidebar-badge">11</span>
+             <span class="sidebar-badge">12</span>
         </a>
     </li>
 </ul>
@@ -548,6 +556,8 @@ It will not impact the appearance and can give developers a lot of support :)
     
     
         <!-- Post Nav -->
+        
+            <a class="prev-content fab" href="/2016/11/25/20161125[算法]模式识别-List的副本/" title="[算法]模式识别-Stack"><i class="material-icons">keyboard_arrow_left</i></a>
         
 
         
