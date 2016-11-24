@@ -4,7 +4,7 @@
     <!-- Title -->
     
     <title>
-        标签: C++ | Big Wolf’s Blog
+        [Swift]深入剖析基础--Protocol | Big Wolf’s Blog
     </title>
     
     <!-- Favicons -->
@@ -40,7 +40,7 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://chenmingjia.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="标签: C++ | Big Wolf’s Blog">
+    <meta property="og:title" content="[Swift]深入剖析基础--Protocol | Big Wolf’s Blog">
     <meta property="og:description" content="null">
     
      <!--[if lte IE 9]>
@@ -181,230 +181,187 @@
                 </button>
 				
 				
-                <!-- Index Module -->
-<div class="material-index mdl-grid">
-	
-		<!-- Paradox Header -->
-		<!-- Daily pic -->
-<div class="mdl-card daily-pic mdl-cell mdl-cell--8-col index-top-block">
-    
-    <!-- Pic & Slogan -->
-    <div class="mdl-card__media mdl-color-text--grey-50" style="background-image:url(/img/daily_pic.png)">
-        <p class="index-top-block-slogan"><a href="#">Hi, nice to meet you</a></p>
-    </div>
-
-    <!-- Avatar & Name -->
-    <div class="mdl-card__supporting-text meta mdl-color-text--grey-600">
-        <!-- Author Avatar -->
-        <div id="author-avatar">
-            <img src="/img/avatar.png" width="32px" height="32px" alt="avatar">
-        </div>
-        <div>
-            <strong>与狼同行</strong>
-        </div>
-    </div>
-</div>
-
-		<!-- Blog info -->
-<div class="mdl-card something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop index-top-block">
-	
-    <!-- Search -->
-	
+                
+	<!-- Back Button -->
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
 
 
+<!-- Layouts -->
 
+    <!-- Post Module -->
+    <div class="material-post_container">
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
 
-	<!-- Local -->
-	<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable" method="post" action="">
-		<label id="search-label" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--fab mdl-color--accent mdl-shadow--4dp" for="search">
-			<i class="material-icons mdl-color-text--white" role="presentation">search</i>
-		</label>
-
-		<form id="search-form" class="mdl-textfield__expandable-holder">
-			<input type="text" id="search" class="form-control mdl-textfield__input search-input" name="q" results="0" placeholder=""/>
-			<label id="search-form-label" class="mdl-textfield__label" for="search"></label>
-			
-		</form>
-	</div>
-
-	<div id="local-search-result"></div>
-
-
-    <!-- LOGO -->
-    <div class="something-else-logo mdl-color--white mdl-color-text--grey-600">
-        <a href="null">
-            <img src="/img/logo.png" alt="logo" />
-        </a>
-    </div>
-
-    <!-- Infomation -->
-    <div class="mdl-card__supporting-text meta meta--fill mdl-color-text--grey-600">
-        <!-- Blog Title -->
-        <div>
-            <strong>Big Wolf’s Blog</strong>
-        </div>
-        <div class="section-spacer"></div>
-        
-        <!-- Pages -->
-        <button id="show-pages-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">view_carousel</i>
-            <span class="visuallyhidden">Pages</span>
-        </button>
-        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="show-pages-button">
-            
-            
-            
-                <a class="index_share-link" href="/about" title="关于博主">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        关于博主
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/links/" title="友情链接">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        友情链接
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/timeline/" title="时间轴归档">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        时间轴归档
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/gallery/" title="图库">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        图库
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/tags/" title="标签云">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        标签云
-                    </li>
-                </a>
-            
-        </ul>
-        
-        <!-- Menu -->
-        <button id="menubtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">more_vert</i>
-            <span class="visuallyhidden">show menu</span>
-        </button>
-        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="menubtn">
-            
-            <a class="index_share-link" href="#">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    文章 RSS
-                </li>
-            </a>
-            <a class="index_share-link" href="https://twitter.com/intent/tweet?text=Big Wolf’s Blog&url=http://chenmingjia.github.io/&via=与狼同行" target="_blank">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    分享到 Twitter
-                </li>
-            </a>
-            <a class="index_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io/" target="_blank">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    分享到 Google+
-                </li>
-            </a>
-            <a class="index_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Big Wolf’s Blog&url=http://chenmingjia.github.io/&pic=&searchPic=false&style=simple" target="_blank">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    分享到微博
-                </li>
-            </a>
-        </ul>
-    </div>
-</div>
-
-	
-    
-    
-		
-			<!-- Paradox Thumbnail -->
-        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
-    
-    <!-- Post Thumbnail -->
+                <!-- Post Header(Thumbnail & Title) -->
+                
+	<!-- Paradox Post Header -->
 	
 		<!-- Custom Thumbnail -->
 		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://img0w.pconline.com.cn/pconline/1406/09/spcgroup/width_640,qua_30/4906839_006.jpg)">
 	
+        <p class="article-headline-p">
+            [Swift]深入剖析基础--Protocol
+        </p>
+    </div>
+
+	
+
 				
-		<!-- Post Title -->
-		<p class="article-headline-p"><a href="/2016/11/20/20161120 [C++]C++11:14类型系统/">[C++]C++11/14 类型系统</a></p>
-	</div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-          本文整理自 刘光聪先生的演讲
-
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2016/11/20/20161120 [C++]C++11:14类型系统/" target="_self">继续阅读</a>
-        </span>
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
     </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="与狼同行's avatar">
-            </div>
-            <div>
-                <strong>与狼同行</strong>
-                <span>11月 20, 2016</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/C/">C++</a>, <a class="post_category-link" href="/categories/C/C-11-14/">C++11/14</a>
-            </span>
-            
-            
-                <!-- Comment Number -->
-                &nbsp;|&nbsp;
-                <span class="post_entry-comment" >
-                        <span class="ds-thread-count" data-thread-key="undefined" data-count-type="comments"></span>
-                </span>
-            
-            
-            <!-- Post Views -->
-            <span class="post_entry-views">
+    <!-- Author Name & Date -->
+    <div>
+        <strong>与狼同行</strong>
+        <span>11月 22, 2016</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Swift/">Swift</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/深入剖析基础/">深入剖析基础</a>
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=[Swift]深入剖析基础--Protocol&url=http://chenmingjia.github.io//2016/11/22/20161122 [Swift]深入剖析基础--Protocol/index.html&via=与狼同行" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io//2016/11/22/20161122 [Swift]深入剖析基础--Protocol/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=[Swift]深入剖析基础--Protocol&url=http://chenmingjia.github.io//2016/11/22/20161122 [Swift]深入剖析基础--Protocol/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
+</div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<p>本文算是我对Swift基础知识的一个再梳理，不会再讨论基础语法，而是把一些文档之外的东西，进行一次再梳理总结，方便查阅。</p>
+<p>我们这里首先来做一个分析，一个是普通的String对象，一个是遵守协议的String对象，这里我们来对比一下它们各自占用多大的内存？<br>这里先罗列一下实验的协议和扩展代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">protocol TestProtocol &#123; </div><div class="line">var testData:NSURL? &#123;get&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">extension String:TestProtocol&#123;</div><div class="line">var testData:NSURL? &#123;</div><div class="line">return NSURL()</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>然后我们开始书写下面的测试代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var qurl:TestProtocol = &quot;123&quot;</div><div class="line">print(MemoryLayout&lt;TestProtocol&gt;.size)  //40</div><div class="line">var string:String = &quot;123&quot;</div><div class="line">print(MemoryLayout&lt;String&gt;.size)    //24</div></pre></td></tr></table></figure></p>
+<p>我们可以在playground中看到结果，遵守protocol的qurl的大小为40，而不遵守任何协议的string的大小为24.<br>在Swift中，由于string是stuct结构体，而不再是OC中的class，所以不再是8个字节，24个字节的结构也可以用LLDB动态调试  type lookup String  来查看<br>，最后我们发现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var _baseAddress: Swift.UnsafeMutableRawPointer?</div><div class="line">var _countAndFlags: Swift.UInt</div><div class="line">var _owner: AnyObject?</div></pre></td></tr></table></figure></p>
+<p>这三个属性每个大小为8个字节，加起来就是24字节，那么协议对象的40字节又该如何解释呢？<br>这里我们首先查看对象的地址，这里我们首先写一个打印地址的函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">func addrOf&lt;T&gt;( v:inout T)&#123;</div><div class="line">withUnsafePointer(to: &amp;v) &#123; print($0)&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">addrOf(v: &amp;qurl)</div></pre></td></tr></table></figure></p>
+<p>最后我这里打印出结果，地址为0x00000001003dfb20<br>然后我们实用LLDB的动态调试指令：  x/5xg 0x00000001003dfb20<br>查看其5个字长的内存空间<br>得出结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">0x1003dfb20: 0x00000001003397f8 0x0000000000000003</div><div class="line">0x1003dfb30: 0x0000000000000000 0x00000001003ad878</div><div class="line">0x1003dfb40: 0x000000010038a548</div></pre></td></tr></table></figure></p>
+<p>这里继续使用  image lookup -a 0x00000001003397f8 查看第一个地址<br>我们可以发现值为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Address: SwiftTest[0x00000001003397f8] (SwiftTest.__TEXT.__cstring + 72)</div><div class="line">Summary: &quot;123&quot;</div></pre></td></tr></table></figure></p>
+<p>这第一个值其实存放的是遵守协议的字符串的值，我们可以发现它是cstring<br>第二个存放字符个数和第三个地址为0，这两个我们不管，直接解析第4个和第5个地址的内容。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">image lookup -a 0x00000001003ad878</div><div class="line">Address: SwiftTest[0x00000001003ad878] (SwiftTest.__DATA.__const + 144264)</div><div class="line">Summary: SwiftTest`type metadata for Swift.String</div></pre></td></tr></table></figure></p>
+<p>我们可以发现第四个地址存放的是type metadata，即类型元数据，类型元数据即描述类的数据，有点类似Objective-C中的元类的作用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">image lookup -a 0x000000010038a548</div><div class="line">Address: SwiftTest[0x000000010038a548] (SwiftTest.__DATA.__const + 88)</div><div class="line">Summary: SwiftTest`protocol witness table for Swift.String : SwiftTest.TestProtocol in SwiftTest</div></pre></td></tr></table></figure></p>
+<p>而第5个地址打印出味protocol witness table，即协议见证表，这个概念非常类似与Cpp中的vtable，即虚函数表。<br>那么什么是虚函数表呢？</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-f6fa7092430ac8aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6A8C58DD-4C1E-4DD4-B860-09DC27890748.png"></p>
+<p>在Swift，不同的结构、枚举、类都可以继承协议,同样的url属性就会产生不同的getter方法。就像这张Cpp中的虚函数表一样，不同vfunc1可能有不同的实现函数地址，所以需要有一个虚函数表来维护。<br>这里我们继续试验：<br>我们发现第5个地址即指向虚函数表的地址，那个根据如图所示，其实我们可以继续解析这个虚函数表的地址的内存，继续使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">x/xg 0x000000010038a548</div><div class="line">0x10038a548: 0x0000000100002470</div></pre></td></tr></table></figure></p>
+<p>我们再看看看看这个虚函数表存放的地址的指令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">x/i 0x0000000100002470</div><div class="line">0x100002470: 55  pushq  %rbp</div></pre></td></tr></table></figure></p>
+<p>看到  pushq  %rbp  （这句表示：将调用函数的栈底压栈到被调函数的栈中），我们就应该猜到这个地址存放了一个函数。<br>于是使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">image lookup -a 0x0000000100002470</div><div class="line">Address: SwiftTest[0x0000000100002470] (SwiftTest.__TEXT.__text + 2608)</div><div class="line">Summary: SwiftTest`protocol witness for SwiftTest.TestProtocol.testData.getter : Swift.Optional&lt;__ObjC.NSURL&gt; in conformance Swift.String : SwiftTest.TestProtocol in SwiftTest at TestDataConvertible.swift</div></pre></td></tr></table></figure></p>
+<p>我们就能发现在该支持实际存放了一个testData.getter方法。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-b4d0d30fa7ad6fe3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="D49A102E-CA5C-46C6-8FCB-853A3CA9E4C5.png"></p>
+<p>如果有多个对象，那么就会变成这样的结构：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-a004dc60234545ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="542180AA-B179-4861-A80D-BA02413CC2CE.png"></p>
+<p>通过这样的结构，也说明了为什么协议只能存储计算属性而不能存储 存储属性，这就是我对协议的理解，有更多关于协议的有趣内容，欢迎下方留言，与我分享。</p>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
                 
-            </span>
+    <!-- 使用多说评论 -->
+    <link rel="stylesheet" href="/css/duoshuo.min.css">
+<style>
+    #ds-thread #ds-reset .ds-post-button{
+        background-color: #FF8247 !important;
+    }
+    #ds-wrapper #ds-reset .ds-icons-32{
+        background-color: #FF8247 !important;
+    }
+    #ds-reset .ds-highlight {
+        color: #FF8247 !important;
+    }
+</style>
+<div id="comments">
+    <!-- 多说评论框 start -->
+        <div class="ds-thread" data-thread-key="undefined" data-title="[Swift]深入剖析基础--Protocol" data-url="http://chenmingjia.github.io//2016/11/22/20161122 [Swift]深入剖析基础--Protocol/index.html"></div>
+    <!-- 多说评论框 end -->
+</div>
+
+
+
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2016/11/20/20161120 [C++]C++11:14类型系统/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
         </div>
     </div>
-            
-</div>
-
-		
-		
-    
-    
-	
-		<script>
-    
-    var randomNum;
-    
-    var locatePost = $(".something-else").next();
-    for(var i=0; i < 10; i++){
-        
-        randomNum = Math.floor(Math.random() * 5 + 1);
-        
-        locatePost.children(".post_thumbnail-random").attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children(".post_thumbnail-random").css('background-image', 'url(' + '/img/random/' + randomNum + '.png' + ')')
-        
-        locatePost = locatePost.next();
-    }
-    
-</script>
-
-	
-
-</div>
 
 				
 				
@@ -599,6 +556,13 @@ It will not impact the appearance and can give developers a lot of support :)
         <i class="material-icons">expand_less</i>
     </a>
     
+    
+        <!-- Post Nav -->
+        
+
+        
+            <a class="prev-content fab" href="/2016/11/20/20161120 [C++]C++11:14类型系统/" title="[C++]C++11/14 类型系统"><i class="material-icons">keyboard_arrow_right</i></a>
+        
     
     
     
