@@ -4,7 +4,7 @@
     <!-- Title -->
     
     <title>
-        [算法]模式识别-Tree | Big Wolf’s Blog
+        [算法]模式识别-Graph | Big Wolf’s Blog
     </title>
     
     <!-- Favicons -->
@@ -40,7 +40,7 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://chenmingjia.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="[算法]模式识别-Tree | Big Wolf’s Blog">
+    <meta property="og:title" content="[算法]模式识别-Graph | Big Wolf’s Blog">
     <meta property="og:description" content="null">
     
      <!--[if lte IE 9]>
@@ -205,10 +205,10 @@
 	<!-- Paradox Post Header -->
 	
 		<!-- Custom Thumbnail -->
-		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://img.sucai.redocn.com/attachments/images/201011/20101126/Redocn_2010112610314831.jpg)">
+		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://img1.qq.com/gamezone/pics/13806/13806628.jpg)">
 	
         <p class="article-headline-p">
-            [算法]模式识别-Tree
+            [算法]模式识别-Graph
         </p>
     </div>
 
@@ -261,7 +261,7 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=[算法]模式识别-Tree&url=http://chenmingjia.github.io//2016/11/25/20161126[算法]模式识别-Graph/index.html&via=与狼同行" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=[算法]模式识别-Graph&url=http://chenmingjia.github.io//2016/11/25/20161126[算法]模式识别-Graph/index.html&via=与狼同行" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
@@ -275,7 +275,7 @@
     </a>
     
     <!-- Share Weibo -->
-    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=[算法]模式识别-Tree&url=http://chenmingjia.github.io//2016/11/25/20161126[算法]模式识别-Graph/index.html&pic=&searchPic=false&style=simple" target="_blank">
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=[算法]模式识别-Graph&url=http://chenmingjia.github.io//2016/11/25/20161126[算法]模式识别-Graph/index.html&pic=&searchPic=false&style=simple" target="_blank">
         <li class="mdl-menu__item">
             分享到微博
         </li>
@@ -287,113 +287,7 @@
                 <!-- Post Content -->
                 <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
 	
-		<h1 id="Tree"><a href="#Tree" class="headerlink" title="Tree"></a>Tree</h1><p>树是一种能够分层存储数据的重要数据结构，树中的每一个元素称为树的节点，每个节点由若干个指针指向子节点，从节点的角度来看，树是由唯一节点引出来的集合。<br>树在面试中非常常见、尤其是二叉树、二叉搜索树等等。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">## 基本概念:</div><div class="line">1. 高度:对于一棵树从，从根节点到某个节点的路径称为该节点的层数，根节点为第0层。</div><div class="line"></div><div class="line">## 树形的概念</div><div class="line">1. 满二叉树:如果一颗二叉树的任何节点，或者是叶子节点，或者左右子树都存在，则这颗二叉树称作满二叉树。</div><div class="line">2. 完全二叉树:如果一颗二叉树最多只有最下面的两层节点度数可以小于2，并且最下面一层的节点都集中在该层最左边的连续位置上，则称为完全二叉树。</div><div class="line">![](http://a1.att.hudong.com/84/52/01300543009208144127521375911.png)</div><div class="line"></div><div class="line"></div><div class="line">## 树的遍历</div><div class="line">1. 前序遍历</div></pre></td></tr></table></figure>
-<p>class TreeNode {<br>    var val: Int<br>    var leftNode: TreeNode?<br>    var rightNode: TreeNode?</p>
-<pre><code>init(val: Int) {
-    self.val = val
-}
-</code></pre><p>}</p>
-<p>//MARK:—-    遍历二叉树  —–<br>func preOrderTraversal(root:TreeNode?){</p>
-<pre><code>guard  root != nil else{
-    return
-}
-
-print(root!.val)
-preOrderTraversal(root: root?.leftNode)
-preOrderTraversal(root: root?.rightNode)
-</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">2. 中序遍历</div></pre></td></tr></table></figure></p>
-<p>func inOrderTraversal(root:TreeNode?){</p>
-<p>guard  root != nil else{<br>return<br>}</p>
-<p>preOrderTraversal(root: root?.leftNode)<br>print(root!.val)<br>preOrderTraversal(root: root?.rightNode)<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">3. 后序遍历</div></pre></td></tr></table></figure></p>
-<p>func postOrderTraversal(root:TreeNode?){</p>
-<p>guard  root != nil else{<br>return<br>}</p>
-<p>preOrderTraversal(root: root?.leftNode)<br>preOrderTraversal(root: root?.rightNode)<br>print(root!.val)<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">## 字典树</div><div class="line">字典树是一个26叉树，用于在一个集合中检索一个字符串，字典树的每一个节点有一个指针数组，其本质上是一个哈希表，因为子树所在的位置本身index，就代表了节点对应的字母。</div></pre></td></tr></table></figure></p>
-<p>const int Max = 26;</p>
-<p>typedef struct Node{<br>    bool isStr;<br>    Node *next[Max];<br>}TrieNode;</p>
-<p>class Trie {</p>
-<p>private:<br>    TrieNode *root;</p>
-<p>public:<br>    Trie(){<br>        root = new TrieNode;<br>        for (int i=0; i<max; i++)="" {="" root-="">next[i]=NULL;<br>            root-&gt;isStr=false;<br>        }<br>    }</max;></p>
-<pre><code>~Trie(){
-    delete(root);
-    root = nullptr;
-}
-
-void insert(const char *str){
-    if (str==NULL||*str==&apos;\0&apos;) {
-        return;
-    }
-    TrieNode *p = root;
-    while (*str!=&apos;\0&apos;) {
-        if (p-&gt;next[*str-&apos;a&apos;]==NULL) {
-            TrieNode *tmp = new TrieNode;
-            for (int i=0; i&lt;Max; i++) {
-                tmp-&gt;next[i]=NULL;
-            }
-            tmp-&gt;isStr=false;
-            p-&gt;next[*str-&apos;a&apos;]=tmp;
-            p=tmp;
-        }else{
-            p=p-&gt;next[*str-&apos;a&apos;];
-        }
-        str++;
-    }
-    p-&gt;isStr=true;
-}
-
-//查找某一个字符是否在字典树中存在
-bool search(const char *str)
-{
-    if(str==NULL||*str==&apos;\0&apos;)
-        return false;
-    TrieNode *p=root;
-    while(p!=NULL &amp;&amp; *str!=&apos;\0&apos;)
-    {
-        p=p-&gt;next[*str-&apos;a&apos;];
-        str++;
-    }
-    if(p!=NULL &amp;&amp; p-&gt;isStr==true)
-        return true;
-    else
-        return false;
-}
-</code></pre><p>protected:<br>    void del(TrieNode *root)<br>    {<br>        for(int i=0;i<max;i++) {="" if(root-="">next[i]!=NULL)<br>            {<br>                del(root-&gt;next[i]);<br>            }<br>        }<br>        delete root;<br>    }</max;i++)></p>
-<p>};<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">## 二叉搜索树</div><div class="line">二叉搜索树是二叉树的一种特殊结构，对于二叉树搜索树的任何节点存储的值</div><div class="line">1. 节点值比左子树所有的节点的值都大</div><div class="line">2. 节点值比右子树所有的节点的值都小</div><div class="line">基于这个特性，二叉搜索树被经常用于维护有序的数据，事实上，对于二叉搜索树的操作相当于二分搜索，其效率与树的高度有关，检索数据的次数不会高于树的高度。</div><div class="line">二叉搜索树的高度应该越短越好，因为第L层最多存储2^n个节点，因此树的高度在log n的量级，因此二分搜索树的效率为O(log n)。</div><div class="line">当二分搜索树退化为链表时，搜索效率变为了O(n)。为了解决这个问题，人们引入了平衡二叉树。</div></pre></td></tr></table></figure></p>
-<p>class BTreeNode<br>{<br>public:<br>    BTreeNode(int val):left(NULL),right(NULL),parent(NULL),val(val){}//初始化<br>    int val;//值<br>    BTreeNode<em> parent;<br>    BTreeNode</em> left;//指向左儿子的坐标<br>    BTreeNode* right;//指向右儿子的坐标<br>    bool operator == (BTreeNode&amp; bt){<br>        return bt.val == val ? true : false;<br>    }<br>};</p>
-<p>//二叉查找树类的属性和方法声明<br>class BSortTree<br>{</p>
-<p>public:<br>    BSortTree():root(NULL),size(0){}<br>    ~BSortTree(){}<br>    int length(){return size;}<br>    void Insert(int val);<br>    void Delete(int val);<br>    BTreeNode<em> Search(int val);<br>private:<br>    BTreeNode </em>root;<br>    int size;<br>    void insertTree(BTreeNode&amp; node,int val);<br>    void DeleteTree(BTreeNode<em> node,int val);<br>    BTreeNode</em> SearchTreeMin(BTreeNode<em> node);<br>    BTreeNode</em> SearchTreeMax(BTreeNode<em> node);<br>    BTreeNode</em> SearchTree(BTreeNode* node,int val);<br>};</p>
-<p>void BSortTree::Insert(int val){<br>    if (root==NULL) {<br>        BTreeNode *pNode = new BTreeNode(val);<br>        root = pNode;<br>        size++;<br>        return;<br>    }</p>
-<p>}</p>
-<p>void BSortTree::Delete(int val){<br>    }</p>
-<p>BTreeNode* BSortTree::Search(int val){<br>    return SearchTree(root, val);<br>}</p>
-<p>void BSortTree::DeleteTree(BTreeNode <em>node, int val){<br>    BTreeNode </em>dNode = Search(val);<br>    if (dNode == NULL) {<br>        return;<br>    }<br>    if (dNode-&gt;left==NULL&amp;&amp;dNode-&gt;right==NULL) {<br>        if (dNode-&gt;parent==NULL) {<br>            size = 0;<br>            root = NULL;<br>        }else if (dNode-&gt;parent-&gt;left == dNode){<br>            dNode-&gt;parent-&gt;left = NULL;<br>        }else{<br>            dNode-&gt;parent-&gt;right = NULL;<br>        }<br>        delete dNode;<br>        size–;<br>        return;<br>    }<br>    if (dNode-&gt;left!=NULL&amp;&amp;node-&gt;right==NULL) {<br>        dNode-&gt;left-&gt;parent = dNode-&gt;parent;<br>        if (dNode-&gt;parent == NULL) {<br>            root = dNode-&gt;left;<br>        }else if(dNode-&gt;parent-&gt;left==dNode){<br>            dNode-&gt;parent-&gt;left = dNode-&gt;left;<br>        }else{<br>            dNode-&gt;parent-&gt;right = dNode-&gt;right;<br>        }<br>        delete dNode;<br>        size–;<br>        return;<br>    }<br>    if (dNode-&gt;left==NULL&amp;&amp;node-&gt;right!=NULL) {<br>        dNode-&gt;right-&gt;parent = dNode-&gt;parent;<br>        if (dNode-&gt;parent == NULL) {<br>            root = dNode-&gt;right;<br>        }else if(dNode-&gt;parent-&gt;left==dNode){<br>            dNode-&gt;parent-&gt;left = dNode-&gt;left;<br>        }else{<br>            dNode-&gt;parent-&gt;right = dNode-&gt;right;<br>        }<br>        delete dNode;<br>        size–;<br>        return;<br>    }<br>    if (dNode-&gt;left!=NULL&amp;&amp;node-&gt;right!=NULL) {<br>        BTreeNode *replaceNode = SearchTreeMin(node-&gt;right);<br>        dNode-&gt;val = replaceNode-&gt;val;<br>        DeleteTree(dNode, replaceNode-&gt;val);<br>    }<br>}</p>
-<p>BTreeNode<em> SearchTreeMin(BTreeNode</em> node){<br>    if (node == NULL) {<br>        return NULL;<br>    }else if(node-&gt;left == NULL){<br>        return node;<br>    }else{<br>        return SearchTreeMin(node-&gt;left);<br>    }<br>}</p>
-<p>BTreeNode<em> BSortTree::SearchTree(BTreeNode </em>node, int val){<br>    if (node == NULL) {<br>        return NULL;<br>    }else if (val == node-&gt;val){<br>        return node;<br>    }else if (val &lt; node-&gt;val){<br>        return SearchTree(node-&gt;left, val);<br>    }else{<br>        return SearchTree(node-&gt;right, val);<br>    }<br>}</p>
-<p>void BSortTree::insertTree(BTreeNode&amp; node,int val){<br>    BTreeNode <em>pNode = new BTreeNode(val);<br>    if (node.left==NULL &amp;&amp; val &lt; node.val) {<br>        node.left = pNode;<br>        pNode-&gt;parent = &node;<br>        size++;<br>        return;<br>    }<br>    if (pNode-&gt;right==NULL&amp;&amp; val &gt;= node.val) {<br>        node.right = pNode;<br>        pNode-&gt;parent = &node;<br>        size++;<br>        return;<br>    }<br>    if (val &lt; node.val) {<br>        insertTree(</em>(node.left), val);<br>    }else{<br>        insertTree(*(node.right), val);<br>    }<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">## 平衡二叉树</div><div class="line">平衡二叉树左右两个子树的高度不会超过1。并且左右都是平衡二叉树，通过适当的构造与调整平衡二叉树能够保证每次插入删除之后都保持平衡性。</div><div class="line">平衡二叉树的算法包括AVL算法和红黑树算法。平衡二叉树的实现一般较为复杂，所以面试官只会问一些概念性的问题。</div><div class="line"></div><div class="line">## 树相关常见题目</div><div class="line">1. 反转二叉树</div></pre></td></tr></table></figure></p>
-<p>//非递归 O(n)  广度优先。从上往下，从左往右。到达一层，从左到右翻完这一层的节点，再翻下一层。通过数组的方式实现节点的保存。O(n)。<br>func invertNonRecursive(root: TreeNode) {<br>    var nodes = <a href="">TreeNode</a><br>    nodes.append(root)<br>    while !nodes.isEmpty {<br>        if let node = nodes.first {<br>            nodes.removeFirst()<br>            let tempLeftTree = node.leftNode<br>            node.leftNode = node.rightNode<br>            node.rightNode = tempLeftTree</p>
-<pre><code>        if let leftTree = node.leftNode {
-            nodes.append(leftTree)
-        }
-
-        if let rightTree = node.leftNode {
-            nodes.append(rightTree)
-        }
-    }
-}
-</code></pre><p>}</p>
-<p>//递归 O(n)  深度优先。先翻一次，之后对左右子树递归翻转。O(n)。<br>func invertWithRecursive(root:TreeNode){</p>
-<pre><code>let tempLeftTree = root.leftNode
-root.leftNode = root.rightNode
-root.rightNode = tempLeftTree
-
-if let leftTree = root.leftNode {
-    invertWithRecursive(root: leftTree)
-}
-
-if let rightTree = root.rightNode {
-    invertWithRecursive(root: rightTree)
-}
-</code></pre><p>}</p>
+		<p>#Graph</p>
 <p>```</p>
 
 	
@@ -421,7 +315,7 @@ if let rightTree = root.rightNode {
 </style>
 <div id="comments">
     <!-- 多说评论框 start -->
-        <div class="ds-thread" data-thread-key="undefined" data-title="[算法]模式识别-Tree" data-url="http://chenmingjia.github.io//2016/11/25/20161126[算法]模式识别-Graph/index.html"></div>
+        <div class="ds-thread" data-thread-key="undefined" data-title="[算法]模式识别-Graph" data-url="http://chenmingjia.github.io//2016/11/25/20161126[算法]模式识别-Graph/index.html"></div>
     <!-- 多说评论框 end -->
 </div>
 
@@ -434,13 +328,21 @@ if let rightTree = root.rightNode {
     
     <!-- Prev Nav -->
     
+        <a href="/2016/11/25/20161126[算法]模式识别-Tree/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
     
-        <a href="/2016/11/25/20161126[算法]模式识别-Tree/" id="post_nav-older" class="next-content">
+        <a href="/2016/11/25/20161125[算法]模式识别-List/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
@@ -648,9 +550,11 @@ It will not impact the appearance and can give developers a lot of support :)
     
         <!-- Post Nav -->
         
+            <a class="prev-content fab" href="/2016/11/25/20161126[算法]模式识别-Tree/" title="[算法]模式识别-Tree"><i class="material-icons">keyboard_arrow_left</i></a>
+        
 
         
-            <a class="prev-content fab" href="/2016/11/25/20161126[算法]模式识别-Tree/" title="[算法]模式识别-Tree"><i class="material-icons">keyboard_arrow_right</i></a>
+            <a class="prev-content fab" href="/2016/11/25/20161125[算法]模式识别-List/" title="[算法]模式识别-List"><i class="material-icons">keyboard_arrow_right</i></a>
         
     
     
