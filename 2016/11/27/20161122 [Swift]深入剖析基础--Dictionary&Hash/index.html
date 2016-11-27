@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <!-- Title -->
+    
+    <title>
+        [Swift]深入剖析基础--Dictionary&amp;Hash | Big Wolf’s Blog
+    </title>
+    
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+    
+    <!-- Meta & INfo -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#FF8247">
+    <meta name="author" content="与狼同行">
+    <meta name="description" content="null">
+    <meta name="keywords" content="null">
+    
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+    
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Big Wolf’s Blog">
+    
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://chenmingjia.github.io">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="[Swift]深入剖析基础--Dictionary&amp;Hash | Big Wolf’s Blog">
+    <meta property="og:description" content="null">
+    
+     <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+        
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+    
+    <!-- Import CSS -->
+    <link rel="stylesheet" href="/css/material.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <!-- Config CSS -->
+
+<!-- Theme Background -->
+
+    <style>
+        body{
+            background-color: #F5F5F5
+        }
+		
+        #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+            background-color: #fff;
+        }
+		
+        #scheme-Paradox .MD-burger-layer {
+            background-color: #666;
+        }
+		
+        #scheme-Paradox .material-back{
+            color: #666;
+        }
+		
+        .material-layout .material-post>.material-nav,
+		.material-layout .material-index>.material-nav,
+        .material-nav a,
+        #scheme-Paradox .material-post_container .material-back{
+            color: #666;
+        }
+    </style>
+
+
+<!-- Fade Effect -->
+
+    <style>
+        .fade {
+            transition: all 800ms linear;
+            -webkit-transform: translate3d(0,0,0);
+            -moz-transform: translate3d(0,0,0);
+            -ms-transform: translate3d(0,0,0);
+            -o-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+            opacity: 1;
+        }
+
+        .fade.out{
+            opacity: 0;
+        }
+    </style>
+
+
+<!-- Other Styles -->
+<style>
+	body, html{
+		font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+	}
+	
+    a{
+        color: #FF8C69
+    }
+    
+    .mdl-card__media,
+    #search-label,
+    #search-form-label:after,
+    #scheme-Paradox .hot_tags-count,
+    #scheme-Paradox .sidebar_archives-count,
+    #scheme-Paradox .sidebar-colored .sidebar-header,
+    #scheme-Paradox .sidebar-colored .sidebar-badge{
+        background-color: #FF8247 !important
+    }
+    
+    #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
+        color: #FF8247 !important
+    }
+    
+    #post_entry-right-info,
+    .sidebar-colored .sidebar-nav li:hover > a,
+    .sidebar-colored .sidebar-nav li:hover > a i,
+    .sidebar-colored .sidebar-nav li > a:hover,
+    .sidebar-colored .sidebar-nav li > a:hover i,
+    .sidebar-colored .sidebar-nav li > a:focus i,
+    .sidebar-colored .sidebar-nav > .open > a,
+    .sidebar-colored .sidebar-nav > .open > a:hover,
+    .sidebar-colored .sidebar-nav > .open > a:focus,
+    #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
+        color: #FF8247 !important
+    }
+    
+    .fab{
+        background: #FF8247 !important
+    }
+</style>
+	<script src="/js/jquery.min.js"></script>
+	
+	<!-- UC Browser Compatible-->
+	<script>
+		var agent = navigator.userAgent.toLowerCase();
+		if(agent.indexOf('ucbrowser')>0) {
+			document.write('<link rel="stylesheet" href="/css/uc.css">');
+		   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+		}
+	</script>
+    
+    <!-- Custom Head -->
+    
+</head>
+	
+	
+
+    <body id="scheme-Paradox">
+
+		
+        <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+				
+			
+			
+            <!-- Main Container -->
+            <main class="material-layout__content" id="main">
+				
+                <!-- Top Anchor -->
+                <div id="top"></div>
+				
+				
+                <!-- Hamburger Button -->
+                <button class="MD-burger-icon sidebar-toggle">
+                    <span class="MD-burger-layer"></span>
+                </button>
+				
+				
+                
+	<!-- Back Button -->
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+	<!-- Paradox Post Header -->
+	
+		<!-- Custom Thumbnail -->
+		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://www.pp3.cn/uploads/20120428BZ-YB/17q.jpg)">
+	
+        <p class="article-headline-p">
+            [Swift]深入剖析基础--Dictionary&Hash
+        </p>
+    </div>
+
+	
+
+				
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>与狼同行</strong>
+        <span>11月 27, 2016</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Swift/">Swift</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/深入剖析基础/">深入剖析基础</a>
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=[Swift]深入剖析基础--Dictionary&amp;Hash&url=http://chenmingjia.github.io//2016/11/27/20161122 [Swift]深入剖析基础--Dictionary&amp;Hash/index.html&via=与狼同行" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io//2016/11/27/20161122 [Swift]深入剖析基础--Dictionary&amp;Hash/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=[Swift]深入剖析基础--Dictionary&amp;Hash&url=http://chenmingjia.github.io//2016/11/27/20161122 [Swift]深入剖析基础--Dictionary&amp;Hash/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
+</div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<p>本文整理自:<a href="http://www.jianshu.com/p/138ccbc75803" target="_blank" rel="external">http://www.jianshu.com/p/138ccbc75803</a></p>
+<h1 id="Dictionary"><a href="#Dictionary" class="headerlink" title="Dictionary"></a>Dictionary</h1><p>我们都知道哈希表不可避免的会产生冲突，有拉链法和线性法来解决冲突。其中Swift就是用线性探测来解决哈希表的冲突问题。</p>
+<h2 id="拉链法和线性探测"><a href="#拉链法和线性探测" class="headerlink" title="拉链法和线性探测"></a>拉链法和线性探测</h2><p>!()[<a href="http://img1.tuicool.com/yYv2uuU.jpg!web" target="_blank" rel="external">http://img1.tuicool.com/yYv2uuU.jpg!web</a>]<br>线性探测 直接使用数组来存储数据。可以想象成一个停车问题。若当前车位已经有车，则你就继续往前开，直到找到下一个为空的车位。<br>!()[<a href="http://img1.tuicool.com/UbAj2iQ.jpg!web" target="_blank" rel="external">http://img1.tuicool.com/UbAj2iQ.jpg!web</a>]<br>性能比较:对于 线性探测 来说动态调整数组大小是必要的，不然会产生死循环。</p>
+<p>拉链法 的删除操作比较方便，直接链表修改地址即可。而 线性探测 删除操作很复杂，而且 线性探测 耗费的内存比拉链法要多。</p>
+<p>线性探测是指，如果出现第二个Key的哈希值和第一个Key的哈希值冲突，则会检查第一个Key对应位置的后一个位置是否可用，如果可用则把第二个Key对应的Value放在这里，否则就继续向后寻找。<br>一个容量为8的字典，它实际上只能存储7个Key-Value对，这是因为字典需要至少一个空位置作为插入和查找过程中的停止标记。我们把这个位置称为“洞”。<br>举个例子，假设Key1和Key2具有相同的哈希值，它们都存储在字典中。现在我们查找Key3对应的值。Key3的哈希值和前两者相同，但它不存在于字典中。查找时，首先从Key1所在的位置开始比较，因为不匹配所以比较Key2所在的位置，而且从理论上来说只用比较这两个位置即可。如果Key2的后面是一个洞，就表示查找到此为止，否则还得继续向后查找。<br>在实际内存中，它的布局看上去是这样的：<br>!()[<a href="http://upload-images.jianshu.io/upload_images/1171077-fff49929a64fe6ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" rel="external">http://upload-images.jianshu.io/upload_images/1171077-fff49929a64fe6ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240</a>]<br>创建字典时会分配一段连续的内存，其大小很容易计算：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">size = capacity * (sizeof(Bitmap) + sizeof(Keys) + sizeof(Values))</div></pre></td></tr></table></figure></p>
+<p>从逻辑上来看，字典的组成结构如下：<br>!()[<a href="http://upload-images.jianshu.io/upload_images/1171077-7c1ebba80e7ee0f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" rel="external">http://upload-images.jianshu.io/upload_images/1171077-7c1ebba80e7ee0f8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240</a>]<br>其中每一列称为一个bucket，其中存储了三样东西：位图的值，Key和Value。bucket的概念其实已经有些类似于我们实际使用字典时，Key-Value对的概念了。</p>
+<p>bucket中位图的值用于表示这个bucket中的Key和Value是否是已初始化且有效的。如果不是，那么这个bucket就是一个洞。</p>
+<p>介绍完以上基本概念后，我们由底层向高层介绍字典的实现原理：</p>
+<h2 id="HashedContainerStorageHeader（结构体）"><a href="#HashedContainerStorageHeader（结构体）" class="headerlink" title="_HashedContainerStorageHeader（结构体）"></a>_HashedContainerStorageHeader（结构体）</h2><p>!()[<a href="http://upload-images.jianshu.io/upload_images/1171077-f2b8bf1f0474d534.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" rel="external">http://upload-images.jianshu.io/upload_images/1171077-f2b8bf1f0474d534.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240</a>]<br>这个结构体是字典所使用内存的头部，它有三个成员变量：</p>
+<p>capacity：字典的容量，表示字典当前最多可以存储多少Key-Value对<br>count：字典中元素数量，表示字典当前实际存储的Key-Value对的数量<br>maxLoadFactorInverse：当字典需要扩容时使用到的因子，新的capacity是旧的capacity乘以这个因子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@_transparent</div><div class="line">internal var _hashContainerDefaultMaxLoadFactorInverse: Double &#123;</div><div class="line">  return 1.0 / 0.75</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这是默认的负载因子。</p>
+<h2 id="NativeDictionaryStorageImpl"><a href="#NativeDictionaryStorageImpl" class="headerlink" title="_NativeDictionaryStorageImpl"></a>_NativeDictionaryStorageImpl<key, value=""></key,></h2><p>这个类是ManagedBuffer<_hashedcontainerstorageheader, uint8="">的子类。</_hashedcontainerstorageheader,></p>
+<p><strong>这个类的作用是为字典分配需要使用的内存，并且返回指向位图、Key和Value数组的指针。</strong>比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">internal var _values: UnsafeMutablePointer&lt;Value&gt; &#123;</div><div class="line">    let keysSizeInBytes = _unsafeMultiply(_body.capacity, strideof(Key.self))</div><div class="line">    let start = UnsafeMutablePointer&lt;UInt8&gt;(_keys) + keysSizeInBytes</div><div class="line">    return _roundUp(start, toAlignmentOf: Value.self)</div><div class="line">  &#125;</div><div class="line">internal var _keys: UnsafeMutablePointer&lt;Key&gt; &#123;</div><div class="line">    let bitMapSizeInBytes =</div><div class="line">      _unsafeMultiply(</div><div class="line">        _UnsafeBitMap.sizeInWords(forSizeInBits: _body.capacity),</div><div class="line">        strideof(UInt.self))</div><div class="line">    let start =</div><div class="line">      UnsafeMutablePointer&lt;UInt8&gt;(_initializedHashtableEntriesBitMapStorage)</div><div class="line">      + bitMapSizeInBytes</div><div class="line">    return _roundUp(start, toAlignmentOf: Key.self)</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>由于位图、Key和Value数组所在的内存是连续分配的，所以Value数组的指针values_pointer 等于 keys_pointer + capacity * keys_pointer 。</p>
+<p>在分配内存的过程中，位图数组中所有的元素值都是0，这就表示所有的bucket都是洞。另外需要强调的一点是，到目前为止(分配字典所用内存)范型Key不必实现Hashable协议。<br>目前，字典的结构组成示意图如下：<br>!()[<a href="http://upload-images.jianshu.io/upload_images/1171077-e6c5d0b841719cf6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" rel="external">http://upload-images.jianshu.io/upload_images/1171077-e6c5d0b841719cf6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240</a>]</p>
+<h2 id="NativeDictionaryStorage（结构体）"><a href="#NativeDictionaryStorage（结构体）" class="headerlink" title="_NativeDictionaryStorage（结构体）"></a>_NativeDictionaryStorage<key :="" hashable,="" value="">（结构体）</key></h2><p><strong>这个结构体将_NativeDictionaryStorageImpl结构体封装为自己的buffer属性，它还提供了一些方法将实际上有三个连续数组组成的字典内存转换成逻辑上的bucket数组。而且，这个结构体将bucket数组中的第一个bucket和最后一个bucket在逻辑上链接起来，从而形成了一个bucket环，也就是说当你到达bucket数组的末尾并且调用next方法时，你又会回到bucket数组的开头。</strong></p>
+<p>在进行插入或查找操作时，我们需要算出这个Key对应哪个bucket。由于Key实现了Hashable，所以它一定实现了hashValue方法并返回一个整数值。但这个哈希值可能比字典容量还大，所以我们需要压缩这个哈希值，以确保它属于区间[0, capacity)：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@warn_unused_result</div><div class="line">internal func _bucket(k: Key) -&gt; Int &#123;</div><div class="line">  return _squeezeHashValue(k.hashValue, 0..&lt;capacity)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>通过_index和_prev函数，我们可以遍历整个bucket数组，这里虽然使用了溢出运算符，但实际上并不会发生溢出，个人猜测是为了性能优化：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">internal var _bucketMask: Int &#123;</div><div class="line">  return capacity &amp;- 1</div><div class="line">&#125;</div><div class="line"></div><div class="line">@warn_unused_result</div><div class="line">internal func _next(bucket: Int) -&gt; Int &#123;</div><div class="line">  return (bucket &amp;+ 1) &amp; _bucketMask</div><div class="line">&#125;</div><div class="line"></div><div class="line">@warn_unused_result</div><div class="line">internal func _prev(bucket: Int) -&gt; Int &#123;</div><div class="line">  return (bucket &amp;- 1) &amp; _bucketMask</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>字典容量capacity一定可以表示为2的多少次方，因此_bucketMask这个属性如果用二进制表示，则一定全部由1组成。举个例子体验一下，假设capacity = 8：</p>
+<p>bucket = 6，调用_next方法，返回值为 7 &amp; 7，也就是7.<br>bucket = 7，调用_next方法，返回值为 8 &amp; 7，二进制表示为1000 &amp; 0111，因此返回值为0。也就是返回了数组的起始位置。<br>bucket = 0，调用_prev方法，返回值为 -1 &amp; 7，二进制表示为1…1111 &amp; 0…0111，因此返回值为111，也就是7，回到了数组的结束位置。<br>在插入一个键值对时，我们首先计算出Key对应哪个bucket，然后调用下面的方法把Key和Value写入到bucket中，同时把位图的值设置为true：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">internal func initializeKey(_ k: AnyObject, value v: AnyObject, at i: Int</div><div class="line">  ) &#123;</div><div class="line">    _sanityCheck(!isInitializedEntry(at: i))</div><div class="line"></div><div class="line">    (keys + i).initialize(to: k)</div><div class="line">    (values + i).initialize(to: v)</div><div class="line">    initializedEntries[i] = true</div><div class="line">    _fixLifetime(self)</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>另一个需要重点介绍的函数是_find：</p>
+<p>_find函数用于找到Key对应的bucket<br>需要指定需要指定从哪个bucket开始寻找，因此需要_buckey(key)函数的配合<br>如果参数key和某个bucket中的Key匹配，则返回这个bucket的位置<br>如果没有找到，则返回接下来的第一个洞，表示key可以插入到这里<br>通过位图判断当前bucket是不是一个洞<br>这种算法被称为线性探测<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">@inline(__always)</div><div class="line">  internal func _find(_ key: Key, startBucket: Int)</div><div class="line">    -&gt; (pos: Index, found: Bool) &#123;</div><div class="line"></div><div class="line">    var bucket = startBucket</div><div class="line"></div><div class="line">    // The invariant guarantees there&apos;s always a hole, so we just loop</div><div class="line">    // until we find one</div><div class="line">    while true &#123;</div><div class="line">      let isHole = !isInitializedEntry(at: bucket)</div><div class="line">      if isHole &#123;</div><div class="line">        return (Index(nativeStorage: self, offset: bucket), false)</div><div class="line">      &#125;</div><div class="line">      if self.key(at: bucket) == key &#123;</div><div class="line">        return (Index(nativeStorage: self, offset: bucket), true)</div><div class="line">      &#125;</div><div class="line">      bucket = _index(after: bucket)</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>一般来说，_squeezeHashValue函数的返回值就是Key对应的bucket的下标，不过需要考虑不同的Key哈希值冲突的情况。<br>在这种情况下，_find函数会找到下一个可用的洞，以便插入数据。</p>
+<h2 id="hashValue优化"><a href="#hashValue优化" class="headerlink" title="hashValue优化"></a>hashValue优化</h2><p>_squeezeHashValue函数的本质是对Key的哈希值再次求得哈希值，而一个优秀的哈希函数是提高性能的关键。_squeezeHashValue函数基本上符合要求，不过目前惟一的缺点是哈希变换的种子还是一个占位常量，有兴趣的读者可以阅读完整的函数实现，其中的seed就是一个值为0xff51afd7ed558ccd的常量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">func _squeezeHashValue(hashValue: Int, _ resultRange: Range&lt;UInt&gt;) -&gt; UInt &#123;</div><div class="line">  let mixedHashValue = UInt(bitPattern: _mixInt(hashValue))</div><div class="line">  let resultCardinality: UInt = resultRange.endIndex - resultRange.startIndex</div><div class="line">  if _isPowerOf2(resultCardinality) &#123;</div><div class="line">    return mixedHashValue &amp; (resultCardinality - 1)</div><div class="line">  &#125;</div><div class="line">  return resultRange.startIndex + (mixedHashValue % resultCardinality)</div><div class="line">&#125;</div><div class="line"></div><div class="line">func _mixUInt64(value: UInt64) -&gt; UInt64 &#123;</div><div class="line">  // Similar to hash_4to8_bytes but using a seed instead of length.</div><div class="line">  let seed: UInt64 = _HashingDetail.getExecutionSeed()</div><div class="line">  let low: UInt64 = value &amp; 0xffff_ffff</div><div class="line">  let high: UInt64 = value &gt;&gt; 32</div><div class="line">  return _HashingDetail.hash16Bytes(seed &amp;+ (low &lt;&lt; 3), high)</div><div class="line">&#125;</div><div class="line"></div><div class="line">static func getExecutionSeed() -&gt; UInt64 &#123;</div><div class="line">  // FIXME: This needs to be a per-execution seed. This is just a placeholder</div><div class="line">  // implementation.</div><div class="line">  let seed: UInt64 = 0xff51afd7ed558ccd</div><div class="line">  return _HashingDetail.fixedSeedOverride == 0 ? seed : fixedSeedOverride</div><div class="line">&#125;</div><div class="line"></div><div class="line">static func hash16Bytes(low: UInt64, _ high: UInt64) -&gt; UInt64 &#123;</div><div class="line">  // Murmur-inspired hashing.</div><div class="line">  let mul: UInt64 = 0x9ddfea08eb382d69</div><div class="line">  var a: UInt64 = (low ^ high) &amp;* mul</div><div class="line">  a ^= (a &gt;&gt; 47)</div><div class="line">  var b: UInt64 = (high ^ a) &amp;* mul</div><div class="line">  b ^= (b &gt;&gt; 47)</div><div class="line">  b = b &amp;* mul</div><div class="line">  return b</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>目前，字典的结构总结如下：<br>!()[<a href="http://upload-images.jianshu.io/upload_images/1171077-7fb40bdc208d37f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" rel="external">http://upload-images.jianshu.io/upload_images/1171077-7fb40bdc208d37f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240</a>]</p>
+<h2 id="NativeDictionaryStorageOwner（类）"><a href="#NativeDictionaryStorageOwner（类）" class="headerlink" title="_NativeDictionaryStorageOwner（类）"></a>_NativeDictionaryStorageOwner（类）</h2><p><strong>这个类被用于管理字典的引用计数，以支持写时复制(COW)特性。由于Dictionary和DictionaryIndex都会引用实际存储区域，所以引用计数为2。不过写时复制的唯一性检查不考虑由DictionaryIndex导致的引用，所以如果字典通过引用这个类的实例对象来管理引用计数值，问题就很容易处理。</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">/// 这个类用于区分以下两种引用：</div><div class="line">/// - `Dictionary` and `NSDictionary`,</div><div class="line">/// - `DictionaryIndex`.</div><div class="line">/// 这是因为写时复制的唯一性检查只考虑第一种引用</div></pre></td></tr></table></figure></p>
+<p>现在，字典的结构变得有些复杂，难以理解了：<br>!()[<a href="http://upload-images.jianshu.io/upload_images/1171077-41f6569f1fdf458a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" rel="external">http://upload-images.jianshu.io/upload_images/1171077-41f6569f1fdf458a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240</a>]</p>
+<h2 id="VariantDictionaryStorage-枚举"><a href="#VariantDictionaryStorage-枚举" class="headerlink" title="_VariantDictionaryStorage (枚举)"></a>_VariantDictionaryStorage<key :="" hashable,="" value=""> (枚举)</key></h2><p>这个枚举类型中有两个成员，它们各自具有自己的关联值，分别表示Swift原生的字典和Cocoa的字典：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">case Native(_NativeDictionaryStorageOwner&lt;Key, Value&gt;)</div><div class="line">case Cocoa(_CocoaDictionaryStorage)</div></pre></td></tr></table></figure></p>
+<p>这个枚举类型的主要功能是：</p>
+<ol>
+<li>根据字典的不同类型（原生 or Cocoa）执行对应的增删改查函数</li>
+<li>如果字典已经满了，则扩容</li>
+<li><p>更新或初始化Key-Value对：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+</li>
+<li><p>如果移除某个Key-Value对，就会在原地留下一个洞。下一次线性查找时有可能会提前停止，为了解决这个问题，我们需要在移除Key-Value对后，移动另一个Key-Value对补上这个洞，源码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">/// - parameter idealBucket: The ideal bucket for the element being deleted.</div><div class="line">/// - parameter offset: The offset of the element that will be deleted.</div><div class="line">/// Requires an initialized entry at offset.</div><div class="line">internal mutating func nativeDeleteImpl(</div><div class="line">      nativeStorage: NativeStorage, idealBucket: Int, offset: Int</div><div class="line">) &#123;</div><div class="line">    _sanityCheck(</div><div class="line">      nativeStorage.isInitializedEntry(offset), &quot;expected initialized entry&quot;)</div><div class="line"></div><div class="line">    // remove the element</div><div class="line">    nativeStorage.destroyEntryAt(offset)</div><div class="line">    nativeStorage.count -= 1</div><div class="line"></div><div class="line">    // If we&apos;ve put a hole in a chain of contiguous elements, some</div><div class="line">    // element after the hole may belong where the new hole is.</div><div class="line">    var hole = offset</div><div class="line"></div><div class="line">    // Find the first bucket in the contiguous chain</div><div class="line">    var start = idealBucket</div><div class="line">    while nativeStorage.isInitializedEntry(nativeStorage._prev(start)) &#123;</div><div class="line">        start = nativeStorage._prev(start)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // Find the last bucket in the contiguous chain</div><div class="line">    var lastInChain = hole</div><div class="line">    var b = nativeStorage._next(lastInChain)</div><div class="line">    while nativeStorage.isInitializedEntry(b) &#123;</div><div class="line">        lastInChain = b</div><div class="line">        b = nativeStorage._next(b)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // Relocate out-of-place elements in the chain, repeating until</div><div class="line">    // none are found.</div><div class="line">    while hole != lastInChain &#123;</div><div class="line">        // Walk backwards from the end of the chain looking for</div><div class="line">        // something out-of-place.</div><div class="line">        var b = lastInChain</div><div class="line">        while b != hole &#123;</div><div class="line">            let idealBucket = nativeStorage._bucket(nativeStorage.keyAt(b))</div><div class="line"></div><div class="line">            // Does this element belong between start and hole?  We need</div><div class="line">            // two separate tests depending on whether [start,hole] wraps</div><div class="line">            // around the end of the buffer</div><div class="line">            let c0 = idealBucket &gt;= start</div><div class="line">            let c1 = idealBucket &lt;= hole</div><div class="line">            if start &lt;= hole ? (c0 &amp;&amp; c1) : (c0 || c1) &#123;</div><div class="line">                break // Found it</div><div class="line">            &#125;</div><div class="line">            b = nativeStorage._prev(b)</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if b == hole &#123; // No out-of-place elements found; we&apos;re done adjusting</div><div class="line">            break</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        // Move the found element into the hole</div><div class="line">        nativeStorage.moveInitializeFrom(nativeStorage, at: b, toEntryAt: hole)</div><div class="line">        hole = b</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这段代码理解起来可能比较费力，我想举一个例子来说明就比较简单了，假设一开始有8个bucket，bucket中的value就是bucket的下标，最后一个bucket是洞：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Bucket数组中元素下标:  &#123;0, 1, 2, 3, 4, 5, 6, 7(Hole)&#125;</div><div class="line">bucket中存储的Value:  &#123;0, 1, 2, 3, 4, 5, 6, null&#125;</div></pre></td></tr></table></figure></p>
+<p>接下来我们删除第五个bucket，这会在原地留下一个洞：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Bucket数组中元素下标:  &#123;0, 1, 2, 3, 4(Hole), 5, 6, 7(Hole)&#125;</div><div class="line">bucket中存储的Value:  &#123;0, 1, 2, 3,        , 5, 6         &#125;</div></pre></td></tr></table></figure></p>
+<p>为了补上这个洞，我们把最后一个bucket中的内容移到这个洞里，现在第五个bucket就不是洞了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Bucket数组中元素下标:  &#123;0, 1, 2, 3, 4, 5, 6(Hole), 7(Hole)&#125;</div><div class="line">bucket中存储的Value:  &#123;0, 1, 2, 3, 6, 5,        ,        &#125;</div></pre></td></tr></table></figure></p>
+<p>!()[<a href="http://upload-images.jianshu.io/upload_images/1171077-5590943f50016dce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" rel="external">http://upload-images.jianshu.io/upload_images/1171077-5590943f50016dce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240</a>]</p>
+<h2 id="字典的完整结构"><a href="#字典的完整结构" class="headerlink" title="字典的完整结构"></a>字典的完整结构</h2><p>Dictionary结构体持有一个_VariantDictionaryStorage类型的枚举，作为自己的成员属性，所以整个字典完整的组成结构如下图所示：<br>!()[<a href="http://upload-images.jianshu.io/upload_images/1171077-ee0bbf3705805c42.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" target="_blank" rel="external">http://upload-images.jianshu.io/upload_images/1171077-ee0bbf3705805c42.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240</a>]</p>
+<h1 id="哈希"><a href="#哈希" class="headerlink" title="哈希"></a>哈希</h1><p>有两个字典，分别存有 100 条数据和 10000 条数据，如果用一个不存在的 key 去查找数据，在哪个字典中速度更快？</p>
+<blockquote>
+<p>有两个字典，分别存有 100 条数据和 10000 条数据，如果用一个不存在的 key 去查找数据，在哪个字典中速度更快？</p>
+</blockquote>
+<p>在 Redis 中，得益于自动扩容和默认哈希函数，两者查找速度一样快。在 Java 和 Objective-C 中，如果哈希函数不合理，返回值过于集中，会导致大字典更慢。Java 由于存在链表和红黑树互换机制，搜索时间呈对数级增长，而非线性增长。在理想的哈希函数下，无论字典多大，搜索速度都是一样快。</p>
+<p>```</p>
+<h2 id="概念整理"><a href="#概念整理" class="headerlink" title="概念整理:"></a>概念整理:</h2><ol>
+<li>哈希表的存储过程如下:<blockquote>
+<p>根据 key 计算出它的哈希值 h。<br>假设箱子的个数为 n，那么这个键值对应该放在第 (h % n) 个箱子中。<br>如果该箱子中已经有了键值对，就使用开放寻址法或者拉链法解决冲突。</p>
+</blockquote>
+</li>
+</ol>
+<ol>
+<li>负载因子(load factor)：它用来衡量哈希表的 空/满 程度，一定程度上也可以体现查询的效率，计算公式为:<blockquote>
+<p>负载因子 = 总键值对数 / 箱子个数<br>负载因子越大，意味着哈希表越满，越容易导致冲突，性能也就越低。因此，一般来说，当负载因子大于某个常数(可能是 1，或者 0.75 等)时，哈希表将自动扩容。</p>
+</blockquote>
+</li>
+</ol>
+<p><strong>哈希表在自动扩容时，一般会创建两倍于原来个数的箱子，因此即使 key 的哈希值不变，对箱子个数取余的结果也会发生改变，因此所有键值对的存放位置都有可能发生改变，这个过程也称为重哈希(rehash)。</strong></p>
+<p>哈希表的扩容并不总是能够有效解决负载因子过大的问题。假设所有 key 的哈希值都一样，那么即使扩容以后他们的位置也不会变化。虽然负载因子会降低，但实际存储在每个箱子中的链表长度并不发生改变，因此也就不能提高哈希表的查询性能。</p>
+<p>基于以上总结，细心的读者可能会发现哈希表的两个问题:</p>
+<ol>
+<li>如果哈希表中本来箱子就比较多，扩容时需要重新哈希并移动数据，性能影响较大。</li>
+<li>如果哈希函数设计不合理，哈希表在极端情况下会变成线性表，性能极低。<br>我们分别通过 Java 和 Redis 的源码来理解以上问题，并看看他们的解决方案。</li>
+</ol>
+<h2 id="Java8对哈希的优化策略"><a href="#Java8对哈希的优化策略" class="headerlink" title="Java8对哈希的优化策略"></a>Java8对哈希的优化策略</h2><p>JDK 的代码是开源的，可以从这里下载到，我们要找的 HashMap.java 文件的目录在 openjdk/jdk/src/share/classes/java/util/HashMap.java。<br>在 HashMap 中定义了几个常量:</p>
+<p>学过概率论的读者也许知道，理想状态下哈希表的每个箱子中，元素的数量遵守泊松分布:<br><img src="https://o8ouygf5v.qnssl.com/1470319630.png" alt=""><br>当负载因子为 0.75 时，上述公式中 λ 约等于 0.5，因此箱子中元素个数和概率的关系如下:</p>
+<p>数量    概率<br>0    0.60653066<br>1    0.30326533<br>2    0.07581633<br>3    0.01263606<br>4    0.00157952<br>5    0.00015795<br>6    0.00001316<br>7    0.00000094<br>8    0.00000006</p>
+<p>这就是为什么箱子中链表长度超过 8 以后要变成红黑树，因为在正常情况下出现这种现象的几率小到忽略不计。一旦出现，几乎可以认为是哈希函数设计有问题导致的。</p>
+<p>Java 对哈希表的设计一定程度上避免了不恰当的哈希函数导致的性能问题，每一个箱子中的链表可以与红黑树切换</p>
+<h2 id="Redis对哈希的优化策略"><a href="#Redis对哈希的优化策略" class="headerlink" title="Redis对哈希的优化策略"></a>Redis对哈希的优化策略</h2><p>Redis 是一个高效的 key-value 缓存系统，也可以理解为基于键值对的数据库。它对哈希表的设计有非常多值得学习的地方，在不影响源代码逻辑的前提下我会尽可能简化，突出重点。</p>
+<ol>
+<li><p>头插法:<br>新插入的键值对会放在箱子中链表的头部，而不是在尾部继续插入。这个细节上的改动至少带来两个好处:<br>找到链表尾部的时间复杂度是 O(n)，或者需要使用额外的内存地址来保存链表尾部的位置。头插法可以节省插入耗时。<br>对于一个数据库系统来说，最新插入的数据往往更有可能频繁的被获取。头插法可以节省查找耗时。</p>
+</li>
+<li><p>增量式扩容:<br>所谓的增量式扩容是指，当需要重哈希时，每次只迁移一个箱子里的链表，这样扩容时不会出现性能的大幅度下降。</p>
+</li>
+<li>默认哈希函数<br>与 Java 不同的是，Redis 提供了 void * 类型 key 的哈希函数，也就是通过任何类型的 key 的指针都可以求出哈希值。具体算法定义在 dictGenHashFunction 函数中，由于代码过长，而且都是一些位运算，就不展示了。</li>
+</ol>
+<p>它的实现原理是根据指针地址和这一块内存的长度，获取内存中的值，并且放入到一个数组当中，可见这个数组仅由 0 和 1 构成。然后再对这些数字做哈希运算。因此即使两个指针指向的地址不同，但只要其中内容相同，就可以得到相同的哈希值。</p>
+<p>Objective-C 的实现和 Java 比较类似，当我们需要重写 isEqual() 方法时，还需要重写 hash 方法。这两种语言并没有提供一个通用的、默认的哈希函数，主要是考虑到 isEqual() 方法可能会被重写，两个内存数据不同的对象可能在语义上被认为是相同的。如果使用默认的哈希函数就会得到不同的哈希值，这两个对象就会同时被添加到 NSSet 集合中，这可能违背我们的期望结果。</p>
+<p>根据我的了解，Redis 并不支持重写哈希方法，难道 Redis 就没有考虑到这个问题么？实际上还要从 Redis 的定位说起。由于它是一个高效的，Key-Value 存储系统，它的 key 并不会是一个对象，而是一个用来唯一确定对象的标记。</p>
+<p>一般情况下，如果要存储某个用户的信息，key 的值可能是这样: user:100001。Redis 只关心 key 的内存中的数据，因此只要是可以用二进制表示的内容都可以作为 key，比如一张图片。Redis 支持的数据结构包括哈希表和集合(Set)，但是其中的数据类型只能是字符串。因此 Redis 并不存在对象等同性的考虑，也就可以提供默认的哈希函数了。</p>
+<p>Redis、Java、Objective-C 之间的异同再次证明了一点:</p>
+<blockquote>
+<p>没有完美的架构，只有满足需求的架构。</p>
+</blockquote>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
+                
+    <!-- 使用多说评论 -->
+    <link rel="stylesheet" href="/css/duoshuo.min.css">
+<style>
+    #ds-thread #ds-reset .ds-post-button{
+        background-color: #FF8247 !important;
+    }
+    #ds-wrapper #ds-reset .ds-icons-32{
+        background-color: #FF8247 !important;
+    }
+    #ds-reset .ds-highlight {
+        color: #FF8247 !important;
+    }
+</style>
+<div id="comments">
+    <!-- 多说评论框 start -->
+        <div class="ds-thread" data-thread-key="undefined" data-title="[Swift]深入剖析基础--Dictionary&amp;Hash" data-url="http://chenmingjia.github.io//2016/11/27/20161122 [Swift]深入剖析基础--Dictionary&amp;Hash/index.html"></div>
+    <!-- 多说评论框 end -->
+</div>
+
+
+
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2016/11/25/20161126[算法]模式识别-Tree/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+        </div>
+    </div>
+
+				
+				
+					<!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay "></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored  sidebar-fixed-left" role="navigation">
+	<div id="sidebar-main">
+	    <!-- Sidebar Header -->
+		<div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+    <i class="material-icons">clear_all</i>
+    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.png" alt="与狼同行's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        youremail@email.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+		<!-- Sidebar Navigation  -->
+		<ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+			
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    <li id="sidebar-first-li">
+        <a href="/" target="_self">
+            <i class="material-icons sidebar-material-icons">home</i>
+             主页
+        </a>
+    </li>
+
+    <!-- I'm Feeling Lucky -->
+<!--
+    <li class="dropdown">
+        <a href="" target="_self">
+            <i class="material-icons sidebar-material-icons">explore</i>
+             sidebar.imlucky
+        </a>
+    </li>
+-->
+
+	
+    <!-- Archives  -->
+    <li class="dropdown">
+        <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+            <i class="material-icons sidebar-material-icons">inbox</i>
+             归档
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+            <a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">14</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">十月 2016<span class="sidebar_archives-count">1</span></a>
+        </ul>
+    </li>
+
+    <!-- Divider -->
+    <li class="divider"></li>
+
+
+    <!-- Pages  -->
+	
+	
+	
+		<li>
+			<a href="/about" title="关于博主">
+				关于博主
+			</a>
+		</li>
+	
+		<li>
+			<a href="/links/" title="友情链接">
+				友情链接
+			</a>
+		</li>
+	
+		<li>
+			<a href="/timeline/" title="时间轴归档">
+				时间轴归档
+			</a>
+		</li>
+	
+		<li>
+			<a href="/gallery/" title="图库">
+				图库
+			</a>
+		</li>
+	
+		<li>
+			<a href="/tags/" title="标签云">
+				标签云
+			</a>
+		</li>
+	
+
+    <!-- Article Numebr  -->
+    <li>
+        <a href="#">
+             文章总数
+             <span class="sidebar-badge">15</span>
+        </a>
+    </li>
+</ul>
+
+		<!-- Sidebar Divider -->
+		<div class="sidebar-divider"></div>
+
+		<!-- Sidebar Footer -->
+		<!-- 
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持。 :) 
+-->
+
+<!-- Theme Material -->
+<a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+	<div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		主题 - Material
+		<span class="sidebar-badge badge-circle">i</span>
+	</div>
+</a>
+
+<!-- Help & Support -->
+<!--
+<a href="mailto:hiviosey@gmail.com" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		sidebar.help
+		<span class="mdl-button__ripple-container">
+			<span class="mdl-ripple"></span>
+		</span>
+	</div>
+</a>
+-->
+
+<!-- Feedback -->
+<!--
+<a href="https://github.com/viosey/hexo-theme-material/issues" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.feedback
+                    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>
+-->
+
+<!-- Abount Theme -->
+<!--
+<a href="https://blog.viosey.com/index.php/Material.html" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.about_theme
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>-->
+
+	</div>
+    
+    <!-- Sidebar Sponsor -->
+    
+
+
+</aside>
+
+				
+				
+				<!-- Floating Action Button -->
+<div class="fabs">
+    <a href="#top" class="fab toTop">
+        <i class="material-icons">expand_less</i>
+    </a>
+    
+    
+        <!-- Post Nav -->
+        
+
+        
+            <a class="prev-content fab" href="/2016/11/25/20161126[算法]模式识别-Tree/" title="[算法]模式识别-Tree"><i class="material-icons">keyboard_arrow_right</i></a>
+        
+    
+    
+    
+    
+    <a href="#bottom" class="fab toBottom">
+        <i class="material-icons">keyboard_arrow_down</i>
+    </a>
+    
+    <a id="prime" class="fab">
+        <i class="material-icons prime-i-add">add</i>
+    </a>
+</div>
+				
+				<!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+	
+	
+		<!-- Paradox Footer Left Section -->
+		<div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+    
+    
+    <!-- Facebook -->
+    
+    
+    
+    <!-- Google + -->
+    
+    
+    
+    <!-- Weibo -->
+    
+    
+    
+    <!-- Instagram -->
+    
+    
+    
+    <!-- Tumblr -->
+    
+    
+    
+    <!-- Github -->
+    
+    <a href="https://www.github.com/chenmingjia" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-github.png);">
+        <span class="visuallyhidden">Github</span>
+    </button></a>
+    
+</div>
+
+
+		<!--Copyright-->
+		<div id="copyright">Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;Big Wolf’s Blog</div>
+
+		<!-- Paradox Footer Right Section -->
+
+		<!-- 
+		I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+		It will not impact the appearance and can give developers a lot of support :)
+
+		很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+		它不会影响美观并可以给开发者很大的支持。 :) 
+		-->
+
+		<div class="mdl-mini-footer--right-section">
+			<div>
+				<div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+				<div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+			</div>
+		</div>
+	
+    
+</footer>
+                
+				<!-- Import File -->
+<script src="/js/js.min.js"></script>
+<script src="/js/nprogress.js"></script>
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    
+    $('#nprogress .bar').css({
+        'background': '#FF8247'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #FF8247, 0 0 15px #FF8247'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#FF8247',
+        'border-left-color': '#FF8247'
+    });
+    
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+    <!-- 多说公共 js 代码 start -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"2231132"};
+        (function() {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';ds.async = true;
+            ds.src = 'https://static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0] 
+             || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+    </script>
+    <!-- 多说公共 js 代码 end -->
+
+
+
+
+
+
+
+	<script>
+	var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length <= 0) {
+                    return;
+                }
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title;
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out characters
+                            var start = first_occur - 6;
+                            var end = first_occur + 6;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 10;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substr(start, end); 
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<em class=\"search-keyword\">"+keyword+"</em>");
+                            })
+                            str += "<p class=\"search-result\">" + match_content +"...</p>" +"</a>";
+                        }
+                    }
+                })
+                $resultContent.innerHTML = str;
+            })
+        }
+    })
+}
+</script>
+
+	<script>
+		var search_path = "search.xml";
+		if (search_path.length == 0) {
+		search_path = "search.xml";
+		}
+		var path = "/" + search_path;
+		searchFunc(path, 'search', 'local-search-result');
+	</script>
+
+
+
+
+
+
+            </main>
+        </div>
+		
+    </body>
+		
+	
+</html>
