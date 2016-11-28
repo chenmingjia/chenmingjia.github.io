@@ -4,7 +4,7 @@
     <!-- Title -->
     
     <title>
-        标签: 实践篇 | Big Wolf’s Blog
+        [iOS]Rx系列-为什么要使用Reactive Programming | Big Wolf’s Blog
     </title>
     
     <!-- Favicons -->
@@ -40,7 +40,7 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://chenmingjia.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="标签: 实践篇 | Big Wolf’s Blog">
+    <meta property="og:title" content="[iOS]Rx系列-为什么要使用Reactive Programming | Big Wolf’s Blog">
     <meta property="og:description" content="null">
     
      <!--[if lte IE 9]>
@@ -181,229 +181,209 @@
                 </button>
 				
 				
-                <!-- Index Module -->
-<div class="material-index mdl-grid">
-	
-		<!-- Paradox Header -->
-		<!-- Daily pic -->
-<div class="mdl-card daily-pic mdl-cell mdl-cell--8-col index-top-block">
-    
-    <!-- Pic & Slogan -->
-    <div class="mdl-card__media mdl-color-text--grey-50" style="background-image:url(/img/daily_pic.png)">
-        <p class="index-top-block-slogan"><a href="#">Hi, nice to meet you</a></p>
-    </div>
-
-    <!-- Avatar & Name -->
-    <div class="mdl-card__supporting-text meta mdl-color-text--grey-600">
-        <!-- Author Avatar -->
-        <div id="author-avatar">
-            <img src="/img/avatar.png" width="32px" height="32px" alt="avatar">
-        </div>
-        <div>
-            <strong>与狼同行</strong>
-        </div>
-    </div>
-</div>
-
-		<!-- Blog info -->
-<div class="mdl-card something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop index-top-block">
-	
-    <!-- Search -->
-	
+                
+	<!-- Back Button -->
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
 
 
+<!-- Layouts -->
 
+    <!-- Post Module -->
+    <div class="material-post_container">
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
 
-	<!-- Local -->
-	<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable" method="post" action="">
-		<label id="search-label" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--fab mdl-color--accent mdl-shadow--4dp" for="search">
-			<i class="material-icons mdl-color-text--white" role="presentation">search</i>
-		</label>
-
-		<form id="search-form" class="mdl-textfield__expandable-holder">
-			<input type="text" id="search" class="form-control mdl-textfield__input search-input" name="q" results="0" placeholder=""/>
-			<label id="search-form-label" class="mdl-textfield__label" for="search"></label>
-			
-		</form>
-	</div>
-
-	<div id="local-search-result"></div>
-
-
-    <!-- LOGO -->
-    <div class="something-else-logo mdl-color--white mdl-color-text--grey-600">
-        <a href="null">
-            <img src="/img/logo.png" alt="logo" />
-        </a>
-    </div>
-
-    <!-- Infomation -->
-    <div class="mdl-card__supporting-text meta meta--fill mdl-color-text--grey-600">
-        <!-- Blog Title -->
-        <div>
-            <strong>Big Wolf’s Blog</strong>
-        </div>
-        <div class="section-spacer"></div>
-        
-        <!-- Pages -->
-        <button id="show-pages-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">view_carousel</i>
-            <span class="visuallyhidden">Pages</span>
-        </button>
-        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="show-pages-button">
-            
-            
-            
-                <a class="index_share-link" href="/about" title="关于博主">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        关于博主
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/links/" title="友情链接">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        友情链接
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/timeline/" title="时间轴归档">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        时间轴归档
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/gallery/" title="图库">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        图库
-                    </li>
-                </a>
-            
-                <a class="index_share-link" href="/tags/" title="标签云">
-                    <l class="mdl-menu__item mdl-js-ripple-effect"i>
-                        标签云
-                    </li>
-                </a>
-            
-        </ul>
-        
-        <!-- Menu -->
-        <button id="menubtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">more_vert</i>
-            <span class="visuallyhidden">show menu</span>
-        </button>
-        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="menubtn">
-            
-            <a class="index_share-link" href="#">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    文章 RSS
-                </li>
-            </a>
-            <a class="index_share-link" href="https://twitter.com/intent/tweet?text=Big Wolf’s Blog&url=http://chenmingjia.github.io/&via=与狼同行" target="_blank">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    分享到 Twitter
-                </li>
-            </a>
-            <a class="index_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io/" target="_blank">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    分享到 Google+
-                </li>
-            </a>
-            <a class="index_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Big Wolf’s Blog&url=http://chenmingjia.github.io/&pic=&searchPic=false&style=simple" target="_blank">
-                <li class="mdl-menu__item mdl-js-ripple-effect">
-                    分享到微博
-                </li>
-            </a>
-        </ul>
-    </div>
-</div>
-
-	
-    
-    
-		
-			<!-- Paradox Thumbnail -->
-        	<div class="post_entry-module mdl-card mdl-cell mdl-cell--12-col fade out">
-    
-    <!-- Post Thumbnail -->
+                <!-- Post Header(Thumbnail & Title) -->
+                
+	<!-- Paradox Post Header -->
 	
 		<!-- Custom Thumbnail -->
-		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://pbs.twimg.com/media/CrYVQm_WgAAXD5P.jpg)">
+		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://img2.niutuku.com/desk/1208/2051/ntk-2051-22664.jpg)">
 	
+        <p class="article-headline-p">
+            [iOS]Rx系列-为什么要使用Reactive Programming
+        </p>
+    </div>
+
+	
+
 				
-		<!-- Post Title -->
-		<p class="article-headline-p"><a href="/2016/11/10/unitsquare/">[iOS]Instagram/IGListKit实践谈</a></p>
-	</div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-          #简单介绍IGListKit是Instagram推出的新的 UICollectionView 框架，使用数据驱动，旨在创造一个更快更灵活的列...
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2016/11/10/unitsquare/" target="_self">继续阅读</a>
-        </span>
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
     </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.png" width="44px" height="44px" alt="与狼同行's avatar">
-            </div>
-            <div>
-                <strong>与狼同行</strong>
-                <span>11月 10, 2016</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/iOS开发/">iOS开发</a>
-            </span>
-            
-            
-                <!-- Comment Number -->
-                &nbsp;|&nbsp;
-                <span class="post_entry-comment" >
-                        <span class="ds-thread-count" data-thread-key="undefined" data-count-type="comments"></span>
-                </span>
-            
-            
-            <!-- Post Views -->
-            <span class="post_entry-views">
+    <!-- Author Name & Date -->
+    <div>
+        <strong>与狼同行</strong>
+        <span>11月 28, 2016</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Rx/">Rx</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/iOS/">iOS</a>
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=[iOS]Rx系列-为什么要使用Reactive Programming&url=http://chenmingjia.github.io//2016/11/28/20161128 [iOS]Rx系列-为什么要使用Reactive Programming/index.html&via=与狼同行" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io//2016/11/28/20161128 [iOS]Rx系列-为什么要使用Reactive Programming/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=[iOS]Rx系列-为什么要使用Reactive Programming&url=http://chenmingjia.github.io//2016/11/28/20161128 [iOS]Rx系列-为什么要使用Reactive Programming/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
+</div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<p>本文整理自 美团臧大神的直播分享</p>
+<h1 id="一、App中的理想模型和实际模型"><a href="#一、App中的理想模型和实际模型" class="headerlink" title="一、App中的理想模型和实际模型"></a>一、App中的理想模型和实际模型</h1><h2 id="理想模型"><a href="#理想模型" class="headerlink" title="理想模型"></a>理想模型</h2><p>一般来说，我们App的页面大体可以分为三个流程在制作:</p>
+<ol>
+<li>请求网络获取页面详情页</li>
+<li>显示到UI上</li>
+<li>控件产生动作</li>
+</ol>
+<p>但如果所有App开发都只遵循 这三步，App开发也太简单了，根本不需要那么多人。</p>
+<h2 id="实际模型"><a href="#实际模型" class="headerlink" title="实际模型"></a>实际模型</h2><p>通常来说一个App详情页除了上述提到的三点，还有更多<strong>背后的需求</strong>:</p>
+<p><strong>1. 网络抓取前数据的处理</strong><br><strong>2. 抓取数据的API不止一个，怎么办?</strong><br>如果有多个API，会有串并行规则，有可能先请求1和2的API，拿到结果再去请求第三个API，去获得第三个API的真正返回结果。<br><strong>3. 显示的内容有选择性</strong><br>比如某些页面有特价情况，但如果该返回结果没有特价，则该位置用原价代替，诸如此类的<br><strong>4. 滚动改变导航栏变化</strong><br>控件之间往往也会有相互的作用<br>…</p>
+<p>现在我们把上述实际碰到的问题概括为三个<strong>复杂点:</strong></p>
+<ol>
+<li>异步数据拉取逻辑</li>
+<li>UI后期调整:当数据不完全时先用UI补充，待获取后补充UI、重新布置</li>
+<li>控件相互作用</li>
+</ol>
+<p>根据复杂点思考出<strong>解决方案</strong><br>于是我们可以使用状态来解决上述问题:<br>初始化状态-&gt;改变状态-&gt;判断状态</p>
+<h1 id="二、命令式编程-amp-Reactive-Programming"><a href="#二、命令式编程-amp-Reactive-Programming" class="headerlink" title="二、命令式编程&amp;Reactive Programming"></a>二、命令式编程&amp;Reactive Programming</h1><p><img src="http://upload-images.jianshu.io/upload_images/712028-0c15d944a38cfec4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="527C7DA0-7732-4C62-B4A3-9BB95D6476CF.png"><br>命令式编程&amp;异步的问题:</p>
+<ol>
+<li>命令式编程会在异步中使用callback来改变状态，即执行完callback才能接着执行其他命令。<br>假如命令式没有异步的情况，程序逻辑都可以写在一个函数里，但只要逻辑中有一个异步，那么其返回并不在当前函数的范围内。</li>
+<li>获取后刷新UI和异步响应</li>
+</ol>
+<p>命令式编程在应对计算时，可以非常轻松的解决问题，但在面临异步时，需要设计很多的状态量，如果一个页面有2个接口，A和B要一起刷新UI,那么要在A的接口里判断B,在B的接口里判断A,无论如何封装，其本质也不会改变。</p>
+<h1 id="响应式编程"><a href="#响应式编程" class="headerlink" title="响应式编程"></a>响应式编程</h1><h2 id="Pull-Driver"><a href="#Pull-Driver" class="headerlink" title="Pull Driver"></a>Pull Driver</h2><p><img src="http://upload-images.jianshu.io/upload_images/712028-89afacc1259d8b62.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="FFB3260A-E97A-4391-9F8D-F257B7C799D5.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-438c58cee3641c30.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1365E550-DADD-4D7D-9478-21E96C208368.png"><br>当使用Pull Driver,上层由于有下层的引用，c就会自动获取得到11.<br>下面为实现Pull Driver的基本方式:</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-bf266c51af199f13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="
+![32CDD012-5621-4B2C-8735-B5AB98D2B802.png](http://upload-images.jianshu.io/upload_images/712028-bc62a8bc5f877872.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-fcfc10e2f8f9316a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="0AC65F5A-B70B-47A1-AAAD-538B31C202B9.png"></p>
+<h2 id="Push-Driver"><a href="#Push-Driver" class="headerlink" title="Push Driver"></a>Push Driver</h2><p>下面是使用Push Driver的基本方式:</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-df2a8bd59c345c7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="789FBE76-2F56-4BB8-A7D9-1389F300EBB0.png"><br>Push Driver是当下层变化时，自动通知上方变化<br><img src="http://upload-images.jianshu.io/upload_images/712028-c0ad03210964768f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="
+![8BEB712B-6D27-403C-A3AE-E16FBF118C6E.png](http://upload-images.jianshu.io/upload_images/712028-26c2904af915328c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-e56553d182b915bc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="30306BD7-E3A3-4D5F-A927-3E75EC602154.png"></p>
+<h2 id="PULL-VS-PUSH"><a href="#PULL-VS-PUSH" class="headerlink" title="PULL VS PUSH"></a>PULL VS PUSH</h2><p>PULL的缺点是上层因为是拉取下层的变化，所以如果变化树很深，上层一旦变化，就会从下往上全部拉取一下，效率就十分差。<br>而且PULL Driver还有一个缺点就是如果下层发生变化，上层是不知道变化时机的，如果上层需要响应，还需要显示的通知上层多个对象变化。</p>
+<p>Push的缺点是如果上层节点特别多，下层一个节点变化，那么会一层层的通知上去，会出现block套block的情况。<br>但这也是PushDriver最大的优势，底层数据变化是不需要上层显式的刷新的，这是一般UI控件非常需要的。<br>而TableView就相当于Pull Driver，不管底层数据如何覆盖变化，最后刷新的数据永远是最新的。</p>
+<h2 id="如何判断是否使用响应式框架"><a href="#如何判断是否使用响应式框架" class="headerlink" title="如何判断是否使用响应式框架"></a>如何判断是否使用响应式框架</h2><ol>
+<li>业务的次数:如果你的项目百分之80的场景都是if判断的场景</li>
+<li>修改的频度:比如请求A和其他请求打包，如果请求A发生改变，那么就需要依次进行修改</li>
+<li>并发的个数:如果你的项目拥有大量并发个数，那么就代表你需要大量if来回判断，这样项目就会千疮百孔。</li>
+</ol>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
                 
-            </span>
+    <!-- 使用多说评论 -->
+    <link rel="stylesheet" href="/css/duoshuo.min.css">
+<style>
+    #ds-thread #ds-reset .ds-post-button{
+        background-color: #FF8247 !important;
+    }
+    #ds-wrapper #ds-reset .ds-icons-32{
+        background-color: #FF8247 !important;
+    }
+    #ds-reset .ds-highlight {
+        color: #FF8247 !important;
+    }
+</style>
+<div id="comments">
+    <!-- 多说评论框 start -->
+        <div class="ds-thread" data-thread-key="undefined" data-title="[iOS]Rx系列-为什么要使用Reactive Programming" data-url="http://chenmingjia.github.io//2016/11/28/20161128 [iOS]Rx系列-为什么要使用Reactive Programming/index.html"></div>
+    <!-- 多说评论框 end -->
+</div>
+
+
+
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2016/11/27/20161122 [Swift]深入剖析基础--Dictionary&Hash/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
         </div>
     </div>
-            
-</div>
-
-		
-		
-    
-    
-	
-		<script>
-    
-    var randomNum;
-    
-    var locatePost = $(".something-else").next();
-    for(var i=0; i < 10; i++){
-        
-        randomNum = Math.floor(Math.random() * 5 + 1);
-        
-        locatePost.children(".post_thumbnail-random").attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children(".post_thumbnail-random").css('background-image', 'url(' + '/img/random/' + randomNum + '.png' + ')')
-        
-        locatePost = locatePost.next();
-    }
-    
-</script>
-
-	
-
-</div>
 
 				
 				
@@ -598,6 +578,13 @@ It will not impact the appearance and can give developers a lot of support :)
         <i class="material-icons">expand_less</i>
     </a>
     
+    
+        <!-- Post Nav -->
+        
+
+        
+            <a class="prev-content fab" href="/2016/11/27/20161122 [Swift]深入剖析基础--Dictionary&Hash/" title="[Swift]深入剖析基础--Dictionary&amp;Hash"><i class="material-icons">keyboard_arrow_right</i></a>
+        
     
     
     
