@@ -4,7 +4,7 @@
     <!-- Title -->
     
     <title>
-        [算法]模式识别-Graph | Big Wolf’s Blog
+        [算法]算法实战 -- 搜索 | Big Wolf’s Blog
     </title>
     
     <!-- Favicons -->
@@ -40,7 +40,7 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://chenmingjia.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="[算法]模式识别-Graph | Big Wolf’s Blog">
+    <meta property="og:title" content="[算法]算法实战 -- 搜索 | Big Wolf’s Blog">
     <meta property="og:description" content="null">
     
      <!--[if lte IE 9]>
@@ -205,10 +205,10 @@
 	<!-- Paradox Post Header -->
 	
 		<!-- Custom Thumbnail -->
-		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://img1.qq.com/gamezone/pics/13806/13806628.jpg)">
+		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://www.cnfxj.org/cms/preview/news/upload/resources/image/2014/12/25/14194934379257350.jpg?1430360477692)">
 	
         <p class="article-headline-p">
-            [算法]模式识别-Graph
+            [算法]算法实战 -- 搜索
         </p>
     </div>
 
@@ -226,7 +226,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>与狼同行</strong>
-        <span>11月 25, 2016</span>
+        <span>11月 28, 2016</span>
     </div>
     
     <div class="section-spacer"></div>
@@ -246,7 +246,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/模式识别/">模式识别</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/算法/">算法</a>
+        <a class="post_tag-link" href="/tags/算法/">算法</a>
     </ul>
     
     <!-- Share -->
@@ -261,21 +261,21 @@
     
     
     <!-- Share Twitter -->
-    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=[算法]模式识别-Graph&url=http://chenmingjia.github.io//2016/11/25/20161126[算法]模式识别-Graph/index.html&via=与狼同行" target="_blank">
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=[算法]算法实战 -- 搜索&url=http://chenmingjia.github.io//2016/11/28/20161129 [算法]搜索算法实战/index.html&via=与狼同行" target="_blank">
         <li class="mdl-menu__item">
             分享到 Twitter
         </li>
     </a>
     
     <!-- Share Google+ -->
-    <a class="post_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io//2016/11/25/20161126[算法]模式识别-Graph/index.html" target="_blank">
+    <a class="post_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io//2016/11/28/20161129 [算法]搜索算法实战/index.html" target="_blank">
         <li class="mdl-menu__item">
             分享到 Google+
         </li>
     </a>
     
     <!-- Share Weibo -->
-    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=[算法]模式识别-Graph&url=http://chenmingjia.github.io//2016/11/25/20161126[算法]模式识别-Graph/index.html&pic=&searchPic=false&style=simple" target="_blank">
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=[算法]算法实战 -- 搜索&url=http://chenmingjia.github.io//2016/11/28/20161129 [算法]搜索算法实战/index.html&pic=&searchPic=false&style=simple" target="_blank">
         <li class="mdl-menu__item">
             分享到微博
         </li>
@@ -287,19 +287,10 @@
                 <!-- Post Content -->
                 <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
 	
-		<p>#Graph</p>
-<p>图的实现是一件很麻烦的事情，很多同学可能在学数据结构时只是理解了图的基本操作和遍历原理，但并没有动手实践过。在此，我说说我的实现过程。</p>
-<p><img src="http://img2.tuicool.com/mIvmAr.jpg!web" alt=""></p>
-<p>首先，在草稿纸上画一个图表，这里是有向图，无向图也一样，如下：<br>我用的是vector+vector容器作为存储结构，如下： vector+vector）<br>|0|——|1|——|3|<br>|1|——|2|——|3|<br>|2|——|3|<br>|3| </p>
-<p>第二步，用自然语言建立这个图，注意数据结构的书一般没有说明图是怎么建立的，在此我简述一下：</p>
-<p>1）、加入 4个顶点——G.InsertVextex(V)；</p>
-<p>2）、在两个顶点之间增加有向弧——G.AddEdge(x, y)。</p>
-<p>这样图就建立了。</p>
-<p>我写了两个Graph的构造函数，也可以直接用一个数组实现1）的操作如下：</p>
-<p>vector<vnode> v(4);</vnode></p>
-<p>Graph G(v);</p>
-<p>第三步，广度优先遍历和深度优先遍历。遍历的目的是为了对每个顶点进行一些处理，能够遍历这个图是其他操作的基础。甚至可以用遍历的方法建立这个图，就像我之前用先序遍历建立二叉树一个道理。</p>
-<p>这三步完成，图的实现就基本解决了。至于最小生成树、关键路径等问题，以后再说。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div></pre></td><td class="code"><pre><div class="line">#include &lt;queue&gt;</div><div class="line">#include &lt;stdio.h&gt;</div><div class="line"></div><div class="line"></div><div class="line">using namespace std;</div><div class="line">typedef int DataType;</div><div class="line">const DataType INIT_DATA = -1;</div><div class="line">const int NO_NODE   = -1;</div><div class="line">const int NO_EDGE   = -2;</div><div class="line"></div><div class="line">class VNode&#123;</div><div class="line">public:</div><div class="line">    //data member</div><div class="line">    bool visited;				//访问标志</div><div class="line">    DataType data;				//顶点内的数据</div><div class="line">    vector&lt;int&gt; e;				//邻接的边</div><div class="line">    //member function</div><div class="line">    VNode(DataType val = INIT_DATA, bool flag = false):data(val), visited(flag)&#123;&#125;</div><div class="line">    void Visit()</div><div class="line">    &#123;</div><div class="line">        cout&lt;&lt;data&lt;&lt;&quot;\t&quot;;</div><div class="line">    &#125;</div><div class="line">    bool operator== (VNode &amp;y)&#123;</div><div class="line">        if(data == y.data &amp;&amp; e == y.e)</div><div class="line">            return true;</div><div class="line">        else</div><div class="line">            return false;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">class Graph&#123;</div><div class="line">public:</div><div class="line">    //data member</div><div class="line">    int vexnum;					//图中顶点数</div><div class="line">    int edgenum;				//图中边数</div><div class="line">    vector&lt;VNode&gt; V;			//图的存储结构</div><div class="line">    //member function</div><div class="line">    Graph()</div><div class="line">    &#123;</div><div class="line">        vexnum = 0;</div><div class="line">        edgenum = 0;</div><div class="line">    &#125;</div><div class="line">    Graph(vector&lt;VNode&gt; &amp;v);</div><div class="line">    int GetVexNum();</div><div class="line">    int GetEdgeNum();</div><div class="line">    //节点操作</div><div class="line">    void InsertVertex(VNode &amp;x);</div><div class="line">    bool DeleteVertex(int x);</div><div class="line">    //边的操作</div><div class="line">    //bool IfEdge(int x, int y);		//判断是否有(x, y)的边</div><div class="line">    bool AddEdge(int x, int y);</div><div class="line">    bool RemoveEdge(int x, int y);</div><div class="line">    //邻边操作</div><div class="line">    void PrintNeighbors(int x);		//</div><div class="line">    VNode &amp;Neighbor(VNode &amp;x, int n);		//x的第n个邻接节点,默认n为第一个</div><div class="line">    //广度遍历和深度遍历</div><div class="line">    void BreadthFirstSearch();</div><div class="line">    void BFS(VNode &amp;x);		//队列实现</div><div class="line">    void DepthFirstSearch();</div><div class="line">    void DFS(VNode &amp;x);		//递归函数</div><div class="line">    ~Graph()&#123;&#125;;</div><div class="line">&#125;;</div><div class="line">Graph::Graph(vector&lt;VNode&gt; &amp;v)</div><div class="line">&#123;</div><div class="line">    V.assign(v.begin(), v.end());</div><div class="line">    vexnum = V.size();</div><div class="line">    edgenum = GetEdgeNum();</div><div class="line">&#125;</div><div class="line"></div><div class="line">int Graph::GetVexNum()</div><div class="line">&#123;</div><div class="line">    vexnum = V.size();</div><div class="line">    return vexnum;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int Graph::GetEdgeNum()</div><div class="line">&#123;</div><div class="line">    edgenum = 0;</div><div class="line">    for(vector&lt;VNode&gt;::iterator iter = V.begin(); iter != V.end(); ++iter)</div><div class="line">    &#123;</div><div class="line">        edgenum += iter-&gt;e.size();</div><div class="line">    &#125;</div><div class="line">    return edgenum;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void Graph::InsertVertex(VNode &amp;x)</div><div class="line">&#123;</div><div class="line">    V.push_back(x);</div><div class="line">    vexnum++;</div><div class="line">&#125;</div><div class="line">//删除x节点</div><div class="line">bool Graph::DeleteVertex(int x)</div><div class="line">&#123;</div><div class="line">    if(x &gt;= V.size() || x &lt; 0)</div><div class="line">    &#123;</div><div class="line">        cout&lt;&lt;&quot;没有相应节点&quot;&lt;&lt;endl;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line">    vector&lt;VNode&gt;::iterator iter = V.begin()+x;</div><div class="line">    V.erase(iter);</div><div class="line">    vexnum--;</div><div class="line">    return true;</div><div class="line">&#125;</div><div class="line"></div><div class="line">bool Graph::AddEdge(int x, int y)</div><div class="line">&#123;</div><div class="line">    if((x &gt;= V.size() || x &lt; 0) || (y &gt;= V.size() || y &lt; 0))</div><div class="line">    &#123;</div><div class="line">        cout&lt;&lt;&quot;没有相应节点&quot;&lt;&lt;endl;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line">    int size = V[x].e.size();</div><div class="line">    for(vector&lt;int&gt;::iterator iter = V[x].e.begin(); iter != V[x].e.end(); ++iter)</div><div class="line">    &#123;</div><div class="line">        if(V[*iter] == V[y])	//已经有(x, y)</div><div class="line">        &#123;</div><div class="line">            cout&lt;&lt;&quot;已经有弧(x, y)&quot;&lt;&lt;endl;</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    V[x].e.push_back(y);		//没有，则把y加入x的邻边队列中</div><div class="line">    edgenum++;</div><div class="line">    return true;</div><div class="line">&#125;</div><div class="line">bool Graph::RemoveEdge(int x, int y)</div><div class="line">&#123;</div><div class="line">    if((x &gt;= V.size() || x &lt; 0) || (y &gt;= V.size() || y &lt; 0))</div><div class="line">    &#123;</div><div class="line">        cout&lt;&lt;&quot;没有相应节点&quot;&lt;&lt;endl;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line">    for(vector&lt;int&gt;::iterator iter = V[x].e.begin(); iter != V[x].e.end(); ++iter)</div><div class="line">    &#123;</div><div class="line">        if(V[*iter] == V[y])</div><div class="line">        &#123;</div><div class="line">            V[x].e.erase(iter);</div><div class="line">            edgenum--;</div><div class="line">            return true;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    cout&lt;&lt;&quot;没有弧(x, y)&quot;&lt;&lt;endl;</div><div class="line">    return false;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//邻边操作</div><div class="line">void Graph::PrintNeighbors(int x)</div><div class="line">&#123;</div><div class="line">    cout&lt;&lt;&quot;列出节点&quot;&lt;&lt;x&lt;&lt;&quot;的所有邻接节点&quot;&lt;&lt;endl;</div><div class="line">    for(vector&lt;int&gt;::iterator iter = V[x].e.begin(); iter != V[x].e.end(); ++iter)</div><div class="line">    &#123;</div><div class="line">        cout&lt;&lt;*iter&lt;&lt;&quot;\t&quot;;</div><div class="line">    &#125;</div><div class="line">    cout&lt;&lt;endl;</div><div class="line">&#125;</div><div class="line"></div><div class="line">VNode &amp;Graph::Neighbor(VNode &amp;x, int n = 1)</div><div class="line">&#123;</div><div class="line">    </div><div class="line">    if(n &gt; x.e.size() || n &lt;= 0)</div><div class="line">    &#123;</div><div class="line">        cout&lt;&lt;&quot;没有相应边&quot;&lt;&lt;endl;</div><div class="line">        exit(0);</div><div class="line">    &#125;</div><div class="line">    return V[(x.e[n-1])];</div><div class="line">&#125;</div><div class="line">/******</div><div class="line">	遍历</div><div class="line"> **********/</div><div class="line">void Graph::BreadthFirstSearch()</div><div class="line">&#123;</div><div class="line">    for(int i = 0; i != vexnum; ++i)</div><div class="line">    &#123;</div><div class="line">        if(!V[i].visited)</div><div class="line">            BFS(V[i]);</div><div class="line">    &#125;</div><div class="line">    for(vector&lt;VNode&gt;::iterator k = V.begin(); k != V.end(); ++k)</div><div class="line">        k-&gt;visited = false;</div><div class="line">    </div><div class="line">&#125;</div><div class="line">void Graph::BFS(VNode &amp;x)</div><div class="line">&#123;</div><div class="line">    queue&lt;VNode&gt; q;</div><div class="line">    q.push(x);</div><div class="line">    while(!q.empty())</div><div class="line">    &#123;</div><div class="line">        VNode &amp;_x = q.front();</div><div class="line">        if(!_x.visited)</div><div class="line">        &#123;</div><div class="line">            _x.Visit();</div><div class="line">            _x.visited = true;</div><div class="line">            int size = _x.e.size();</div><div class="line">            </div><div class="line">            for(int i = 0; i &lt; size; ++i)</div><div class="line">            &#123;</div><div class="line">                VNode &amp;w = V[_x.e[i]];</div><div class="line">                if(!w.visited)</div><div class="line">                &#123;</div><div class="line">                    w.Visit();</div><div class="line">                    w.visited = true;</div><div class="line">                    q.push(w);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        q.pop();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">void Graph::DepthFirstSearch()</div><div class="line">&#123;</div><div class="line">    for(int i = 0; i != vexnum; ++i)</div><div class="line">    &#123;</div><div class="line">        if(!V[i].visited)</div><div class="line">            DFS(V[i]);</div><div class="line">    &#125;</div><div class="line">    for(vector&lt;VNode&gt;::iterator k = V.begin(); k != V.end(); ++k)//改变访问标志，以便下次访问</div><div class="line">        k-&gt;visited = false;</div><div class="line">&#125;</div><div class="line">void Graph::DFS(VNode &amp;x)</div><div class="line">&#123;</div><div class="line">    </div><div class="line">    x.Visit();</div><div class="line">    x.visited = true;</div><div class="line">    int size = x.e.size();</div><div class="line">    for(int i = 0; i &lt; size; ++i)</div><div class="line">    &#123;</div><div class="line">        VNode &amp;w = V[x.e[i]];</div><div class="line">        if(!w.visited)</div><div class="line">            DFS(w);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+		<h2 id="拼图游戏-A-算法"><a href="#拼图游戏-A-算法" class="headerlink" title="拼图游戏 - A*算法"></a>拼图游戏 - A*算法</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>二叉堆是完全二元树或者是近似完全二元树，它分为两种： 最大堆 和 最小堆 。<br>最大堆：父结点的键值总是大于或等于任何一个子节点的键值；最小堆：父结点的键值总是小于或等于任何一个子节点的键值。示意图如下：<br><img src="http://images.cnitblog.com/i/497634/201403/182342224903953.jpg" alt=""></p>
+<p><img src="http://images.cnitblog.com/i/497634/201403/182345301461858.jpg" alt=""><br>如上图所示，当向最大堆中添加数据时：先将数据加入到最大堆的最后，然后尽可能把这个元素往上挪，直到挪不动为止！<br><img src="http://img0.tuicool.com/fA3mAn.jpg!web" alt=""><br>如上图所示，当从最大堆中删除数据时：先删除该数据，然后用最大堆中最后一个的元素插入这个空位；接着，把这个“空位”尽量往上挪，直到剩余的数据变成一个最大堆</p>
+<h3 id="优先队列"><a href="#优先队列" class="headerlink" title="优先队列"></a>优先队列</h3><p>优先队列就是作业调度类的ADT，可以用二叉堆来实现。 优先队列最少有两个操作：插入（Insert）和删除最小者（DeleteMin）。</p>
+<p>在拼图游戏中，3阶以下可以使用广度优先算法找出最优解，但是速率上远远不如A<em>算法。A</em>算法可以应对5阶的拼图游戏。<br>A<em>[1]  （A-Star)算法是一种静态路网中求解最短路最有效的直接搜索方法，也是许多其他问题的常用启发式算法。<br>注意是最有效的直接搜索算法。之后涌现了很多预处理算法（ALT，CH，HL等等），在线查询效率是A</em>算法的数千甚至上万倍。<br>公式表示为： f(n)=g(n)+h(n),<br>其中 f(n) 是从初始状态经由状态n到目标状态的代价估计，<br>g(n) 是在状态空间中从初始状态到状态n的实际代价，<br>h(n) 是从状态n到目标状态的最佳路径的估计代价。</p>
 
 	
 	
@@ -326,7 +317,7 @@
 </style>
 <div id="comments">
     <!-- 多说评论框 start -->
-        <div class="ds-thread" data-thread-key="undefined" data-title="[算法]模式识别-Graph" data-url="http://chenmingjia.github.io//2016/11/25/20161126[算法]模式识别-Graph/index.html"></div>
+        <div class="ds-thread" data-thread-key="undefined" data-title="[算法]算法实战 -- 搜索" data-url="http://chenmingjia.github.io//2016/11/28/20161129 [算法]搜索算法实战/index.html"></div>
     <!-- 多说评论框 end -->
 </div>
 
@@ -339,7 +330,7 @@
     
     <!-- Prev Nav -->
     
-        <a href="/2016/11/25/20161125[算法]模式识别-Stack/" id="post_nav-newer" class="prev-content">
+        <a href="/2016/11/28/20161128 [iOS]Rx系列-为什么要使用Reactive Programming/" id="post_nav-newer" class="prev-content">
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
                 <i class="material-icons">arrow_back</i>
             </button>
@@ -353,7 +344,7 @@
 
     <!-- Next Nav -->
     
-        <a href="/2016/11/25/20161125[算法]模式识别-List/" id="post_nav-older" class="next-content">
+        <a href="/2016/11/27/20161122 [Swift]深入剖析基础--Dictionary&Hash/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
@@ -561,11 +552,11 @@ It will not impact the appearance and can give developers a lot of support :)
     
         <!-- Post Nav -->
         
-            <a class="prev-content fab" href="/2016/11/25/20161125[算法]模式识别-Stack/" title="[算法]模式识别-Stack"><i class="material-icons">keyboard_arrow_left</i></a>
+            <a class="prev-content fab" href="/2016/11/28/20161128 [iOS]Rx系列-为什么要使用Reactive Programming/" title="[iOS]Rx系列-为什么要使用Reactive Programming"><i class="material-icons">keyboard_arrow_left</i></a>
         
 
         
-            <a class="prev-content fab" href="/2016/11/25/20161125[算法]模式识别-List/" title="[算法]模式识别-List"><i class="material-icons">keyboard_arrow_right</i></a>
+            <a class="prev-content fab" href="/2016/11/27/20161122 [Swift]深入剖析基础--Dictionary&Hash/" title="[Swift]深入剖析基础--Dictionary&amp;Hash"><i class="material-icons">keyboard_arrow_right</i></a>
         
     
     
