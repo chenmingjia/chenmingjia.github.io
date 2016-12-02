@@ -328,6 +328,21 @@
 <li>修改的频度:比如请求A和其他请求打包，如果请求A发生改变，那么就需要依次进行修改</li>
 <li>并发的个数:如果你的项目拥有大量并发个数，那么就代表你需要大量if来回判断，这样项目就会千疮百孔。</li>
 </ol>
+<p>#三、使用RxSwift解决实际问题<br>比如说经典的回调地狱:</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-7cc8d263aaf7cbf6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5828EDA8-B3B8-424C-9556-3DAE7F4E949C.png"><br>而使用了RxSwift后:<br><img src="http://upload-images.jianshu.io/upload_images/712028-5cdf052bd2d23dd1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="5ECBAF01-F107-4C7C-B6AD-D2843C36EAE3.png"></p>
+<p>但是RxSwift只是用来解决网络请求的问题就有一些浪费，因为它和PromiseKit基本上是一样的。</p>
+<h2 id="RxSwift基本原理"><a href="#RxSwift基本原理" class="headerlink" title="RxSwift基本原理"></a>RxSwift基本原理</h2><p><img src="http://upload-images.jianshu.io/upload_images/712028-96729d975ea2f962.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="
+![DB23D587-4F91-4B58-AAD1-E592098664CF.png](http://upload-images.jianshu.io/upload_images/712028-851699d710cdb91f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-53633d72d5bce375.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="EE8FB142-4781-45A0-A5AA-7D661F1EF11C.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-6cec8a917ef025a7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="7E4EED2D-0127-4E13-9C01-345FA0C7A5E6.png"><br><img src="http://upload-images.jianshu.io/upload_images/712028-712f08816eaea455.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="
+![A66B1EB7-3662-4374-B6E1-E746AA3BA30F.png](http://upload-images.jianshu.io/upload_images/712028-d17f2b48db4aa828.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+"><br><img src="http://upload-images.jianshu.io/upload_images/712028-743b8df1d4a0ba5f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="667178A8-96B9-4731-84D1-65550487D0BE.png"></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/712028-7ed3a32afd01394f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="
+![
+![57783E12-0511-433D-862F-789CDFA95BD0.png](http://upload-images.jianshu.io/upload_images/712028-5b647cd20c62f624.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+](http://upload-images.jianshu.io/upload_images/712028-54ad9d6c9b1fe63c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+"></p>
 
 	
 	
@@ -367,13 +382,21 @@
     
     <!-- Prev Nav -->
     
+        <a href="/2016/11/29/20161128 [iOS]Rx系列-Rx基础知识整理/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
     
-        <a href="/2016/11/27/20161122 [Swift]深入剖析基础--Dictionary&Hash/" id="post_nav-older" class="next-content">
+        <a href="/2016/11/28/20161129 [算法]算法实战/" id="post_nav-older" class="next-content">
             旧篇
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
@@ -459,7 +482,7 @@
         </a>
         <ul class="dropdown-menu">
             <li>
-            <a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">15</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">十月 2016<span class="sidebar_archives-count">1</span></a>
+            <a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">17</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">十月 2016<span class="sidebar_archives-count">1</span></a>
         </ul>
     </li>
 
@@ -506,7 +529,7 @@
     <li>
         <a href="#">
              文章总数
-             <span class="sidebar-badge">16</span>
+             <span class="sidebar-badge">18</span>
         </a>
     </li>
 </ul>
@@ -581,9 +604,11 @@ It will not impact the appearance and can give developers a lot of support :)
     
         <!-- Post Nav -->
         
+            <a class="prev-content fab" href="/2016/11/29/20161128 [iOS]Rx系列-Rx基础知识整理/" title="[iOS]Rx系列-为什么要使用Reactive Programming"><i class="material-icons">keyboard_arrow_left</i></a>
+        
 
         
-            <a class="prev-content fab" href="/2016/11/27/20161122 [Swift]深入剖析基础--Dictionary&Hash/" title="[Swift]深入剖析基础--Dictionary&amp;Hash"><i class="material-icons">keyboard_arrow_right</i></a>
+            <a class="prev-content fab" href="/2016/11/28/20161129 [算法]算法实战/" title="[算法]算法实战"><i class="material-icons">keyboard_arrow_right</i></a>
         
     
     

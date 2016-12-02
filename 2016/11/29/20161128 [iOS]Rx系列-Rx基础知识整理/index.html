@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <!-- Title -->
+    
+    <title>
+        [iOS]Rx系列-为什么要使用Reactive Programming | Big Wolf’s Blog
+    </title>
+    
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+    
+    <!-- Meta & INfo -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#FF8247">
+    <meta name="author" content="与狼同行">
+    <meta name="description" content="null">
+    <meta name="keywords" content="null">
+    
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+    
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Big Wolf’s Blog">
+    
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://chenmingjia.github.io">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="[iOS]Rx系列-为什么要使用Reactive Programming | Big Wolf’s Blog">
+    <meta property="og:description" content="null">
+    
+     <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+        
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+    
+    <!-- Import CSS -->
+    <link rel="stylesheet" href="/css/material.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <!-- Config CSS -->
+
+<!-- Theme Background -->
+
+    <style>
+        body{
+            background-color: #F5F5F5
+        }
+		
+        #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+            background-color: #fff;
+        }
+		
+        #scheme-Paradox .MD-burger-layer {
+            background-color: #666;
+        }
+		
+        #scheme-Paradox .material-back{
+            color: #666;
+        }
+		
+        .material-layout .material-post>.material-nav,
+		.material-layout .material-index>.material-nav,
+        .material-nav a,
+        #scheme-Paradox .material-post_container .material-back{
+            color: #666;
+        }
+    </style>
+
+
+<!-- Fade Effect -->
+
+    <style>
+        .fade {
+            transition: all 800ms linear;
+            -webkit-transform: translate3d(0,0,0);
+            -moz-transform: translate3d(0,0,0);
+            -ms-transform: translate3d(0,0,0);
+            -o-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+            opacity: 1;
+        }
+
+        .fade.out{
+            opacity: 0;
+        }
+    </style>
+
+
+<!-- Other Styles -->
+<style>
+	body, html{
+		font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+	}
+	
+    a{
+        color: #FF8C69
+    }
+    
+    .mdl-card__media,
+    #search-label,
+    #search-form-label:after,
+    #scheme-Paradox .hot_tags-count,
+    #scheme-Paradox .sidebar_archives-count,
+    #scheme-Paradox .sidebar-colored .sidebar-header,
+    #scheme-Paradox .sidebar-colored .sidebar-badge{
+        background-color: #FF8247 !important
+    }
+    
+    #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus{
+        color: #FF8247 !important
+    }
+    
+    #post_entry-right-info,
+    .sidebar-colored .sidebar-nav li:hover > a,
+    .sidebar-colored .sidebar-nav li:hover > a i,
+    .sidebar-colored .sidebar-nav li > a:hover,
+    .sidebar-colored .sidebar-nav li > a:hover i,
+    .sidebar-colored .sidebar-nav li > a:focus i,
+    .sidebar-colored .sidebar-nav > .open > a,
+    .sidebar-colored .sidebar-nav > .open > a:hover,
+    .sidebar-colored .sidebar-nav > .open > a:focus,
+    #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a{
+        color: #FF8247 !important
+    }
+    
+    .fab{
+        background: #FF8247 !important
+    }
+</style>
+	<script src="/js/jquery.min.js"></script>
+	
+	<!-- UC Browser Compatible-->
+	<script>
+		var agent = navigator.userAgent.toLowerCase();
+		if(agent.indexOf('ucbrowser')>0) {
+			document.write('<link rel="stylesheet" href="/css/uc.css">');
+		   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+		}
+	</script>
+    
+    <!-- Custom Head -->
+    
+</head>
+	
+	
+
+    <body id="scheme-Paradox">
+
+		
+        <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+				
+			
+			
+            <!-- Main Container -->
+            <main class="material-layout__content" id="main">
+				
+                <!-- Top Anchor -->
+                <div id="top"></div>
+				
+				
+                <!-- Hamburger Button -->
+                <button class="MD-burger-icon sidebar-toggle">
+                    <span class="MD-burger-layer"></span>
+                </button>
+				
+				
+                
+	<!-- Back Button -->
+	<div class="material-back" id="backhome-div" tabindex="0">
+		<a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="#" onclick="window.history.back();return false;" target="_self" role="button" data-upgraded=",MaterialButton,MaterialRipple">
+			<i class="material-icons" role="presentation">arrow_back</i>
+			<span class="mdl-button__ripple-container">
+				<span class="mdl-ripple"></span>
+			</span>
+		</a>
+	</div>			
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+	<!-- Paradox Post Header -->
+	
+		<!-- Custom Thumbnail -->
+		<div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://img2.niutuku.com/desk/1208/2051/ntk-2051-22664.jpg)">
+	
+        <p class="article-headline-p">
+            [iOS]Rx系列-为什么要使用Reactive Programming
+        </p>
+    </div>
+
+	
+
+				
+				
+					<!-- Paradox Post Info -->
+					<div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+    
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.png" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>与狼同行</strong>
+        <span>11月 29, 2016</span>
+    </div>
+    
+    <div class="section-spacer"></div>
+	
+    <!-- Favorite -->
+<!--
+    <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+        <i class="material-icons" role="presentation">favorite</i>
+        <span class="visuallyhidden">favorites</span>
+    </button>
+-->
+    
+    <!-- Tags (bookmark) -->
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Rx/">Rx</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/iOS/">iOS</a>
+    </ul>
+    
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    
+    
+    
+    
+    <!-- Share Twitter -->
+    <a class="post_share-link" href="https://twitter.com/intent/tweet?text=[iOS]Rx系列-为什么要使用Reactive Programming&url=http://chenmingjia.github.io//2016/11/29/20161128 [iOS]Rx系列-Rx基础知识整理/index.html&via=与狼同行" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Twitter
+        </li>
+    </a>
+    
+    <!-- Share Google+ -->
+    <a class="post_share-link" href="https://plus.google.com/share?url=http://chenmingjia.github.io//2016/11/29/20161128 [iOS]Rx系列-Rx基础知识整理/index.html" target="_blank">
+        <li class="mdl-menu__item">
+            分享到 Google+
+        </li>
+    </a>
+    
+    <!-- Share Weibo -->
+    <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=[iOS]Rx系列-为什么要使用Reactive Programming&url=http://chenmingjia.github.io//2016/11/29/20161128 [iOS]Rx系列-Rx基础知识整理/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <li class="mdl-menu__item">
+            分享到微博
+        </li>
+    </a>
+</ul>
+</div>
+				
+
+                <!-- Post Content -->
+                <div id="post-content" class="markdown-Github mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+	
+		<p>一直特别想系统学习一下Rx系列，体会它的思想，于是先看看文档，之后也会在github上挂一个实际操练的小项目</p>
+<h1 id="Observable"><a href="#Observable" class="headerlink" title="Observable"></a>Observable</h1><p>Observable 也可以叫做队列，Observable<element>是观察者模式中被观察的对象,相当于一个事件序列(Sequence)，会向订阅者发送新产生的事件信息。<br>每一个 Observable 队列只是一个队列而已。它跟Swift的 Sequence 类型的队列有什么不同呢？ 其关键在于RxSwift的Observable可以异步的接受元素。这也是RxSwift的实现核心,然后基于此我们开始衍生讨论:</element></p>
+<ol>
+<li>Observable(ObservableType)等同于 Sequence</li>
+<li>ObservableType.subscribe 等同于 Sequence.makeIterator 迭代方法</li>
+<li>Observer (callback) 需要被传给 ObservableType.subscribe 方法来接收队列元素而不是在返回的迭代器上调用 next() 。<br>如果我们不使用RxSwift的话，我们的代码将会充斥着状态机，现在我们需要把那些状态给抽象出来。<br>列表和队列也许是开发者最早接触的数据结构,来看一下下面的数字:<blockquote>
+<p>–1–2–3–4–5–6–| // 正常结束<br>再来看一下字符串队列:<br>–a–b–a–a–a—d—X // 异常结束<br>有些队列是有限的，有些则是无限的,比如说触发按钮的队列:<br>—tap-tap——-tap—&gt;<br>这种表达方式叫做大理石图表。应该Rx系列中才有特殊名词，可以去官网查看具体大理石图。</p>
+</blockquote>
+</li>
+</ol>
+<p>我们来看一下订阅事件信息的种类分为三种：</p>
+<ol>
+<li>.Next(value)表示新的事件数据。</li>
+<li>.Completed表示事件序列的完结。</li>
+<li>.Error同样表示完结，但是代表异常导致的完结。</li>
+</ol>
+<p>队列在Rx被描绘为一种push接口。(即是上一节说的push方式,可以称为回调)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">enum Event&lt;Element&gt;  &#123;</div><div class="line">    case next(Element)      // next element of a sequence</div><div class="line">    case error(Swift.Error) // sequence failed with error</div><div class="line">    case completed          // sequence terminated successfully</div><div class="line">&#125;</div><div class="line"></div><div class="line">class Observable&lt;Element&gt; &#123;</div><div class="line">    func subscribe(_ observer: Observer&lt;Element&gt;) -&gt; Disposable</div><div class="line">&#125;</div><div class="line"></div><div class="line">protocol ObserverType &#123;</div><div class="line">    func on(_ event: Event&lt;Element&gt;)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果观察者队列接受到 2 和 3 ，那么队列将不会接受其他订阅事件。<strong>同时内部用来计算队列元素的资源就一起释放掉了–这种理解为自然结束</strong><br>如果你想关闭队列资源的产生并且立即把队列元素都给释放了，你需要在返回的迭代器方法后调用 dispose 方法。–理解为手动关闭<br>如果一个队列会在有限时间内结束，即使不调用 dispose 或者使用 addDisposableTo(disposeBag) 也不会引发永久的内存泄漏。然而直到这些资源被使用到完成触发 completed ，队列会一直产生事件元素或者是产生错误。<br>如果一个队列因此某些原因没有结束，资源将会永久的被分配除非 dispose 被你手动的去调用。<br>使用 dispose bag 或者 takeUntil操作符 是一种很强大的方式来确保资源被清除，我们建议使用它们即使队列会在有限的时间内结束。</p>
+<p>如果你好奇为什么Swift.Error不是泛型的，之后会进行解释。</p>
+<h1 id="Disposing"><a href="#Disposing" class="headerlink" title="Disposing"></a>Disposing</h1><p>还有一种额外的方式来结束观察队列。当我们正在操作队列时，假如我们要释放所有我们用来计算即将到来元素的资源，我们可以在一个订阅时使用dispose方法。<br>这里有一个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">let subscription = Observable&lt;Int&gt;.interval(0.3, scheduler: scheduler)</div><div class="line">.subscribe &#123; event in</div><div class="line">print(event)</div><div class="line">&#125;</div><div class="line"></div><div class="line">Thread.sleep(forTimeInterval: 2.0)</div><div class="line">subscription.dispose()</div></pre></td></tr></table></figure></p>
+<p>注意一下你其实不应该手动调用dispose方法，这只是一个演示的例子。手动调用dispose通常错误的代码习惯。更好的方式应该是将订阅回收掉，我们可以使用 DisposeBag, takeUntil或者其他的技巧<br>如果代码再调用dispose后还会打印东西吗？答案是不好说:</p>
+<ol>
+<li>如果当前是在串行线程队列，在Rx中叫做调度者，比如说主线程调度者，那么答案是不会。</li>
+<li>如果在并行线程队列中，那么答案是仍然会。<br>因为结果会是一个产生元素的线程和一个回收订阅的线程会并行执行。<br>以防那种情况出现我们需要这样写:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">let subscription = Observable&lt;Int&gt;.interval(0.3, scheduler: scheduler)</div><div class="line">.observeOn(MainScheduler.instance)</div><div class="line">.subscribe &#123; event in</div><div class="line">print(event)</div><div class="line">&#125;</div><div class="line"></div><div class="line">// ....</div><div class="line"></div><div class="line">subscription.dispose() // called from main thread</div></pre></td></tr></table></figure>
+<p>这样就防止了在 dispose 调用后，什么都不会打印了。</p>
+<h1 id="Dispose-Bag"><a href="#Dispose-Bag" class="headerlink" title="Dispose Bag"></a>Dispose Bag</h1><p>Dispose Bag被用于返回类似自动引用计数的行为对于RX来说。先把分配的资源统一丢到袋子里 (有点像是 autoreleasepool ) ，然后当 disposeBag 销毁的时候就一起销毁这些资源。在代码里可以看到，只要有 subscribe 的基本在最后都会兜上一个 .addDisposableTo(disposeBag) 用来处理资源自动销毁的问题。<br>当DisposeBag被析构时，它会对每一个增加进来的可回收对象调用 dispose。<br>它没有dispose 方法，因此它不允许去显式地去调用dispose方法。如果有必要马上清理资源，我们只需要创建一个新的bag。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">self.disposeBag = DisposeBag()</div></pre></td></tr></table></figure>
+<p>它会清理旧的引用然后引起资源回收。<br>如果需要显式的手动清理资源，那么需要使用 CompositeDisposable 。</p>
+<h1 id="Take-until"><a href="#Take-until" class="headerlink" title="Take until"></a>Take until</h1><p>另外一个方法去自动清理订阅是使用takeUntil操作符。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sequence</div><div class="line">    .takeUntil(self.rx.deallocated)</div><div class="line">    .subscribe &#123;</div><div class="line">        print($0)</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h2 id="隐式-Observable-防卫"><a href="#隐式-Observable-防卫" class="headerlink" title="隐式 Observable 防卫"></a>隐式 Observable 防卫</h2><p>无论哪一个线程生成元素，如果生成元素并传给观察者队列，通过调用 observer.on(.next(nextElement)) 那么直到这个 observe.on这个操作完成，队列将不会传入下一个元素，即线程安全。<br>如果 .next 元素没有完成操作，那么是不会调用 .completed 或者 .error<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">someObservable</div><div class="line">  .subscribe &#123; (e: Event&lt;Element&gt;) in</div><div class="line">      print(&quot;Event processing started&quot;)</div><div class="line">      // processing</div><div class="line">      print(&quot;Event processing ended&quot;)</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>它将总是打印:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Event processing started</div><div class="line">Event processing ended</div><div class="line">Event processing started</div><div class="line">Event processing ended</div><div class="line">Event processing started</div><div class="line">Event processing ended</div></pre></td></tr></table></figure></p>
+<p>而不会打印出:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Event processing started</div><div class="line">Event processing started</div><div class="line">Event processing ended</div><div class="line">Event processing ended</div></pre></td></tr></table></figure></p>
+<h2 id="创建你自己的观察队列"><a href="#创建你自己的观察队列" class="headerlink" title="创建你自己的观察队列"></a>创建你自己的观察队列</h2><p>如果你仅进创建一个方法返回Observable队列，其实队列是不是生成的，也不会任何附带效果。Observable仅仅是定义队列如何生成和哪些参数用于生成元素。所以队列生成只有当 subscribe迭代方法调用时 才会开始执行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">func searchWikipedia(searchTerm: String) -&gt; Observable&lt;Results&gt; &#123;&#125;</div><div class="line">let searchForMe = searchWikipedia(&quot;me&quot;)</div><div class="line"></div><div class="line">// no requests are performed, no work is being done, no URL requests were fired</div><div class="line"></div><div class="line">let cancel = searchForMe</div><div class="line">  // sequence generation starts now, URL requests are fired</div><div class="line">  .subscribe(onNext: &#123; results in</div><div class="line">      print(results)</div><div class="line">  &#125;)</div></pre></td></tr></table></figure></p>
+<p>有很多方式来创造自己的队列，也许最方便的函数是使用 create 函数。<br>现在我们写一个函数，它会生成队列并且返回一个订阅元素，这个函数叫做 just 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">func myJust&lt;E&gt;(element: E) -&gt; Observable&lt;E&gt; &#123;</div><div class="line">    return Observable.create &#123; observer in</div><div class="line">        observer.on(.next(element))</div><div class="line">        observer.on(.completed)</div><div class="line">        return Disposables.create()</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">myJust(0)</div><div class="line">    .subscribe(onNext: &#123; n in</div><div class="line">      print(n)</div><div class="line">    &#125;)</div></pre></td></tr></table></figure>
+<p>它会打印 0<br>create函数只是用来帮助更轻松去用闭包来实现 subscribe 方法。比如 subscribe 方法它只有一个参数，observer，然后返回一个可回收对象。<br>这种方式产生的队列是同步的，他将会在 subscribe 调用并返回可回收的订阅前 生成元素并且终止。<br>当生成同步队列时，通常的可回收对象会是一个单例– NopDisposable<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">func myFrom&lt;E&gt;(sequence: [E]) -&gt; Observable&lt;E&gt; &#123;</div><div class="line">    return Observable.create &#123; observer in</div><div class="line">        for element in sequence &#123;</div><div class="line">            observer.on(.next(element))</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        observer.on(.completed)</div><div class="line">        return Disposables.create()</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">let stringCounter = myFrom([&quot;first&quot;, &quot;second&quot;])</div><div class="line"></div><div class="line">print(&quot;Started ----&quot;)</div><div class="line"></div><div class="line">// first time</div><div class="line">stringCounter</div><div class="line">    .subscribe(onNext: &#123; n in</div><div class="line">        print(n)</div><div class="line">    &#125;)</div><div class="line"></div><div class="line">print(&quot;----&quot;)</div><div class="line"></div><div class="line">// again</div><div class="line">stringCounter</div><div class="line">    .subscribe(onNext: &#123; n in</div><div class="line">        print(n)</div><div class="line">    &#125;)</div><div class="line"></div><div class="line">print(&quot;Ended ----&quot;)</div></pre></td></tr></table></figure></p>
+<p>它会打印<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Started ----</div><div class="line">first</div><div class="line">second</div><div class="line">----</div><div class="line">first</div><div class="line">second</div><div class="line">Ended ----</div></pre></td></tr></table></figure></p>
+<h2 id="共享订阅和-shareReplay-方法"><a href="#共享订阅和-shareReplay-方法" class="headerlink" title="共享订阅和 shareReplay 方法"></a>共享订阅和 shareReplay 方法</h2><p>如果你想让多个观察者共享同一个订阅里的事件呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">let counter = myInterval(0.1)</div><div class="line">    .shareReplay(1)</div><div class="line"></div><div class="line">print(&quot;Started ----&quot;)</div><div class="line"></div><div class="line">let subscription1 = counter</div><div class="line">    .subscribe(onNext: &#123; n in</div><div class="line">        print(&quot;First \(n)&quot;)</div><div class="line">    &#125;)</div><div class="line">let subscription2 = counter</div><div class="line">    .subscribe(onNext: &#123; n in</div><div class="line">        print(&quot;Second \(n)&quot;)</div><div class="line">    &#125;)</div><div class="line"></div><div class="line">Thread.sleep(forTimeInterval: 0.5)</div><div class="line"></div><div class="line">subscription1.dispose()</div><div class="line"></div><div class="line">Thread.sleep(forTimeInterval: 0.5)</div><div class="line"></div><div class="line">subscription2.dispose()</div><div class="line"></div><div class="line">print(&quot;Ended ----&quot;)</div></pre></td></tr></table></figure></p>
+<p>这样会打印:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">Started ----</div><div class="line">Subscribed</div><div class="line">First 0</div><div class="line">Second 0</div><div class="line">First 1</div><div class="line">Second 1</div><div class="line">First 2</div><div class="line">Second 2</div><div class="line">First 3</div><div class="line">Second 3</div><div class="line">First 4</div><div class="line">Second 4</div><div class="line">First 5</div><div class="line">Second 5</div><div class="line">Second 6</div><div class="line">Second 7</div><div class="line">Second 8</div><div class="line">Second 9</div><div class="line">Disposed</div><div class="line">Ended ----</div></pre></td></tr></table></figure></p>
+<h2 id="单元"><a href="#单元" class="headerlink" title="单元"></a>单元</h2><p>单元是RxSwift中非常有用的概念，现在我们来系统的了解一下。<br>Swift是一个强类型语言，它可以很好的提升代码安全和稳定性，配合Rx就更简单了。<br>单元在 RxCocoa 被用到。<br>为什么要称为单元？在文档中原因被描述为其设计思想等同对物理单元概念<br>如果说 50m 是 数字+单位 ，那么我们的观察队列也是一样，只是队列还不够，队里只是一个值，它需要单位来表示意义。<br>数字有操作符 +, -, *, /.<br>而观察列表有操作符 map, filter, flatMap …<br>比如11 m / 0.5 s = …这个操作</p>
+<ol>
+<li>首先把单位转化为纯数字然后做除法 11 / 0.5 = 22</li>
+<li>然后计算单位 m / s</li>
+<li><p>最后把结果组合起来 22 m / s<br>而在Rx单位中，比如下面这句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">let d: Driver&lt;Int&gt; = Driver.just(11)</div><div class="line">driver.map &#123; $0 / 0.5 &#125; = ...</div></pre></td></tr></table></figure>
+</li>
+<li><p>首先把Driver转化为一个观察队列(即物理单位映射的纯值)，然后用map作用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">let mapped = driver.asObservable().map &#123; $0 / 0.5 &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>将单位和组合起来就是结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">let result = Driver(mapped)</div></pre></td></tr></table></figure>
+<p>(m, kg, s, A, K, cd, mol)这些物理单位都是这个正交的。<br>而在RxCocoa许多观察者队列的属性也是正交的。</p>
+<blockquote>
+<ul>
+<li>Can’t error out</li>
+</ul>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li>Observe on main scheduler</li>
+<li>Subscribe on main scheduler</li>
+<li>Sharing side effects</li>
+</ul>
+<p>物理学中派生单位有时会有一些特殊的名称，比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">N (Newton) = kg * m / s / s</div><div class="line">C (Coulomb) = A * s</div><div class="line">T (Tesla) = kg / A / s / s</div></pre></td></tr></table></figure></p>
+<p>而在Rx中派生单位也会有一些特殊的名称,比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Driver = (can&apos;t error out) * (observe on main scheduler) * (sharing side effects)</div><div class="line">ControlProperty = (sharing side effects) * (subscribe on main scheduler)</div></pre></td></tr></table></figure></p>
+<p>在物理学上对不同单位的转换是通过*和/来对数字进行变化。<br>而Rx中不同单位的转换则是依靠观察队列的方法来达到的。<br>比如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Can&apos;t error out = catchError</div><div class="line">Observe on main scheduler = observeOn(MainScheduler.instance)</div><div class="line">Subscribe on main scheduler = subscribeOn(MainScheduler.instance)</div><div class="line">Sharing side effects = share* (one of the `share` operators)</div></pre></td></tr></table></figure></p>
+<h3 id="Driver单位"><a href="#Driver单位" class="headerlink" title="Driver单位"></a>Driver单位</h3><p>特点:</p>
+<ol>
+<li>不抛出异常</li>
+<li>在主线程中观察</li>
+<li>共享效应(shareReplayLatestWhileConnected)</li>
+</ol>
+<p>它是一个精密设计的单位，它的目的适用于提供简单的方式来对UI层使用响应式编程。<br>那么为什么它要被叫做司机呢？<br>它的设计目的是通过将序列模型化来驱动程序。<br>比如: 1. 通过CoreData来驱动UI层</p>
+<ol>
+<li>通过其他UI元素的值绑定来驱动UI层<br>就像操作系统的驱动一样，当一个队列出问题时，应用程序将会停止用户继续输入。<br>而且有一点也很重要，UI元素和应用逻辑应该在主线程中被执行，因为它们通常不是现场安全的。<br>另外用Driver打造的观察者队列是具有share语义的。<br>比如说:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">let results = query.rx.text</div><div class="line">    .throttle(0.3, scheduler: MainScheduler.instance)</div><div class="line">    .flatMapLatest &#123; query in</div><div class="line">        fetchAutoCompleteItems(query)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">results</div><div class="line">    .map &#123; &quot;\($0.count)&quot; &#125;</div><div class="line">    .bindTo(resultCount.rx.text)</div><div class="line">    .addDisposableTo(disposeBag)</div><div class="line"></div><div class="line">results</div><div class="line">    .bindTo(resultsTableView.rx.items(cellIdentifier: &quot;Cell&quot;)) &#123; (_, result, cell) in</div><div class="line">        cell.textLabel?.text = &quot;\(result)&quot;</div><div class="line">    &#125;</div><div class="line">    .addDisposableTo(disposeBag)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这段代码的目的:</p>
+<ol>
+<li>调节用户输入频率</li>
+<li>与服务端联系然后拽取下来一段最新的用户数据</li>
+<li>返回结果绑定在两个UI元素上，label和tableview将会显示一系列的结果<br>但是这段代码会有什么问题呢？<br>如果fetchAutoCompleteItems队列发生错误，比如链接失败，它将会抛出异常，然后解绑UI元素，也不会在接受其他请求。<br>如果fetchAutoCompleteItems在后台线程中返回结果，结果绑定到UI元素，将会发生致命的崩溃。<br>如果结果绑定2个UI元素，就意味着同一个用户请求将会产生两个HTTp请求，这显然不合适<br>更合理的版本应该是这样:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">let results = query.rx.text</div><div class="line">    .throttle(0.3, scheduler: MainScheduler.instance)</div><div class="line">    .flatMapLatest &#123; query in</div><div class="line">        fetchAutoCompleteItems(query)</div><div class="line">            .observeOn(MainScheduler.instance)  // results are returned on MainScheduler</div><div class="line">            .catchErrorJustReturn([])           // in the worst case, errors are handled</div><div class="line">    &#125;</div><div class="line">    .shareReplay(1)                             // HTTP requests are shared and results replayed</div><div class="line">                                                // to all UI elements</div><div class="line"></div><div class="line">results</div><div class="line">    .map &#123; &quot;\($0.count)&quot; &#125;</div><div class="line">    .bindTo(resultCount.rx.text)</div><div class="line">    .addDisposableTo(disposeBag)</div><div class="line"></div><div class="line">results</div><div class="line">    .bindTo(resultTableView.rx.items(cellIdentifier: &quot;Cell&quot;)) &#123; (_, result, cell) in</div><div class="line">        cell.textLabel?.text = &quot;\(result)&quot;</div><div class="line">    &#125;</div><div class="line">    .addDisposableTo(disposeBag)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>要确保这些需求可以在大型系统被正确处理是很有挑战性的，现在用简单的方式来使用编译器和单元来保证这些需求被满足。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">let results = query.rx.text.asDriver()        // This converts a normal sequence into a `Driver` sequence.</div><div class="line">    .throttle(0.3, scheduler: MainScheduler.instance)</div><div class="line">    .flatMapLatest &#123; query in</div><div class="line">        fetchAutoCompleteItems(query)</div><div class="line">            .asDriver(onErrorJustReturn: [])  // Builder just needs info about what to return in case of error.</div><div class="line">    &#125;</div><div class="line"></div><div class="line">results</div><div class="line">    .map &#123; &quot;\($0.count)&quot; &#125;</div><div class="line">    .drive(resultCount.rx.text)               // If there is a `drive` method available instead of `bindTo`,</div><div class="line">    .addDisposableTo(disposeBag)              // that means that the compiler has proven that all properties</div><div class="line">                                              // are satisfied.</div><div class="line">results</div><div class="line">    .drive(resultTableView.rx.items(cellIdentifier: &quot;Cell&quot;)) &#123; (_, result, cell) in</div><div class="line">        cell.textLabel?.text = &quot;\(result)&quot;</div><div class="line">    &#125;</div><div class="line">    .addDisposableTo(disposeBag)</div></pre></td></tr></table></figure></p>
+<p>代码看上去很清爽，背后发生了什么呢?<br>第一个asDriver方法将 ControlProperty单元转化为了 Driver单元。<br>Driver拥有 ControlProperty 的所有属性。<br>最后如果使用Driver，那么可以将 bind 用 driver来替代。</p>
+<h1 id="热观察和冷观察"><a href="#热观察和冷观察" class="headerlink" title="热观察和冷观察"></a>热观察和冷观察</h1><p>观察队列什么时候开始输送队列观察结果呢？这取决于被观察者。如果是热观察队列一旦被创建，它就可以传输对象，任何后来订阅它的观察者也可以从队列中间开始观察。而冷观察队列它会一直等待直到观察者订阅它，它才开始传输项目，所以这样的观察可以保证从偷到尾的。<br>热观察:</p>
+<ol>
+<li>是观察队列</li>
+<li>无论有没有观察者订阅，它都会产生资源</li>
+<li>变量/属性/常量，轻触位置，鼠标位置，UI控制属性，当前时间</li>
+<li>经常包含 ~ N元素</li>
+<li>队列元素被生产无论有没有观察者订阅</li>
+<li>队列计算资源会经常被其他所有观察者分享</li>
+<li>是有状态的<br>冷观察:</li>
+<li>是观察队列</li>
+<li>不使用资源直到被观察者订阅</li>
+<li>异步操作，HTTP链接，TCP链接，流</li>
+<li>只包含一个元素</li>
+<li>只会在有订阅时队列元素被生产</li>
+<li>队列计算资源会被每一个观察者单独使用</li>
+<li>是有状态的</li>
+</ol>
+<h1 id="Rx背后的数学问题"><a href="#Rx背后的数学问题" class="headerlink" title="Rx背后的数学问题"></a>Rx背后的数学问题</h1><p>在观察者模式和生产者模式间之间拥有一定联系。它可以帮助我们从异步回调的世界过渡到同步队列变换的世界。<br>简单来说，枚举器和观察者模式都是队列，枚举器要定义队列的原因很简单，但观察者却要稍微复杂一些。<br>有一个简单的例子，你不需要懂数学知识。假设你在观察你鼠标的位置，过了一会到时间了，这些鼠标的位置会一个序列，很显然，这就是一个观察序列。<br>有两种简单的方式队列:</p>
+<ol>
+<li>Push – 观察者()</li>
+<li>Pull – Iterator / Enumerator / Generator</li>
+</ol>
+<h1 id="Variables"><a href="#Variables" class="headerlink" title="Variables"></a>Variables</h1><p>Variables 相当于被观察者的状态。不包含值就无法初始化。<br>变量V 会包裹住 Subject。特别的是它是一个 BehaviorSubject，但不像 BehaviorSubject，它只暴露value接口，因此 变量不会终结和失败。<br>它可以在订阅中广播它的当前值。<br>变量析构之后，它将会完成 .asObservable(). 的被观察队列。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">let variable = Variable(0)</div><div class="line"></div><div class="line">print(&quot;Before first subscription ---&quot;)</div><div class="line"></div><div class="line">_ = variable.asObservable()</div><div class="line">    .subscribe(onNext: &#123; n in</div><div class="line">        print(&quot;First \(n)&quot;)</div><div class="line">    &#125;, onCompleted: &#123;</div><div class="line">        print(&quot;Completed 1&quot;)</div><div class="line">    &#125;)</div><div class="line"></div><div class="line">print(&quot;Before send 1&quot;)</div><div class="line"></div><div class="line">variable.value = 1</div><div class="line"></div><div class="line">print(&quot;Before second subscription ---&quot;)</div><div class="line"></div><div class="line">_ = variable.asObservable()</div><div class="line">    .subscribe(onNext: &#123; n in</div><div class="line">        print(&quot;Second \(n)&quot;)</div><div class="line">    &#125;, onCompleted: &#123;</div><div class="line">        print(&quot;Completed 2&quot;)</div><div class="line">    &#125;)</div><div class="line"></div><div class="line">variable.value = 2</div><div class="line"></div><div class="line">print(&quot;End ---&quot;)</div></pre></td></tr></table></figure></p>
+<p>将会打印:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Before first subscription ---</div><div class="line">First 0</div><div class="line">Before send 1</div><div class="line">First 1</div><div class="line">Before second subscription ---</div><div class="line">Second 1</div><div class="line">First 2</div><div class="line">Second 2</div><div class="line">End ---</div><div class="line">Completed 1</div><div class="line">Completed 2</div></pre></td></tr></table></figure></p>
+<h1 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h1><p>KVO是OC中的机制，这种机制不是类型安全的。但是却能解决很多问题。<br>在这个库中有两种方式来支持KVO<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// KVO</div><div class="line">extension Reactive where Base: NSObject &#123;</div><div class="line">    public func observe&lt;E&gt;(type: E.Type, _ keyPath: String, options: NSKeyValueObservingOptions, retainSelf: Bool = true) -&gt; Observable&lt;E?&gt; &#123;&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">#if !DISABLE_SWIZZLING</div><div class="line">// KVO</div><div class="line">extension Reactive where Base: NSObject &#123;</div><div class="line">    public func observeWeakly&lt;E&gt;(type: E.Type, _ keyPath: String, options: NSKeyValueObservingOptions) -&gt; Observable&lt;E?&gt; &#123;&#125;</div><div class="line">&#125;</div><div class="line">#endif</div></pre></td></tr></table></figure></p>
+<p>下面是代码示例:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">view</div><div class="line">  .rx.observe(CGRect.self, &quot;frame&quot;)</div><div class="line">  .subscribe(onNext: &#123; frame in</div><div class="line">    ...</div><div class="line">  &#125;)</div></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">view</div><div class="line">  .rx.observeWeakly(CGRect.self, &quot;frame&quot;)</div><div class="line">  .subscribe(onNext: &#123; frame in</div><div class="line">    ...</div><div class="line">  &#125;)</div></pre></td></tr></table></figure></p>
+<h2 id="rx-observe"><a href="#rx-observe" class="headerlink" title="rx.observe"></a>rx.observe</h2><p>rx.observe 是对KVO机制的包装，但却有场景使用的限制</p>
+<ol>
+<li>它可以被用于观察从自身或者自身父节点开始的路径(retainSelf = false)</li>
+<li>它可以用于观察子节点的路径(retainSelf = true)</li>
+<li>路径必须依靠强属性来维持，而且在析构后如果不注销KVO观察者就会产生系统崩溃。<br>例如:<br>self.rx.observe(CGRect.self, “view.frame”, retainSelf: false)</li>
+</ol>
+<h2 id="rx-observeWeakly"><a href="#rx-observeWeakly" class="headerlink" title="rx.observeWeakly"></a>rx.observeWeakly</h2><p>相比之下它就要略慢一些了，如果有弱引用，必须处理对象析构。<br>rx.observe使用的场景它都可以使用，而且还有额外场景</p>
+<ol>
+<li>因为它不持有观察对象，它可以被用于观察任何未知关系的对象。</li>
+<li>它可以被用于观察弱属性<br>比如:<br>someSuspiciousViewController.rx.observeWeakly(Bool.self, “behavingOk”)</li>
+</ol>
+<h1 id="Subject"><a href="#Subject" class="headerlink" title="Subject"></a>Subject</h1><p>Subject可以看做是一种代理和桥梁。它既是订阅者又是订阅源，这意味着它既可以订阅其他Observable对象，同时又可以对它的订阅者们发送事件。</p>
+<h2 id="PublishSubject"><a href="#PublishSubject" class="headerlink" title="PublishSubject"></a>PublishSubject</h2><blockquote>
+<p>PublishSubject会发送订阅者从订阅之后的事件序列。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">example(&quot;PublishSubject&quot;) &#123; </div><div class="line">    let subject = PublishSubject&lt;String&gt;() </div><div class="line">    writeSequenceToConsole(&quot;1&quot;, sequence: subject) </div><div class="line">    subject.on(.Next(&quot;a&quot;)) </div><div class="line">    subject.on(.Next(&quot;b&quot;)) </div><div class="line">    writeSequenceToConsole(&quot;2&quot;, sequence: subject) </div><div class="line">    subject.on(.Next(&quot;c&quot;)) </div><div class="line">    subject.on(.Next(&quot;d&quot;)) </div><div class="line">&#125; </div><div class="line"></div><div class="line"></div><div class="line">--- PublishSubject example --- </div><div class="line">Subscription: 1, event: Next(a) </div><div class="line">Subscription: 1, event: Next(b) </div><div class="line">Subscription: 1, event: Next(c) </div><div class="line">Subscription: 2, event: Next(c) </div><div class="line">Subscription: 1, event: Next(d) </div><div class="line">Subscription: 2, event: Next(d)</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="ReplaySubject"><a href="#ReplaySubject" class="headerlink" title="ReplaySubject"></a>ReplaySubject</h2><blockquote>
+<p>ReplaySubject在新的订阅对象订阅的时候会补发所有已经发送过的数据列，bufferSize是缓冲区的大小，决定了补发队列的最大值。如果bufferSize是1，那么新的订阅者出现的时候就会补发上一个事件，如果是2，则补两个，以此类推。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">example(&quot;ReplaySubject&quot;) &#123; </div><div class="line">    let subject = ReplaySubject&lt;String&gt;.create(bufferSize: 1) </div><div class="line"></div><div class="line">    writeSequenceToConsole(&quot;1&quot;, sequence: subject) </div><div class="line">    subject.on(.Next(&quot;a&quot;)) </div><div class="line">    subject.on(.Next(&quot;b&quot;)) </div><div class="line">    writeSequenceToConsole(&quot;2&quot;, sequence: subject) </div><div class="line">    subject.on(.Next(&quot;c&quot;)) </div><div class="line">    subject.on(.Next(&quot;d&quot;)) </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- ReplaySubject example --- </div><div class="line">Subscription: 1, event: Next(a) </div><div class="line">Subscription: 1, event: Next(b) </div><div class="line">Subscription: 2, event: Next(b) // 补了一个 b </div><div class="line">Subscription: 1, event: Next(c) </div><div class="line">Subscription: 2, event: Next(c) </div><div class="line">Subscription: 1, event: Next(d) </div><div class="line">Subscription: 2, event: Next(d)</div></pre></td></tr></table></figure>
+<h2 id="BehaviorSubject"><a href="#BehaviorSubject" class="headerlink" title="BehaviorSubject"></a>BehaviorSubject</h2><blockquote>
+<p>BehaviorSubject在新的订阅对象订阅的时候会发送最近发送的事件，如果没有则发送一个默认值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">example(&quot;BehaviorSubject&quot;) &#123; </div><div class="line">    let subject = BehaviorSubject(value: &quot;z&quot;) </div><div class="line">    writeSequenceToConsole(&quot;1&quot;, sequence: subject) </div><div class="line">    subject.on(.Next(&quot;a&quot;)) </div><div class="line">    subject.on(.Next(&quot;b&quot;)) </div><div class="line">    writeSequenceToConsole(&quot;2&quot;, sequence: subject) </div><div class="line">    subject.on(.Next(&quot;c&quot;)) </div><div class="line">    subject.on(.Completed) </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- BehaviorSubject example --- </div><div class="line">Subscription: 1, event: Next(z) </div><div class="line">Subscription: 1, event: Next(a) </div><div class="line">Subscription: 1, event: Next(b) </div><div class="line">Subscription: 2, event: Next(b) </div><div class="line">Subscription: 1, event: Next(c) </div><div class="line">Subscription: 2, event: Next(c) </div><div class="line">Subscription: 1, event: Completed </div><div class="line">Subscription: 2, event: Completed</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="Operator"><a href="#Operator" class="headerlink" title="Operator"></a>Operator</h1><p>之前提到过，相当与物理体系的 + - * /</p>
+<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><blockquote>
+<p>map就是对每个元素都用函数做一次转换，挨个映射一遍。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">example(&quot;map&quot;) &#123; </div><div class="line">    let originalSequence = sequenceOf(1,2,3) </div><div class="line"></div><div class="line">    originalSequence </div><div class="line">        .map &#123; $0 * 2 &#125; </div><div class="line">        .subscribe &#123; print($0) &#125; </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- map example --- </div><div class="line">Next(2) </div><div class="line">Next(4) </div><div class="line">Next(6) </div><div class="line">Completed</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="flatMap"><a href="#flatMap" class="headerlink" title="flatMap"></a>flatMap</h2><blockquote>
+<p>在 Rx 中，flatMap可以把一个序列转换成一组序列，然后再把这一组序列『拍扁』成一个序列。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">example(&quot;flatMap&quot;) &#123; </div><div class="line">    let sequenceInt = sequenceOf(1, 2, 3) </div><div class="line">    let sequenceString = sequenceOf(&quot;A&quot;, &quot;B&quot;, &quot;--&quot;) </div><div class="line"></div><div class="line">    sequenceInt </div><div class="line">        .flatMap &#123; int in </div><div class="line">            sequenceString </div><div class="line">        &#125; </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- flatMap example --- </div><div class="line">Next(A) </div><div class="line">Next(B) </div><div class="line">Next(--) </div><div class="line">Next(A) </div><div class="line">Next(B) </div><div class="line">Next(--) </div><div class="line">Next(A) </div><div class="line">Next(B) </div><div class="line">Next(--) </div><div class="line">Completed</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="scan"><a href="#scan" class="headerlink" title="scan"></a>scan</h2><blockquote>
+<p>scan 有点像 reduce ，它会把每次的运算结果累积起来，作为下一次运算的输入值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">example(&quot;scan&quot;) &#123; </div><div class="line">    let sequenceToSum = sequenceOf(0, 1, 2, 3, 4, 5) </div><div class="line"></div><div class="line">    sequenceToSum </div><div class="line">        .scan(0) &#123; acum, elem in </div><div class="line">            acum + elem </div><div class="line">        &#125; </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- scan example --- </div><div class="line">Next(0) </div><div class="line">Next(1) </div><div class="line">Next(3) </div><div class="line">Next(6) </div><div class="line">Next(10) </div><div class="line">Next(15) </div><div class="line">Completed</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h2><blockquote>
+<p>filter除了上面的各种转换，我们还可以对序列进行过滤。filter只会让符合条件的元素通过。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">example(&quot;filter&quot;) &#123; </div><div class="line">    let subscription = sequenceOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) </div><div class="line">        .filter &#123; </div><div class="line">            $0 % 2 == 0 </div><div class="line">        &#125; </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- filter example --- </div><div class="line">Next(0) </div><div class="line">Next(2) </div><div class="line">Next(4) </div><div class="line">Next(6) </div><div class="line">Next(8) </div><div class="line">Completed</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="distinctUntilChanged"><a href="#distinctUntilChanged" class="headerlink" title="distinctUntilChanged"></a>distinctUntilChanged</h2><blockquote>
+<p>distinctUntilChanged 会废弃掉重复的事件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">example(&quot;distinctUntilChanged&quot;) &#123; </div><div class="line">    let subscription = sequenceOf(1, 2, 3, 1, 1, 4) </div><div class="line">        .distinctUntilChanged() </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- distinctUntilChanged example --- </div><div class="line">Next(1) </div><div class="line">Next(2) </div><div class="line">Next(3) </div><div class="line">Next(1) </div><div class="line">Next(4) </div><div class="line">Completed</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="take"><a href="#take" class="headerlink" title="take"></a>take</h2><blockquote>
+<p>take只获取序列中的前 n 个事件，在满足数量之后会自动.Completed。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">example(&quot;take&quot;) &#123; </div><div class="line">    let subscription = sequenceOf(1, 2, 3, 4, 5, 6) </div><div class="line">        .take(3) </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- take example --- </div><div class="line">Next(1) </div><div class="line">Next(2) </div><div class="line">Next(3) </div><div class="line">Completed</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="Combining"><a href="#Combining" class="headerlink" title="Combining"></a>Combining</h1><p>这部分是关于序列的运算，可以将多个序列源进行组合拼装成一个新的事件序列。</p>
+<h2 id="startWith"><a href="#startWith" class="headerlink" title="startWith"></a>startWith</h2><blockquote>
+<p>startWith 会在队列开始之前插入一个事件元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">example(&quot;startWith&quot;) &#123; </div><div class="line">    let subscription = sequenceOf(4, 5, 6) </div><div class="line">        .startWith(3) </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- startWith example --- </div><div class="line">Next(3) </div><div class="line">Next(4) </div><div class="line">Next(5) </div><div class="line">Next(6) </div><div class="line">Completed</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="combineLatest"><a href="#combineLatest" class="headerlink" title="combineLatest"></a>combineLatest</h2><blockquote>
+<p>如果存在两条事件队列，需要同时监听，那么每当有新的事件发生的时候，combineLatest<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">example(&quot;combineLatest 1&quot;) &#123; </div><div class="line">    let intOb1 = PublishSubject&lt;String&gt;() </div><div class="line">    let intOb2 = PublishSubject&lt;Int&gt;() </div><div class="line"></div><div class="line">    combineLatest(intOb1, intOb2) &#123; </div><div class="line">        &quot;\($0) \($1)&quot; </div><div class="line">        &#125; </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line"></div><div class="line">    intOb1.on(.Next(&quot;A&quot;)) </div><div class="line">    intOb2.on(.Next(1)) </div><div class="line">    intOb1.on(.Next(&quot;B&quot;)) </div><div class="line">    intOb2.on(.Next(2)) </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- combineLatest 1 example --- </div><div class="line">Next(A 1) </div><div class="line">Next(B 1) </div><div class="line">Next(B 2)</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="zip"><a href="#zip" class="headerlink" title="zip"></a>zip</h2><blockquote>
+<p>zip 人如其名，就是压缩两条队列用的，不过它会等到两个队列的元素一一对应地凑齐了之后再合并。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">example(&quot;zip 1&quot;) &#123; </div><div class="line">    let intOb1 = PublishSubject&lt;String&gt;() </div><div class="line">    let intOb2 = PublishSubject&lt;Int&gt;() </div><div class="line">    zip(intOb1, intOb2) &#123; </div><div class="line">        &quot;\($0) \($1)&quot; </div><div class="line">        &#125; </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line">    intOb1.on(.Next(&quot;A&quot;)) </div><div class="line">    intOb2.on(.Next(1)) </div><div class="line">    intOb1.on(.Next(&quot;B&quot;)) </div><div class="line">    intOb1.on(.Next(&quot;C&quot;)) </div><div class="line">    intOb2.on(.Next(2)) </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- zip 1 example --- </div><div class="line">Next(A 1) </div><div class="line">Next(B 2)</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="merge"><a href="#merge" class="headerlink" title="merge"></a>merge</h2><blockquote>
+<p>merge就是 merge 啦，把两个队列按照顺序组合在一起。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">example(&quot;merge 1&quot;) &#123; </div><div class="line">    let subject1 = PublishSubject&lt;Int&gt;() </div><div class="line">    let subject2 = PublishSubject&lt;Int&gt;() </div><div class="line"></div><div class="line">    sequenceOf(subject1, subject2) </div><div class="line">        .merge() </div><div class="line">        .subscribeNext &#123; int in </div><div class="line">            print(int) </div><div class="line">        &#125; </div><div class="line"></div><div class="line">    subject1.on(.Next(1)) </div><div class="line">    subject1.on(.Next(2)) </div><div class="line">    subject2.on(.Next(3)) </div><div class="line">    subject1.on(.Next(4)) </div><div class="line">    subject2.on(.Next(5)) </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- merge 1 example --- </div><div class="line">1 </div><div class="line">2 </div><div class="line">3 </div><div class="line">4 </div><div class="line">5</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h2><blockquote>
+<p>当你的事件序列是一个事件序列的序列 (Observable<observable<t>&gt;) 的时候，（可以理解成二维序列？），可以使用switch将序列的序列平铺成一维，并且在出现新的序列的时候，自动切换到最新的那个序列上。和merge相似的是，它也是起到了将多个序列『拍平』成一条序列的作用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">example(&quot;switchLatest&quot;) &#123; </div><div class="line">    let var1 = Variable(0) </div><div class="line"></div><div class="line">    let var2 = Variable(200) </div><div class="line"></div><div class="line">    // var3 is like an Observable&lt;Observable&lt;Int&gt;&gt; </div><div class="line">    let var3 = Variable(var1) </div><div class="line"></div><div class="line">    let d = var3 </div><div class="line">        .switchLatest() </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line"></div><div class="line">    var1.value = 1 </div><div class="line">    var1.value = 2 </div><div class="line">    var1.value = 3 </div><div class="line">    var1.value = 4 </div><div class="line"></div><div class="line">    var3.value = var2 </div><div class="line">    var2.value = 201 </div><div class="line">    var1.value = 5 </div><div class="line"></div><div class="line">    var3.value = var1 </div><div class="line">    var2.value = 202 </div><div class="line">    var1.value = 6 </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- switchLatest example --- </div><div class="line">Next(0) </div><div class="line">Next(1) </div><div class="line">Next(2) </div><div class="line">Next(3) </div><div class="line">Next(4) </div><div class="line">Next(200) </div><div class="line">Next(201) </div><div class="line">Next(5) </div><div class="line">Next(6)</div></pre></td></tr></table></figure></observable<t></p>
+</blockquote>
+<h2 id="catchError"><a href="#catchError" class="headerlink" title="catchError"></a>catchError</h2><blockquote>
+<p>catchError可以捕获异常事件，并且在后面无缝接上另一段事件序列，丝毫没有异常的痕迹。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">example(&quot;catchError 1&quot;) &#123; </div><div class="line">    let sequenceThatFails = PublishSubject&lt;Int&gt;() </div><div class="line">    let recoverySequence = sequenceOf(100, 200) </div><div class="line"></div><div class="line">    sequenceThatFails </div><div class="line">        .catchError &#123; error in </div><div class="line">            return recoverySequence </div><div class="line">        &#125; </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line"></div><div class="line">    sequenceThatFails.on(.Next(1)) </div><div class="line">    sequenceThatFails.on(.Next(2)) </div><div class="line">    sequenceThatFails.on(.Error(NSError(domain: &quot;Test&quot;, code: 0, userInfo: nil))) </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- catchError 1 example --- </div><div class="line">Next(1) </div><div class="line">Next(2) </div><div class="line">Next(100) </div><div class="line">Next(200) </div><div class="line">Completed</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="retry"><a href="#retry" class="headerlink" title="retry"></a>retry</h2><blockquote>
+<p>retry顾名思义，就是在出现异常的时候会再去从头订阅事件序列，妄图通过『从头再来』解决异常。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">example(&quot;retry&quot;) &#123; </div><div class="line">    var count = 1 // bad practice, only for example purposes </div><div class="line">    let funnyLookingSequence: Observable&lt;Int&gt; = create &#123; observer in </div><div class="line">        let error = NSError(domain: &quot;Test&quot;, code: 0, userInfo: nil) </div><div class="line">        observer.on(.Next(0)) </div><div class="line">        observer.on(.Next(1)) </div><div class="line">        if count &lt; 2 &#123; </div><div class="line">            observer.on(.Error(error)) </div><div class="line">            count++ </div><div class="line">        &#125; </div><div class="line">        observer.on(.Next(2)) </div><div class="line">        observer.on(.Completed) </div><div class="line"></div><div class="line">        return NopDisposable.instance </div><div class="line">    &#125; </div><div class="line"></div><div class="line">    funnyLookingSequence </div><div class="line">        .retry() </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- retry example --- </div><div class="line">Next(0) </div><div class="line">Next(1) </div><div class="line">Next(0) </div><div class="line">Next(1) </div><div class="line">Next(2) </div><div class="line">Completed</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="Utility"><a href="#Utility" class="headerlink" title="Utility"></a>Utility</h1><h2 id="subscribe"><a href="#subscribe" class="headerlink" title="subscribe"></a>subscribe</h2><h2 id="subscribeNext"><a href="#subscribeNext" class="headerlink" title="subscribeNext"></a>subscribeNext</h2><h2 id="doOn"><a href="#doOn" class="headerlink" title="doOn"></a>doOn</h2><blockquote>
+<p>doOn 可以监听事件，并且在事件发生之前调用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">example(&quot;doOn&quot;) &#123; </div><div class="line">    let sequenceOfInts = PublishSubject&lt;Int&gt;() </div><div class="line"></div><div class="line">    sequenceOfInts </div><div class="line">        .doOn &#123; </div><div class="line">            print(&quot;Intercepted event \($0)&quot;) </div><div class="line">        &#125; </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line"></div><div class="line">    sequenceOfInts.on(.Next(1)) </div><div class="line">    sequenceOfInts.on(.Completed) </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- doOn example --- </div><div class="line">Intercepted event Next(1) </div><div class="line">Next(1) </div><div class="line">Intercepted event Completed </div><div class="line">Completed</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="Conditional"><a href="#Conditional" class="headerlink" title="Conditional"></a>Conditional</h1><h2 id="takeUntil"><a href="#takeUntil" class="headerlink" title="takeUntil"></a>takeUntil</h2><blockquote>
+<p>takeUntil其实就是take，它会在终于等到那个事件之后触发.Completed事件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">example(&quot;takeUntil&quot;) &#123; </div><div class="line">    let originalSequence = PublishSubject&lt;Int&gt;() </div><div class="line">    let whenThisSendsNextWorldStops = PublishSubject&lt;Int&gt;() </div><div class="line"></div><div class="line">    originalSequence </div><div class="line">        .takeUntil(whenThisSendsNextWorldStops) </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line"></div><div class="line">    originalSequence.on(.Next(1)) </div><div class="line">    originalSequence.on(.Next(2)) </div><div class="line"></div><div class="line">    whenThisSendsNextWorldStops.on(.Next(1)) </div><div class="line"></div><div class="line">    originalSequence.on(.Next(3)) </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- takeUntil example --- </div><div class="line">Next(1) </div><div class="line">Next(2) </div><div class="line">Completed</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="takeWhile"><a href="#takeWhile" class="headerlink" title="takeWhile"></a>takeWhile</h2><blockquote>
+<p>takeWhile则是可以通过状态语句判断是否继续take。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">example(&quot;takeWhile&quot;) &#123; </div><div class="line">    let sequence = PublishSubject&lt;Int&gt;() </div><div class="line">    sequence </div><div class="line">        .takeWhile &#123; int in </div><div class="line">            int &lt; 2 </div><div class="line">        &#125; </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line">    sequence.on(.Next(1)) </div><div class="line">    sequence.on(.Next(2)) </div><div class="line">    sequence.on(.Next(3)) </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- takeWhile example --- </div><div class="line">Next(1) </div><div class="line">Completed</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="Aggregate"><a href="#Aggregate" class="headerlink" title="Aggregate"></a>Aggregate</h1><p>我们可以对事件序列做一些集合运算。</p>
+<h2 id="concat"><a href="#concat" class="headerlink" title="concat"></a>concat</h2><blockquote>
+<p>concat可以把多个事件序列合并起来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">example(&quot;concat&quot;) &#123; </div><div class="line">    let var1 = BehaviorSubject(value: 0) </div><div class="line">    let var2 = BehaviorSubject(value: 200) </div><div class="line"></div><div class="line">    // var3 is like an Observable&lt;Observable&lt;Int&gt;&gt; </div><div class="line">    let var3 = BehaviorSubject(value: var1) </div><div class="line"></div><div class="line">    let d = var3 </div><div class="line">        .concat() </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line"></div><div class="line">    var1.on(.Next(1)) </div><div class="line">    var1.on(.Next(2)) </div><div class="line"></div><div class="line">    var3.on(.Next(var2)) </div><div class="line"></div><div class="line">    var2.on(.Next(201)) </div><div class="line"></div><div class="line">    var1.on(.Next(3)) </div><div class="line">    var1.on(.Completed) </div><div class="line"></div><div class="line">    var2.on(.Next(202)) </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- concat example --- </div><div class="line">Next(0) </div><div class="line">Next(1) </div><div class="line">Next(2) </div><div class="line">Next(3) </div><div class="line">Next(201) </div><div class="line">Next(202)</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h2 id="reduce"><a href="#reduce" class="headerlink" title="reduce"></a>reduce</h2><blockquote>
+<p>这里的reduce和CollectionType中的reduce是一个意思，都是指通过对一系列数据的运算最后生成一个结果。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">example(&quot;reduce&quot;) &#123; </div><div class="line">    sequenceOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9) </div><div class="line">        .reduce(0, +) </div><div class="line">        .subscribe &#123; </div><div class="line">            print($0) </div><div class="line">        &#125; </div><div class="line">&#125; </div><div class="line"></div><div class="line">--- reduce example --- </div><div class="line">Next(45) </div><div class="line">Completed</div></pre></td></tr></table></figure></p>
+</blockquote>
+
+	
+	
+	
+	
+</div>
+				
+				
+
+                <!-- Post Comments -->
+                
+    <!-- 使用多说评论 -->
+    <link rel="stylesheet" href="/css/duoshuo.min.css">
+<style>
+    #ds-thread #ds-reset .ds-post-button{
+        background-color: #FF8247 !important;
+    }
+    #ds-wrapper #ds-reset .ds-icons-32{
+        background-color: #FF8247 !important;
+    }
+    #ds-reset .ds-highlight {
+        color: #FF8247 !important;
+    }
+</style>
+<div id="comments">
+    <!-- 多说评论框 start -->
+        <div class="ds-thread" data-thread-key="undefined" data-title="[iOS]Rx系列-为什么要使用Reactive Programming" data-url="http://chenmingjia.github.io//2016/11/29/20161128 [iOS]Rx系列-Rx基础知识整理/index.html"></div>
+    <!-- 多说评论框 end -->
+</div>
+
+
+
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2016/11/28/20161128 [iOS]Rx系列-为什么要使用Reactive Programming/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+        </div>
+    </div>
+
+				
+				
+					<!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay "></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored  sidebar-fixed-left" role="navigation">
+	<div id="sidebar-main">
+	    <!-- Sidebar Header -->
+		<div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.png);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+    <i class="material-icons">clear_all</i>
+    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.png" alt="与狼同行's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        youremail@email.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+		<!-- Sidebar Navigation  -->
+		<ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+			
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+						<i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    <li id="sidebar-first-li">
+        <a href="/" target="_self">
+            <i class="material-icons sidebar-material-icons">home</i>
+             主页
+        </a>
+    </li>
+
+    <!-- I'm Feeling Lucky -->
+<!--
+    <li class="dropdown">
+        <a href="" target="_self">
+            <i class="material-icons sidebar-material-icons">explore</i>
+             sidebar.imlucky
+        </a>
+    </li>
+-->
+
+	
+    <!-- Archives  -->
+    <li class="dropdown">
+        <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+            <i class="material-icons sidebar-material-icons">inbox</i>
+             归档
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+            <a class="sidebar_archives-link" href="/archives/2016/11/">十一月 2016<span class="sidebar_archives-count">17</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">十月 2016<span class="sidebar_archives-count">1</span></a>
+        </ul>
+    </li>
+
+    <!-- Divider -->
+    <li class="divider"></li>
+
+
+    <!-- Pages  -->
+	
+	
+	
+		<li>
+			<a href="/about" title="关于博主">
+				关于博主
+			</a>
+		</li>
+	
+		<li>
+			<a href="/links/" title="友情链接">
+				友情链接
+			</a>
+		</li>
+	
+		<li>
+			<a href="/timeline/" title="时间轴归档">
+				时间轴归档
+			</a>
+		</li>
+	
+		<li>
+			<a href="/gallery/" title="图库">
+				图库
+			</a>
+		</li>
+	
+		<li>
+			<a href="/tags/" title="标签云">
+				标签云
+			</a>
+		</li>
+	
+
+    <!-- Article Numebr  -->
+    <li>
+        <a href="#">
+             文章总数
+             <span class="sidebar-badge">18</span>
+        </a>
+    </li>
+</ul>
+
+		<!-- Sidebar Divider -->
+		<div class="sidebar-divider"></div>
+
+		<!-- Sidebar Footer -->
+		<!-- 
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持。 :) 
+-->
+
+<!-- Theme Material -->
+<a href="https://github.com/viosey/hexo-theme-material"  class="sidebar-footer-text-a" target="_blank">
+	<div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		主题 - Material
+		<span class="sidebar-badge badge-circle">i</span>
+	</div>
+</a>
+
+<!-- Help & Support -->
+<!--
+<a href="mailto:hiviosey@gmail.com" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+		sidebar.help
+		<span class="mdl-button__ripple-container">
+			<span class="mdl-ripple"></span>
+		</span>
+	</div>
+</a>
+-->
+
+<!-- Feedback -->
+<!--
+<a href="https://github.com/viosey/hexo-theme-material/issues" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.feedback
+                    <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>
+-->
+
+<!-- Abount Theme -->
+<!--
+<a href="https://blog.viosey.com/index.php/Material.html" target="_blank" class="sidebar-footer-text-a">
+    <div class="sidebar-text mdl-button mdl-js-button mdl-js-ripple-effect sidebar-footer-text-div" data-upgraded=",MaterialButton,MaterialRipple">
+         sidebar.about_theme
+        <span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></div>
+</a>-->
+
+	</div>
+    
+    <!-- Sidebar Sponsor -->
+    
+
+
+</aside>
+
+				
+				
+				<!-- Floating Action Button -->
+<div class="fabs">
+    <a href="#top" class="fab toTop">
+        <i class="material-icons">expand_less</i>
+    </a>
+    
+    
+        <!-- Post Nav -->
+        
+
+        
+            <a class="prev-content fab" href="/2016/11/28/20161128 [iOS]Rx系列-为什么要使用Reactive Programming/" title="[iOS]Rx系列-为什么要使用Reactive Programming"><i class="material-icons">keyboard_arrow_right</i></a>
+        
+    
+    
+    
+    
+    <a href="#bottom" class="fab toBottom">
+        <i class="material-icons">keyboard_arrow_down</i>
+    </a>
+    
+    <a id="prime" class="fab">
+        <i class="material-icons prime-i-add">add</i>
+    </a>
+</div>
+				
+				<!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+	
+	
+		<!-- Paradox Footer Left Section -->
+		<div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+    
+    
+    <!-- Facebook -->
+    
+    
+    
+    <!-- Google + -->
+    
+    
+    
+    <!-- Weibo -->
+    
+    
+    
+    <!-- Instagram -->
+    
+    
+    
+    <!-- Tumblr -->
+    
+    
+    
+    <!-- Github -->
+    
+    <a href="https://www.github.com/chenmingjia" target="view_window"><button class="mdl-mini-footer--social-btn social-btn" style="background-image: url(/img/footer/footer_ico-github.png);">
+        <span class="visuallyhidden">Github</span>
+    </button></a>
+    
+</div>
+
+
+		<!--Copyright-->
+		<div id="copyright">Copyright&nbsp;©&nbsp;<script type="text/javascript">var fd = new Date();document.write(fd.getFullYear());</script>&nbsp;Big Wolf’s Blog</div>
+
+		<!-- Paradox Footer Right Section -->
+
+		<!-- 
+		I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+		It will not impact the appearance and can give developers a lot of support :)
+
+		很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+		它不会影响美观并可以给开发者很大的支持。 :) 
+		-->
+
+		<div class="mdl-mini-footer--right-section">
+			<div>
+				<div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+				<div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+			</div>
+		</div>
+	
+    
+</footer>
+                
+				<!-- Import File -->
+<script src="/js/js.min.js"></script>
+<script src="/js/nprogress.js"></script>
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    
+    $('#nprogress .bar').css({
+        'background': '#FF8247'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #FF8247, 0 0 15px #FF8247'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#FF8247',
+        'border-left-color': '#FF8247'
+    });
+    
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+
+    <!-- 多说公共 js 代码 start -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"2231132"};
+        (function() {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';ds.async = true;
+            ds.src = 'https://static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0] 
+             || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+    </script>
+    <!-- 多说公共 js 代码 end -->
+
+
+
+
+
+
+
+	<script>
+	var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length <= 0) {
+                    return;
+                }
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        str += "<li><a href='"+ data_url +"' class='search-result-title' target='_blank'>"+ data_title;
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out characters
+                            var start = first_occur - 6;
+                            var end = first_occur + 6;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 10;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substr(start, end); 
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<em class=\"search-keyword\">"+keyword+"</em>");
+                            })
+                            str += "<p class=\"search-result\">" + match_content +"...</p>" +"</a>";
+                        }
+                    }
+                })
+                $resultContent.innerHTML = str;
+            })
+        }
+    })
+}
+</script>
+
+	<script>
+		var search_path = "search.xml";
+		if (search_path.length == 0) {
+		search_path = "search.xml";
+		}
+		var path = "/" + search_path;
+		searchFunc(path, 'search', 'local-search-result');
+	</script>
+
+
+
+
+
+
+            </main>
+        </div>
+		
+    </body>
+		
+	
+</html>
